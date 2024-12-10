@@ -81,27 +81,11 @@ class CreateProjectCommand extends Command
             $project->setName($label); // original
         }
 
-        if ($project && $input->getOption('purge')) {
-            foreach ($project->getCollections() as $collection) {
-                foreach ($project->getCollections() as $collection) {
-                    foreach ($collection->getItems() as $item) {
-                        foreach ($item->getAssets() as $asset) {
-                            $item->removeAsset($asset);
-                        }
-                        $collection->removeItem($item);
-                    }
-                    $project->removeCollection($collection);
-                }
-            }
-        }
         $this->em->flush();
 
         // refresh from Google, someday this will probably be direct
         if ($input->getOption('refresh')) {
             $this->appService->downloadSheetsToLocal($project);
-            if ($project->getCode() == 'mach') {
-                $this->altosService->populateImages($project);
-            }
         }
 
         assert($project->getLabel(), "no label");

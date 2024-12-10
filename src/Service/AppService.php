@@ -74,7 +74,8 @@ class AppService
                                 private NormalizerInterface                             $normalizer,
                                 private DenormalizerInterface                           $denormalizer,
                                 private MailerInterface                                 $mailer,
-                                #[Autowire('%kernel.project_dir%/public/omar')] private string $dataDir,
+                                #[Autowire('%kernel.project_dir%/public/assets')] private string $dataDir,
+                                #[Autowire('%kernel.project_dir%/')] private string $projectDir,
                                 private CacheManager                                    $imagineCacheManager,
                                 private SluggerInterface                                $asciiSlugger,
 
@@ -481,7 +482,8 @@ class AppService
             $filesWritten = $this->downloadSheetsToLocal($project);
         }
 
-        $csv = Reader::createFromPath($this->dataDir . '/omar.csv', 'r');
+        // now at root
+        $csv = Reader::createFromPath($this->projectDir . 'omar.csv', 'r');
         $csv->setHeaderOffset(0);
 
         $header = $csv->getHeader(); //returns the CSV header record
