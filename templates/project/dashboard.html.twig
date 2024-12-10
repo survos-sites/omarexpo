@@ -62,20 +62,18 @@
             {% endif %}
         </twig:block>
         <twig:block name="thumb">
-            {{ '%s/%s'|format(row.code, row.image) }}
             {% set thumbnail =  '%s/%s'|format(row.code, row.image)|imagine_filter('small') %}
-            <a href="{{ thumbnail }}">
+            <a title="{{ thumbnail }}" href="{{ thumbnail }}">
                 <img src="{{ thumbnail }}" alt="{{ thumbnail }}" />
             </a>
         </twig:block>
+
             <twig:block name="av">
             {% set audio =  '/audio/%s/%s'|format(row.code, row.audio) %}
-            <hr />
-            {{ audio }}
-            <audio controls src="{{ audio }}"></audio>
+            <audio title="{{ audio }}" controls src="{{ audio }}"></audio>
 
             {% set video =  '/assets/%s/%s'|format(row.code, row.video) %}
-            {{ video }}
+{#            {{ video }}#}
 
 {#            <video width="320" height="240" controls>#}
 {#                <source src="{{ video }}" type="video/mp4">#}
@@ -86,8 +84,6 @@
             <twig:block name="code">
             {% if row.code|default(false) %}
             <a href="{{ path('item_show', row.rp) }}">{{ row.code }}</a>
-            {% else %}
-                {{ dump(row) }}
             {% endif %}
         </twig:block>
     </twig:simple_datatables>
