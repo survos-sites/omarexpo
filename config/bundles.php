@@ -27,4 +27,6 @@ return [
     Liip\ImagineBundle\LiipImagineBundle::class => ['all' => true],
     League\FlysystemBundle\FlysystemBundle::class => ['all' => true],
     Survos\SimpleDatatables\SurvosSimpleDatatablesBundle::class => ['all' => true],
+    Bizkit\VersioningBundle\BizkitVersioningBundle::class => ['all' => true],
+    Survos\DeploymentBundle\SurvosDeploymentBundle::class => ['all' => true],
 ];
