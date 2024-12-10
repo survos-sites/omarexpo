@@ -9,12 +9,6 @@
                 {# when it's too long, move up #22 in Juan's show #}
                 <h3><b>{{ i.label }}</b></h3>
 
-                {% for t in i.translations %}
-                  {% if (t.locale != i.locale) and (t.label != i.label) %}
-{#                {{ t.locale }} #}
-                    {{ t.label }}
-                  {% endif %}
-                {% endfor %}
                 <h6>
                   {{ i.description }}
                 </h6>
@@ -24,22 +18,19 @@
 
                   {% set url = absolute_url(path('item_redirect', i.rp)) %}
                   <a href="{{ url }}" target="_blank">
-                    {% for image in item.images %}
-                      {% set thumbPath = image.filename|imagine_filter('medium') %}
+                      {% set thumbPath = '%s/%s'|format(item.code, item.image)|imagine_filter('medium') %}
                       <img src="{{ thumbPath }}"  alt="{{ thumbPath }}"/>
 
-                    {% endfor %}
 {#                    <img src="{{ qr_code_data_uri(url) }}" class="img-fluid col-md-5 ">#}
                   </a>
 {#                    </div>#}
 {#                  <div>#}
-                    {% for audio in item.audios %}
+                    {% set audio = item.audio %}
                       <twig:ux:icon
                               height="100"
                               width="100"
                               name="material-symbols:headphones-outline"
                               class="qr-label-thumbnail" />
-                    {% endfor %}
                   </div>
 
                   <div>

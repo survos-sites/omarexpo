@@ -93,7 +93,7 @@
                             {{ project.label|default(project.title) }}
                         </a>
                     </h3>
-                    {% if isAdmin %}
+                    {% if true or isAdmin %}
                         {% set open_in_new_routes = ['project_admin_labels','project_redirect', 'project_admin_labels'] %}
                         {% for route, icon in {
                             project_import: 'uil:file-import',
