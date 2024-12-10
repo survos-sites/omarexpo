@@ -23,9 +23,9 @@ flysystem:
             visibility: public # Make the uploaded file publicly accessible in S3
             options:
                 client: 'Aws\S3\S3Client' # The service ID of the Aws\S3\S3Client instance
-                bucket: '%env(AWS_S3_BUCKET_NAME)%'
+                bucket: 'omarexpo'
                 streamReads: true
-                prefix: '%env(S3_STORAGE_PREFIX)%'
+#                prefix: '%env(S3_STORAGE_PREFIX)%'
 
 when@dev:
     flysystem:
