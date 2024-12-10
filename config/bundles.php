@@ -30,4 +30,5 @@ return [
     Survos\JsTwigBundle\SurvosJsTwigBundle::class => ['all' => true],
     Liip\ImagineBundle\LiipImagineBundle::class => ['all' => true],
     Inspector\Symfony\Bundle\InspectorBundle::class => ['all' => true],
+    Survos\MobileBundle\SurvosMobileBundle::class => ['all' => true],
 ];

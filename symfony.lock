@@ -163,6 +163,9 @@
     "survos/js-twig-bundle": {
         "version": "1.5.424"
     },
+    "survos/mobile-bundle": {
+        "version": "1.5.424"
+    },
     "survos/storage-bundle": {
         "version": "1.5.424"
     },

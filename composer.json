@@ -31,6 +31,7 @@
         "survos/flickr-bundle": ">=1.5.424",
         "survos/google-sheets-bundle": ">=1.5.424",
         "survos/js-twig-bundle": ">=1.5.424",
+        "survos/mobile-bundle": "^1.5",
         "survos/storage-bundle": ">=1.5.424",
         "symfony/asset": "7.2.*",
         "symfony/asset-mapper": "7.2.*",

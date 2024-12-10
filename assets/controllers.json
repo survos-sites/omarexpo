@@ -19,6 +19,13 @@
                 "autoimport": []
             }
         },
+        "@survos/mobile-bundle": {
+            "mobile": {
+                "enabled": true,
+                "fetch": "lazy",
+                "autoimport": []
+            }
+        },
         "@symfony/ux-turbo": {
             "turbo-core": {
                 "enabled": true,
