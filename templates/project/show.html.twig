@@ -26,18 +26,18 @@
         <a href="{{ thumbnail }}">
             <img src="{{ thumbnail }}" alt="{{ thumbnail }}" />
         </a>
-        {% set audio =  '/omar/%s/%s'|format(item.code, item.audio) %}
+        {% set audio =  '/audio/%s/%s'|format(item.code, item.audio) %}
         <hr />
         {{ audio }}
         <audio controls src="{{ audio }}"></audio>
 
-        {% set video =  '/omar/%s/%s'|format(item.code, item.video) %}
-        {{ video }}
+{#        {% set video =  '/omar/%s/%s'|format(item.code, item.video) %}#}
+{#        {{ video }}#}
 
-        <video width="320" height="240" controls>
-            <source src="{{ video }}" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
+{#        <video width="320" height="240" controls>#}
+{#            <source src="{{ video }}" type="video/mp4">#}
+{#            Your browser does not support the video tag.#}
+{#        </video>#}
 
 
     {% endfor %}

@@ -74,7 +74,7 @@ class AppService
                                 private NormalizerInterface                             $normalizer,
                                 private DenormalizerInterface                           $denormalizer,
                                 private MailerInterface                                 $mailer,
-                                #[Autowire('%kernel.project_dir%/public/assets')] private string $dataDir,
+                                #[Autowire('%kernel.project_dir%/public/audio')] private string $dataDir,
                                 #[Autowire('%kernel.project_dir%/')] private string $projectDir,
                                 private CacheManager                                    $imagineCacheManager,
                                 private SluggerInterface                                $asciiSlugger,
@@ -329,7 +329,7 @@ class AppService
                 throw new \Exception('Could not create directory ' . $dir . ' ' . $exception->getMessage()) ;
             }
         }
-
+        return [];
 
         $this->sheetService->getData($project->getGoogleSheetsId(),
             function(?array $values, Sheet $sheet)
@@ -339,6 +339,7 @@ class AppService
                 $this->asCsv($values??[]));
         }
         );
+
         return $files;
     }
 
@@ -500,8 +501,10 @@ class AppService
                 } elseif (preg_match('/VIDEO/', $filename)) {
                     $item->setVideo($filename);
                 } else {
-                    if (in_array($file->getExtension(), ['JPG', 'JPEG'])) {
+                    if (in_array(strtoupper($file->getExtension()), ['JPG', 'JPEG'])) {
                         $item->setImage($filename);
+                    } else {
+                        dd($filename);
                     }
                 }
             }

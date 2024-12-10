@@ -19,3 +19,15 @@ aws s3api delete-objects \
 --output=json \
 --query='{Objects: Versions[].{Key:Key,VersionId:VersionId}}')"
 ```
+
+aws s3api put-public-access-block \
+--bucket $"{bucket_name}" \
+--public-policy "By-bucket-logging"
+
+aws s3api put-object-acl \
+--key "$(aws s3api list-object-versions --bucket ${bucket_name})" \
+--acl public-read
+
+aws s3api put-object-acl \
+--bucket "{bucket_name}" \
+--acl public-read

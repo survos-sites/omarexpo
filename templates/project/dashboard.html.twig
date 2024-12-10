@@ -44,12 +44,10 @@
 <div class="col-12 bg-primary">
     <h3>{{ 'items'|trans|title }}</h3>
 
-    {% for item in project.items %}
-        <li>{{ item.code }}</li>
-    {% endfor %}
     <twig:simple_datatables
+            perPage="50"
             :data="project.items"
-            :columns="['id','code','label','description', 'locale', 'height','width']"
+            :columns="['id','thumb', 'code','label','description', 'size', 'year','av']"
             :caller="_self"
     >
         <twig:block name="location">
@@ -63,7 +61,29 @@
             </code>
             {% endif %}
         </twig:block>
-        <twig:block name="code">
+        <twig:block name="thumb">
+            {{ '%s/%s'|format(row.code, row.image) }}
+            {% set thumbnail =  '%s/%s'|format(row.code, row.image)|imagine_filter('small') %}
+            <a href="{{ thumbnail }}">
+                <img src="{{ thumbnail }}" alt="{{ thumbnail }}" />
+            </a>
+        </twig:block>
+            <twig:block name="av">
+            {% set audio =  '/audio/%s/%s'|format(row.code, row.audio) %}
+            <hr />
+            {{ audio }}
+            <audio controls src="{{ audio }}"></audio>
+
+            {% set video =  '/assets/%s/%s'|format(row.code, row.video) %}
+            {{ video }}
+
+{#            <video width="320" height="240" controls>#}
+{#                <source src="{{ video }}" type="video/mp4">#}
+{#                Your browser does not support the video tag.#}
+{#            </video>#}
+
+        </twig:block>
+            <twig:block name="code">
             {% if row.code|default(false) %}
             <a href="{{ path('item_show', row.rp) }}">{{ row.code }}</a>
             {% else %}
