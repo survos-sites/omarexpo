@@ -1,0 +1,243 @@
+{% extends 'project/base.html.twig' %}
+
+{% block title %}{{ project.code }}-room-planner{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .sortable-chosen {
+            background-color: red;
+        }
+
+        .list-group .list-group-item {
+            border-radius: 0;
+            cursor: move;
+        }
+
+        .list-group .list-group-item:hover {
+            background-color: #f7f7f7;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+{#    {{ dump(locationIds) }}#}
+
+    {% set _sc = 'planner' %}
+    {#    itemData: project.items|serialize('json', {groups: ['item.read','shape']}), #}
+    <button {{ stimulus_action(_sc, 'save') }} class="btn btn-primary">Save</button>
+    <a href="{{ path('project_wall_layout', project.rp({width:windowWidth})) }}"
+       class="btn btn-primary">Wall Layout Data (Width: {{ windowWidth }} {{ stageWidth }}x{{ stageHeight }})</a>
+
+
+    <h3>{{ inventoryItems|length }} items in Inventory</h3>
+
+    <label>
+        <input {{ stimulus_action(_sc, 'scale') }} value="{{ scale }}"
+                                                   type="range" class="form-range" min="25" max="200">
+    </label>
+
+
+    {#    </div> #}
+
+    {# @todo: width at least longest wall + margin X 2, height so all walls fit #}
+    {#    {% endblock %} #}
+    {# #}
+    {# {% block duplicate %} #}
+    {# @todo: prelink thumbs for faster loading #}
+    <div {{ stimulus_controller(_sc, {
+        scale: scale,
+        locationUrl: path('project_wall_layout', project.rp({_format: 'json'})),
+        locationData: project.locations|serialize('json', {groups: ['location.read', 'translation', 'shape', 'item.read', 'location.items']}),
+        thumbs: thumbs,
+        dbStageHeight: stageHeight,
+        dbStageWidth: stageWidth,
+    }) }}
+
+    >
+
+        <div class="bg-info">
+            {#        <span {{ stimulus_target(_sc, 'menu') }}> #}
+            {#            <div> #}
+            {#                <button id="pulse-button">Pulse</button #}
+            {#                ><button id="delete-button">Delete</button> #}
+            {#            </div> #}
+            {#        </span> #}
+
+            <span {{ stimulus_target(_sc, 'wallInfo') }}>
+            Wall info
+        </span>
+            <span {{ stimulus_target(_sc, 'itemInfo') }} class="xxbg-info-subtle">
+            Item info
+        </span>
+            <span class="float-end">
+            Canvas is <span {{ stimulus_target(_sc, 'stageInfo')}}>{{ stageHeight }}x{{ stageWidth }} (calculated from {{ windowWidth }})</span>
+        </span>
+
+
+            <div class="bg-info-subtle float-startxx"
+                    {#             style="width: {{ stagingAreaWidth }}px; position:fixed; z-index:1000000; height: 100%; overflow-y: auto; overflow-x: hidden" #}
+            >
+                <div id="drag-items"
+                        {{ stimulus_target(_sc, 'inventory') }}>
+                    {% for item in inventoryItems|slice(0,app.request.get('max', 100)) %}
+                        {% if item.images|length %}
+                            {% set thumb = item.images.first.filename|imagine_filter('tiny') %}
+                            <img src="{{ thumb }}"
+                                 title="#{{ item.id }} {{ item.code }} {{ item.height }}cm/h x {{ item.width }}cm/w"
+                                 class="inventory-item"
+{#                                 width="{{ item.width }}"#}
+{#                                 height="{{ item.height }}"#}
+                                 data-width-cm="{{ item.width }}"
+                                 data-height-cm="{{ item.height }}"
+                                 data-item-id="{{ item.id }}"
+                                 data-item-id="{{ item.id }}"
+                                 draggable="true"
+                             alt="{{ item.height }}cm/h x {{ item.width }}cm/w"/>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        {# so we can add a scrollbar.  Missing height of last row image #}
+        {{ stageHeight }}
+        <div {{ stimulus_target(_sc, 'wrapper') }} style="position: relative; width: 100%; height: 80vh" class="bg-info-subtle">
+{#            {% set stageHeight = 1234 %}#}
+            <div {{ stimulus_target(_sc, 'stage') }}
+                    style="width: calc(100%); height: {{ stageHeight * 2  }}px;"
+            >
+                The Konva stage is populated by the location and item data.
+            </div>
+        </div>
+
+        <div>
+            <ul {{ stimulus_target(_sc, 'messages') }}>
+            </ul>
+        </div>
+
+
+    </div>
+
+    {{ app.request.get('debug', false) ? block('tables') }}
+
+    {#    {% set _sc = 'separate_loc_plannerXX' %} #}
+    {#    <div {{ stimulus_controller(_sc) }}> #}
+    {#        <button  {{ stimulus_action(_sc, 'save') }} class="btn btn-primary">Save</button> #}
+    {#        {{ block('separate_loc_in_table') }} #}
+    {#    </div> #}
+
+{% endblock %}
+
+    {% block tables %}
+        <h3>{{ 'items'|trans|title }}</h3>
+        <twig:grid
+                :data="project.items|filter(i => i.location)"
+                :columns="['id','code','location','height','width','x','y']"
+                :caller="_self"
+        >
+            <twig:block name="location">
+                <a href="{{ path('project_planner', project.rp) }}#loc-{{ row.id }}">
+                    {{ row.location.code }}
+                </a>
+                <code>
+                    {{ row.x }},{{ row.y }}
+                </code>
+            </twig:block>
+            <twig:block name="code">
+                <a href="{{ path('item_show', row.rp) }}">{{ row.code }}</a>
+            </twig:block>
+        </twig:grid>
+
+        <twig:grid
+                :data="project.locations"
+                :columns="['id','code','name','height','width', 'items','pos', 'backgroundColor']"
+                :caller="_self"
+        >
+            <twig:block name="pos">
+                <code>
+                    {{ row.x }},{{ row.y }}
+                </code>
+
+            </twig:block>
+        </twig:grid>
+
+    {% endblock %}
+
+
+
+{% block separate_loc_in_table %}
+    {#  this is not used anymore and is just for debugging #}
+
+    {% for loc in project.locations|filter(l => l.active)|slice(0,app.request.get('max', 30)) %}
+        <a id="loc-{{ loc.id }}"></a> {# for linking from another page #}
+        <h3>{{ loc }}</h3>
+        <div class="row">
+            <div class="col-md-4">
+
+                <ol {{ stimulus_target(_sc, 'list') }}>
+
+                    {% for item in loc.items %}
+                        <li
+                                {% if item.images|length %}
+                                    {% set thumbPath = item.images.first.filename|imagine_filter('tiny') %}
+                                    data-image="{{ thumbPath }}"
+                                {% endif %}
+                                data-loc="{{ item.location.id }}"
+                                data-id="{{ item.id }}"
+                                data-x="{{ item.x|default(0) }}"
+                                data-y="{{ item.y|default(0) }}"
+                                data-h="{{ item.height }}"
+                                data-w="{{ item.width }}">
+                            {% for image in item.images %}
+                                {% set thumbUrl = image.filename|imagine_filter('tiny') %}
+                                <figure class="figure">
+                                    <a href="{{ thumbUrl }}" target="_blank" title="{{ item }}">
+                                        <img src="{{ thumbUrl }}" class="figure-img img-thumbnail img-fluid rounded"
+                                             alt="{{ thumbUrl }}">
+                                    </a>
+                                    <figcaption class="figure-caption text-end">
+                                        <a href="{{ path('item_show', item.rp) }}" title="{{ item }}">
+                                            {{ item }}
+                                            @{{ item.x }},{{ item.y }}
+                                            {{ item.attributes['size']|default('??') }}
+                                        </a>
+                                    </figcaption>
+                                </figure>
+                            {% endfor %}
+                        </li>
+                    {% endfor %}
+                    <li>
+                        no items (erase if item)
+                    </li>
+                </ol>
+            </div>
+            <div class="col-md-8"
+            >
+                <div>
+                    {{ loc.height }}m (h) x {{ loc.width }}m (w)
+                    <span class="float-end" {{ stimulus_action(_sc, 'lock') }}>
+
+                            <twig:ux:icon name="teenyicons:unlock-outline"/>
+                            <twig:ux:icon name="teenyicons:lock-outline"/>
+                        </span>
+                    <div {{ stimulus_target(_sc, 'canvas') }}
+                            data-id="{{ loc.id }}"
+                            style="
+                                    width: {{ loc.width }}px;
+                                    height: {{ loc.height }}px;
+                                    background-color: {{ loc.backgroundColor }}"
+                            data-width="{{ loc.width }}" data-height="{{ loc.height }}">
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    {% endfor %}
+
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block logo_mini %}<b>V</b>T{% endblock %}
+{% block logo_large %} <b>Voxi</b>Tour {% endblock %}
+
+
+    {% block stylesheets %}
+        {{ parent() }}
+        <style>
+            .loader-container {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    background: #000
+        url("https://media.giphy.com/media/8agqybiK5LW8qrG3vJ/giphy.gif") center
+        no-repeat;
+    z-index: 1;
+}
+        </style>
+    {% endblock %}
+
+    {% block xxjavascripts %}
+        {{ parent() }}
+        <script>
+            console.error('wait for js and css to be loaded, with a spinner');
+            let loaderContainer = document.querySelector('.loader-container');
+            console.log(loaderContainer);
+            window.addEventListener('load', () => {
+                console.log('Called?');
+                loaderContainer = document.querySelector('.loader-container');
+                console.log(loaderContainer);
+                if(loaderContainer){
+                	loaderContainer.style.display = 'none';
+                }
+
+});
+
+        </script>
+    {% endblock %}
+
+{% block page_content %}
+
+    {{ block('body') }}
+{% endblock %}

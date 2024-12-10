@@ -1,0 +1,160 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block stylesheets %}
+{#    {{ parent() }}#}
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+        @media print {
+            body {
+                font-family: Arial, sans-serif; /* Use a printer-friendly font */
+            }
+
+
+            .card-main-class,
+            .card-second-class {
+                box-shadow: none; /* Remove shadows for printing */
+                border: none; /* Remove borders for printing */
+                margin: 0; /* Remove margins for printing */
+                padding: 0; /* Remove padding for printing */
+            }
+
+            /* Adjust the appearance of text for printing */
+            h1, h4, span, p {
+                font-size: 12pt;
+            }
+
+
+
+
+            /* Hide the QR code image for printing */
+            /*.d-flex.justify-content-center img {*/
+            /*    display: none;*/
+            /*}*/
+        }
+        body{
+            /*background-color: #EED9E2;*/
+            font-family: 'Montserrat', sans-serif;
+        }
+        .card-main-class{
+            margin-top: 30px;
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0px 0px 30px -1px rgba(51,41,41,0.75) inset;
+            -webkit-box-shadow: 0px 0px 30px -1px rgba(51,41,41,0.75) inset;
+            -moz-box-shadow: 0px 0px 30px -1px rgba(51,41,41,0.75) inset;
+        }
+        .card-second-class{
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0px 0px 30px -1px rgba(255,255,255,0.75);
+            -webkit-box-shadow: 0px 0px 30px -1px rgba(255,255,255,0.75);
+            -moz-box-shadow: 0px 0px 30px -1px rgba(255,255,255,0.75);
+        }
+        .card-main-class h1{
+            font-size: 65px;
+            border-bottom: 3px solid black;
+            line-height: 85px;
+        }
+        .card-main-class p{
+            margin-top: 40px;
+            font-size: 22px;
+            text-align: justify;
+        }
+        .card-main-class span{
+            margin-top: 0px;
+            font-size: 22px;
+            text-align: justify;
+        }
+        .card-left-section{
+            border-left: 2px solid black;
+        }
+        .card-left-section h4{
+            font-size: 25px;
+            font-weight: 700;
+            margin-top: 31px;
+        }
+        .card-left-section span{
+            font-size: 15px;
+            font-weight: 500;
+        }
+        .card-footer-last-section{
+            background-color: #363437;
+            padding: 20px;
+        }
+        .card-footer-last-section h2{
+            color: white;
+            font-size: 25px;
+        }
+        .card-footer-last-section p{
+            color: white;
+            padding: 0px;
+            margin: 0px;
+            font-size: 13px;
+            text-align: left;
+        }
+        .flex {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+        /*Responsive*/
+        @media(max-width:800px){
+
+            .card-main-class h1{
+                font-size: 25px !important;
+                line-height:none !important;
+            }
+
+
+            .card-left-section{
+                border-left: none !important;
+                padding: 0px !important;
+                margin: 0px !important;
+            }
+            .card-footer-last-section{
+                margin-top: 30px;
+                padding-left: 0px !important;
+                margin-left: 0px !important;
+            }
+            .card-footer-last-section h2{
+                font-size: 20px !important;
+            }
+            .card-footer-last-section p{
+                font-size: 10px !important;
+            }
+            .justify-content-center img{
+                margin-top: 20px;
+            }
+        }
+    </style>
+{% endblock %}
+{% block title %}{{ project.code}}-labels{% endblock %}
+
+{% block navigation %}
+
+    Sidebar navigation here.
+{% endblock %}
+
+{% block body %}
+    {% for card in ['card5','card3','card2','card'] %}
+        <a href="{{ path('project_admin_labels', project.rp({layout: card, max: 8})) }}">
+            {{ card }}
+        </a>
+    {% endfor %}
+    {% for idx, item in  project.items|slice(app.request.get('start', 0),app.request.get('max',99)) %}
+        <div class="row">
+            <div class="col-md-{{ app.request.get('width',12) }}">
+
+                {{ include('item/tomb/%s.html.twig'|format(layout), {
+                    i:item,
+                    project: project
+                }) }}
+            </div>
+
+{#            <div class="col-lg-10">#}
+{#            </div>#}
+
+        </div>
+    {% endfor %}
+{% endblock %}

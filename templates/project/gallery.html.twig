@@ -1,0 +1,218 @@
+{% extends 'project_base.html.twig' %}
+
+{% block title %}Inventory Project: {{ project.name }}{% endblock %}
+{# hmm, maybe...
+    <link rel="stylesheet" type="text/css" href="{{ asset('audioplayer.css') }}">
+#}
+{% block xxstylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+{% endblock %}
+{% import "@SurvosBase/macros/cards.html.twig" as cards %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+    {{ repairs }}
+
+    {% endblock %}
+
+{% block with_photos %}
+    {% for room in project.locations|filter(room => room.items.count > 0) %}
+        {{ room.description|markdown_to_html }}
+    {% endfor %}
+
+    <h1>Gallery: {{ project.name }}
+        <span class="text-muted">{{ site_name }}</span>
+    </h1>
+    <small>{{ project.localImportRootDir }}</small>
+
+    {% for room in project.locations|filter(room => room.items.count > 0) %}
+        <div class="row">
+        <div class="col-lg-4">
+            <h1>{{ room }}</h1>
+            {{ room.description|markdown_to_html }}
+        </div>
+        <div class="col-lg-8">
+            <ul class="list-group list-group-horizontal">
+            {% for item in room.items %}
+                {% for image in item.assets %}
+                    again?  we must have an include or component for this!
+{#                    {% set thumbUrl = '/local/' ~ uploaded_asset(image)  %}#}
+                    <li class="list-group-item">
+                    <figure class="figure">
+                        <a href="{{ thumbUrl }}" title="{{ thumbUrl }}" target="_blank">
+                            <img width="200" height="80" src="{{ thumbUrl }}" class="figure-img img-fluid rounded img-thumbnail" alt="{{ thumbUrl }}">
+                        </a>
+                        <figcaption class="figure-caption">Thumb {{ thumbUrl }}</figcaption>
+                    </figure>
+                    </li>
+                {% endfor %}
+                {% endfor %}
+                </ul>
+
+        </div>
+        </div>
+    {% endfor %}
+
+{% endblock %}
+
+{% block project %}
+<table class="table table-striped table-condensed">
+    <tbody>
+    <tr>
+        <th>Name</th>
+        <td><a title="{{ project.code }}" href="{{ path('project_show', project.rp) }}"{{ project.name }}</td>
+    </tr>
+    <tr>
+        <th>Slug</th>
+        <td>{{ project.code }}</td>
+    </tr>
+    <tr>
+        <th>Marking</th>
+        <td>{{ project.marking }}</td>
+    </tr>
+    </tbody>
+</table>
+{% endblock %}
+
+{% macro recursiveCategory(room, roomRepo) %}
+    <li>
+        <h4><a href="{{ path('collection_show', room.rp) }}">{{ room }}</a></h4>
+
+        {#
+        {% set children = roomRepo(room).childen %}
+        {% if childen|length %}
+            <ul>
+                {% for child in children %}
+                    {{ _self.recursiveCategory(child) }}
+                {% endfor %}
+            </ul>
+        {% endif %}
+        #}
+    </li>
+{% endmacro %}
+
+{% block tree %}
+    <div id="html1">
+        <ul>
+            <li>Root node 1
+                <ul>
+                    <li>Child node 1</li>
+                    <li><a href="#">Child node 2</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    {% if project.rooms %}
+        <div id="categories">
+            <ul>
+                {% for room in roomRepo.children() %}
+                    <li>{{ room.name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block outline %}
+
+    <h1>Outline</h1>
+    <ul>
+        {% for room in project.rooms %}
+        <li>
+            {% set indent = '&nbsp;'|u.repeat(room.depth * 6) %}
+            {{  indent|raw  }}
+            <h2>
+                <a href="{{ path('collection_show', room.rp) }}">
+                    <span title="{{ room.name }}">{{ room.leafname }}</span>
+                </a>
+            </h2>
+
+            <small>{{ room.path }}</small>
+            <span class="badge badge-warning">{{ room.exhibits.count ?: '' }}</span>
+            <ul>
+                {% for exhibit in room.exhibits %}
+                <li>
+                    {{  indent|raw  }}
+
+                    {% set tour_app_url = path('project_app', project.rp({
+                        _fragment: 'tour',
+                    }))  %}
+
+                    <a href="{{ tour_app_url }}"><span class="fas fa-qrcode"></span> </a>
+                    <span class="badge badge-info">{{ exhibit.medias|length }}</span>
+                    <a title="{{ exhibit.filename }}" href="{{ path('item_show', exhibit.rp) }}">
+                    {{ exhibit.title }}
+                    </a>
+                    <small>{{ exhibit.relativePath }}</small>
+                    {% if exhibit.assets %}
+                    <ul>
+                        {% for image in exhibit.images %}
+                            <li>
+                                {{ indent|raw }}
+                                <a href="{{ image.localUrl }}" title="{{ image.filepath }}">
+                                    <span class="fas fa-download"></span>{{ image.localUrl }}
+                                </a>
+                            </li>
+                            {% endfor %}
+                    </ul>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+        </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+{% block rooms %}
+        <table class="table table-condensed js-room-table">
+        <thead>
+        <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Exhibits</th>
+        </tr>
+        </thead>
+        <tbody>
+    {% for room in project.rooms %}
+        <tr>
+            <td>
+                {% for route, icon in {room_edit: 'fa-edit', collection_show: 'fa-wrench'} %}
+                <a href="{{ path(route, room.rp) }}"><i class="fas {{ icon}} fa-3x"></i></a>
+                {% endfor %}
+            </td>
+            <td><a title="{{ room.code }}" href="{{ path('collection_show', room.rp) }}">{{ room.name }}</a></td>
+            <td>
+                {{ room.exhibits.count }}
+            </td>
+            <td>
+                <div class="fa-2x">
+                    <a href="{{ path('item_new', room.rp({'quick_add': false} ))  }}"><i class="fas fa-plus plus-background"></i></a>
+                </div>
+            </td>
+            <td>
+                <div class="fa-2x">
+                    <a href="{{ path('item_new', room.rp({'quick_add': true} ))  }}">
+                <span class="fa-layers fa-fw plus-background" >
+                <i class="fas fa-plus"></i>
+                <span class="fa-layers-counter" style="font-size: 4vh; background:Tomato">2+</span>
+                </span>
+                    </a>
+
+                </div>
+            </td>
+
+        </tr>
+    {% endfor %}
+        </tbody>
+        </table>
+
+    <a href="{{ path('room_new', project.rp) }}"><i class="fas fa-plus"></i> Add A New Room</a>
+
+{% endblock %}

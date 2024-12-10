@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New project{% endblock %}
+
+{% block body %}
+    <h1>{{ 'project.new'|trans }}</h1>
+
+    <a target="_blank" href="https://phppot.com/php/google-sheet-php/">https://phppot.com/php/google-sheet-php/</a>
+    {{ include('project/_form.html.twig') }}
+
+{% endblock %}

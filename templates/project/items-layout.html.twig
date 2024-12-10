@@ -1,0 +1,34 @@
+{% extends 'project/base.html.twig' %}
+
+{% block title %}{{ project.code }}-items-debug{% endblock %}
+
+{% block body %}
+
+<div class="bg-danger">
+    X and Y are in Pixels.
+    Width and Height are in cm
+</div>
+    stage is {{ stageWidth}} wide and {{ stageHeight }} high
+    <twig:grid
+        :data="project.locations"
+        :columns="[
+        'code',
+        'type',
+        'x',
+        'y',
+        'width',
+        'height',
+        {name: 'backgroundColor', title:'color'},
+        'id',
+]"
+        >
+
+    </twig:grid>
+    {% for item in items %}
+        <li>
+            {{ item.code }}
+            {{ item.x }}
+            {{ item.y }}
+        </li>
+    {% endfor %}
+{% endblock %}

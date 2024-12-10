@@ -26,4 +26,5 @@ return [
     Survos\JsTwigBundle\SurvosJsTwigBundle::class => ['all' => true],
     Liip\ImagineBundle\LiipImagineBundle::class => ['all' => true],
     League\FlysystemBundle\FlysystemBundle::class => ['all' => true],
+    Survos\SimpleDatatables\SurvosSimpleDatatablesBundle::class => ['all' => true],
 ];

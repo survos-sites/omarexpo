@@ -356,6 +356,7 @@ class Project extends SurvosBaseEntity
         return ['projectId' => $this->getCode()];
         // return ['projectSlug' => $this->getCode()];
     }
+    const UNIQUE_PARAMETERS=['projectId' => 'code'];
 
     /**
      * @return mixed
@@ -501,63 +502,6 @@ class Project extends SurvosBaseEntity
         return $this;
     }
 
-    /**
-     * @return Collection|Location[]
-     */
-    public function getLocations(): Collection
-    {
-        return $this->locations;
-    }
-
-    public function getSortedLocations(): Collection
-    {
-        return $this->getLocations()->filter(fn(Location $location) => $location->isSorted());
-    }
-
-    public function getUnsortedLocations(): Collection
-    {
-        return $this->getLocations()->filter(fn(Location $location) => $location->isSorted());
-    }
-
-    public function getLocationCount(): int
-    {
-        return $this->getLocations()->count();
-    }
-
-    // @todo: KEYED Locations!
-    public function getLocation($code): ?Location
-    {
-        foreach ($this->getLocations() as $location) {
-            if ($location->getCode() == $code) {
-                return $location;
-            }
-        }
-        return null;
-    }
-
-    public function addLocation(Location $location): self
-    {
-        if (!$this->locations->contains($location)) {
-            $this->locations[] = $location;
-            $location->setProject($this);
-            $location->setOrderIdx(count($this->locations));
-        }
-
-        return $this;
-    }
-
-    public function removeLocation(Location $location): self
-    {
-        if ($this->locations->contains($location)) {
-            $this->locations->removeElement($location);
-            // set the owning side to null (unless already changed)
-            if ($location->getProject() === $this) {
-                $location->setProject(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function useMzFormat(): bool
     {

@@ -1,0 +1,189 @@
+{% extends 'project/base.html.twig' %}
+
+{# hmm, maybe...
+{% block stylesheets %}
+{{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('audioplayer.css') }}">
+{% endblock %}
+#}
+{#{% import "@SurvosBase/macros/cards.html.twig" as cards %}#}
+
+{% macro entityRow(class, details, project) %}
+{% endmacro %}
+
+{% macro entityCard(class, details, project) %}
+<div class="col-xl-3 col-md-6 mb-4">
+    <div class="card border-left-primary shadow h-100 py-2">
+        <div class="card-body">
+            <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <a href="{{ path(details.entity ~ '_index', project.rp) }}">
+                        <div class="text-lg font-weight-bold text-primary mb-1">{{ (details.entity ~ '.index')|trans }}</div>
+                    </a>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ details.count}}</div>
+                </div>
+                <div class="col-auto">
+                    <i class="{{ details.icon }} fa-2x text-gray-300"></i>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            {% for entity in attribute(project, 'properties')|slice(0, 30) %}
+                <li>{{ entity.name }}: {{ entity.type }}</li>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endmacro %}
+
+{% block body %}
+    <h1>
+        {{ project.code }}
+    </h1>
+
+<div class="col-12 bg-primary">
+    <h3>{{ 'items'|trans|title }}</h3>
+
+    {% for item in project.items %}
+        <li>{{ item.code }}</li>
+    {% endfor %}
+    <twig:simple_datatables
+            :data="project.items"
+            :columns="['id','code','label','description', 'locale', 'height','width']"
+            :caller="_self"
+    >
+        <twig:block name="location">
+
+            <a href="{{ path('project_planner', project.rp) }}#loc-{{ row.id }}">
+            {{ row.location ? row.location.code : '~' }}
+            </a>
+            {% if row.location %}
+            <code>
+                {{ row.x }},{{ row.y }}
+            </code>
+            {% endif %}
+        </twig:block>
+        <twig:block name="code">
+            {% if row.code|default(false) %}
+            <a href="{{ path('item_show', row.rp) }}">{{ row.code }}</a>
+            {% else %}
+                {{ dump(row) }}
+            {% endif %}
+        </twig:block>
+    </twig:simple_datatables>
+
+</div>
+
+
+    <div class="row">
+
+        <div class="col-lg-4">
+
+
+        {% if showQR|default(true) %}
+        {% for type, url in {app: absolute_url(path('project_app', project.rp))} %}
+        <div class="col-lg-4">
+{#            {% set qrImage = qr_code_url(url) %}#}
+            <a title="{{ url }}" target="_blank" href="{{ url }}">
+                <img {{ stimulus_controller('qr', {text: url}) }} />
+{#             <img src="{{ qrImage }}" />#}
+            </a>
+            <br />{{ type }} <small>{{ url }}</small>
+        </div>
+        {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+
+
+    {% if is_granted('MANAGE', project) %}
+    <a class="btn btn-primary" href="{{ path('project_edit', project.rp) }}">edit</a>
+        {{ include('project/_delete_form.html.twig') }}
+    {% endif %}
+
+{% endblock %}
+
+
+{% block project %}
+<table class="table table-striped table-condensed">
+    <tbody>
+    <tr>
+        <th>Name</th>
+        <td><a title="{{ project.code }}" href="{{ path('project_show', project.rp) }}"{{ project.name }}</td>
+    </tr>
+    <tr>
+        <th>Slug</th>
+        <td>{{ project.code }}</td>
+    </tr>
+    <tr>
+        <th>Marking</th>
+        <td>{{ project.marking }}</td>
+    </tr>
+    </tbody>
+</table>
+{% endblock %}
+
+{% block properties_table %}
+<table class="table table-condensed js-property-table">
+    <thead>
+    <tr>
+        <th>Label</th>
+        <th>Type</th>
+        <th>SubType</th>
+        <th>Bools</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for property in formElements %}
+    <tr>
+        <td>
+            {{ property.label }}
+        </td>
+        <td>{{ property.type }}</td>
+        <td>{{ property.subType }}</td>
+        <td>{% for boolProp in ['access', 'inline', 'required'] %}
+                {{ attribute(property, boolProp) ? boolProp }}
+            {% endfor %}
+
+        </td>
+        <td>
+            {{ property|json_encode }}
+        </td>
+    </tr>
+    {% endfor %}
+</tbody>
+</table>
+{% endblock %}
+
+{% block collections %}
+    {% set columns = [
+        {name: 'id'},
+        'code',
+        'name',
+        'defaultLocation',
+        'add',
+    ] %}
+<h3>{{ 'collections'|trans|title }}
+<span class="float-end">
+    <a href="{{ path('collection_new', project.rp) }}">
+        <twig:ux:icon name="bi:plus-lg" />
+    </a>
+</span>
+</h3>
+<twig:grid
+        :data="project.collections"
+        :columns="columns"
+        :caller="_self"
+>
+    <twig:block name="add">
+        <a href="{{ path('collection_show', row.rp) }}">
+            {{ row.items|length }}
+        </a>
+
+        <a class="btn btn-primary" href="{{ path('item_new', row.rp) }}">
+            + {{ row.code }}
+        </a>
+
+    </twig:block>
+</twig:grid>
+{% endblock %}

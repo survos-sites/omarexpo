@@ -1,0 +1,45 @@
+{% extends 'project_base.html.twig' %}
+
+{% block title %}Inventory Project: {{ project.name }}{% endblock %}
+{# hmm, maybe...
+    <link rel="stylesheet" type="text/css" href="{{ asset('audioplayer.css') }}">
+#}
+{% block stylesheets %}
+    {{ parent() }}
+    {% for item in project.items|slice(0, app.request.get('max', 9999)) %}
+        {% for asset in item.assets %}
+            {% if asset.image %}
+            <link rel="preload" href="{{ preload(asset.url) }}">
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+{% endblock %}
+{# {% import "@SurvosBase/macros/cards.html.twig" as cards %} #}
+
+{% block body %}
+
+    {% for item in project.items %}
+        <h1>
+            {{ item.label }}
+        </h1>
+        {% set thumbnail =  '%s/%s'|format(item.code, item.image)|imagine_filter('small') %}
+        <a href="{{ thumbnail }}">
+            <img src="{{ thumbnail }}" alt="{{ thumbnail }}" />
+        </a>
+        {% set audio =  '/omar/%s/%s'|format(item.code, item.audio) %}
+        <hr />
+        {{ audio }}
+        <audio controls src="{{ audio }}"></audio>
+
+        {% set video =  '/omar/%s/%s'|format(item.code, item.video) %}
+        {{ video }}
+
+        <video width="320" height="240" controls>
+            <source src="{{ video }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+
+    {% endfor %}
+
+{% endblock %}

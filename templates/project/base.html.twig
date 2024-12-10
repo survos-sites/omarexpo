@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ project.name }}{% endblock %}
+
+{% block PAGE_MENU %}
+    {#    {{ parent() }}#}
+    {% set options = {
+        showAppMenu: false,
+        project: project
+    } %}
+    <twig:menu :type="PAGE_MENU" :caller="_self" :options="options">
+
+    </twig:menu>
+
+    {% if is_granted('PROJECT_VIEW', project) %}
+    <a title="{{ project.googleSheetsId }}" href="{{ path('project_sync', project.rp) }}" class="btn btn-danger">Sync</a>
+    with <a target="_blank" href="{{ project.googleSheetsUrl }}">{{ project.googleSheetsUrl }}</a>
+
+    {% endif %}
+
+    Flickr <a target="_blank" href="{{ project.flickrAlbumId }}">
+    <twig:ux:icon name="fa-brands:flickr" size="32px"/>
+</a>
+
+
+    Visibility: {{ project.visibility }}
+
+{% endblock %}
+
+
+

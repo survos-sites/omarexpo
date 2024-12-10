@@ -1,0 +1,191 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}project index{% endblock %}
+
+{% block xxnavigation %}
+
+    Sidebar navigation here.
+{% endblock %}
+
+{% block body %}
+
+    {% set isAdmin = is_granted('ROLE_ADMIN') or app.environment == 'dev' %}
+
+    {#    {% block javascripts %} #}
+    {#        {{ parent() }} #}
+    {#    {% endblock %} #}
+
+    {#    <script src="{{ url('bazinga_jstranslation_js') }}"></script> #}
+    {#    {% set tr = url('bazinga_jstranslation_js', { 'domain': 'messages', 'locales': 'fr,en' }) %} #}
+    {#    <a target="_blank" href="{{  tr }}">TRANS</a> #}
+    {#    <div {{ stimulus_controller('hello') }}> #}
+    {#        hello #}
+    {#    </div> #}
+
+    {#    {% block stylesheets %} #}
+    {#        {{ parent() }} #}
+    {#        {% endblock %} #}
+
+    {#    <img {{ stimulus_controller('qr', {text: 'hello'}) }} /> #}
+    {#    {% set url = absolute_url(path('app_landing')) %} #}
+    {#    <img src="{{ qr_code_url(url) }}" /> #}
+    {#    <br />{{ url }} #}
+
+
+    {% if isPwa|default(false) %}
+    <twig:ConnectionDetector>
+        <twig:block name="online">
+            <button class="btn btn-warning">Online</button>
+        </twig:block>
+        <twig:block name="offline">
+            <button class="btn btn-danger">offline</button>
+        </twig:block>
+    </twig:ConnectionDetector>
+
+    <twig:PwaInstall>
+        <twig:block name="install">
+            Install as PWA
+            {#    <twig:Button variant="success"> #}
+            {#    </twig:Button> #}
+        </twig:block>
+
+        <twig:block name="launch">
+            <button type="button" class="btn btn-success">
+                <span class="bi bi-box-arrow-up-right"></span>
+                It's installed! Launch it!
+            </button>
+        </twig:block>
+
+
+    </twig:PwaInstall>
+    {% endif %}
+    {#    <div class="loader-container"> #}
+    {#        <div class="spinner"></div> #}
+    {#    </div> #}
+
+    <h1>{{ 'project.index'|trans }}</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Item#1</th>
+
+            {% if is_granted('ROLE_USER') %}
+                <th>Visibility</th>
+                <th>Marking</th>
+            {% endif %}
+            {% if isAdmin %}
+                <th>Admin</th>
+            {% endif %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for project in projects %}
+            <tr>
+
+                <td>
+                    {% set mobileUrl = absolute_url(path('project_mobile', project.rp({
+                        hash: app.request.get('hash', 'randomHash')
+                    }))) %}
+                    <h3>
+                        <a href="{{ path('project_dashboard', project.rp) }}">
+                            {{ project.label|default(project.title) }}
+                        </a>
+                    </h3>
+                    {% if isAdmin %}
+                        {% set open_in_new_routes = ['project_admin_labels','project_redirect', 'project_admin_labels'] %}
+                        {% for route, icon in {
+                            project_import: 'uil:file-import',
+                            project_show: 'bx:show',
+                            project_edit: 'cil:pencil',
+                            project_dashboard: 'akar-icons:dashboard',
+                            project_redirect: 'bi:qr-code',
+                            project_planner: 'la:shapes',
+                            project_admin_labels: 'la:shapes',
+                            project_google_sheet_redirect: 'arcticons:google-sheets',
+                        } %}
+                            <a {{  route in open_in_new_routes ? 'target="_blank"' }}
+                                    href="{{ path(route, project.rp({_locale: project.locale})) }}">
+                                <twig:ux:icon name="{{ icon }}"/>
+                                {{ route|replace({'project_': ''}) }}
+                            </a>
+|
+                        {% endfor %}
+                    {% endif %}
+
+
+                    {{ project.locale|language_name }}
+                    <div
+                            {% if project.locale != app.locale %}
+                                title="{{ project.label(project.locale) }}"
+                            {% endif %}
+                    >
+                        {{ project.label }}
+                    </div>
+
+                    <div
+                            {% if project.locale != app.locale %}
+                                title="{{ project.description(project.description) }}"
+                            {% endif %}
+                    >
+                        <i>{{ project.description }}</i>
+                    </div>
+
+                    {#                        <br/>name: {{ project.name }} <i>{{ project.locale|language_name }}</i> #}
+                    {% if is_granted('ROLE_ADMIN') or app.environment == 'dev' %}
+                        <br/><small>{{ project.code }}</small>
+                        {% if project.googleSheetsId %}
+                            <a title="{{ project.googleSheetsId }}" href="{{ path('project_action', project.rp({action: 'import'})) }}">IMPORT</a>
+                            <a href="{{ project.googleSheetsUrl }}" target="_blank">
+                                <twig:ux:icon name="arcticons:google-sheets" class="w-4 h-4 admin-icon" />
+                            </a>
+                            <a href="{{ path('download_sheet', project.rp) }}">Download Sheet (cache)</a>
+                        {% endif %}
+
+                        <a href="{{ path('s3_browser', project.rp) }}">S3</a>
+                        {{ project.homePageImage }}
+                    {% endif %}
+
+
+                    {% if project.locale != app.locale %}
+                        <span class="text-warning">
+                            {{ 'translated_from'|trans }} {{ project.locale|language_name }}
+                        </span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if project.items.count %}
+                        {% set itemUrl = url('item_redirect', project.items[0].rp ) %}
+                        <a href="{{ itemUrl }}">
+                            <img alt="{{ itemUrl }}" title="{{ itemUrl }}"
+                                    {{ stimulus_controller('qr', {text: itemUrl}) }}
+                            />
+
+                        </a>
+                    {% endif %}
+
+                    <ul>
+                        {{ project.items.count }}
+                    </ul>
+                </td>
+
+                {% if is_granted('ROLE_USER') %}
+                    <td>{{ project.visibility }}</td>
+                    <td>{{ project.marking }}</td>
+                    <td>{{ project.marking }}</td>
+                {% endif %}
+
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% if is_granted('ROLE_USER') %}
+    <a href="{{ path('project_new') }}" class="btn btn-primary">New Project</a>
+    {% endif %}
+{% endblock %}

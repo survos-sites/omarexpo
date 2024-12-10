@@ -1,0 +1,25 @@
+{{ form_start(form) }}
+{{ form_errors(form) }}
+
+<button class="btn btn-primary">{{ button_label|default('Preview') }}</button>
+
+<p>
+    @todo: translate
+
+    The Google Sheet where the data is stored must follow a specific format, and must be shared with the following emails:
+
+    tacman@gmail.com
+    voxitour@voxitour.iam.gserviceaccount.com
+
+    The easiest way to get started is to open this
+    <a target="_blank" href="https://docs.google.com/spreadsheets/d/1BK17HWOkAC8XOa0uGlAmOMQvI2F5DxhKRkhgg17yK2Q/edit#gid=31494139">
+        sample data,
+    </a>
+    make a copy, import or add your own data, and share it.
+</p>
+
+    {# iterate over each existing tag and render its only field: name #}
+
+    {{ form_rest(form) }}
+    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

@@ -1,0 +1,16 @@
+{% extends 'project_base.html.twig' %}
+
+{% block title %}Edit project{% endblock %}
+
+{% block body %}
+    <h1>Edit project</h1>
+    <a href="{{ path('project_form_data', project.rp) }}">JSON</a>
+
+    {{ include('project/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('project_index') }}">back to list</a>
+
+    {{ include('project/_delete_form.html.twig') }}
+{% endblock %}
+
+
