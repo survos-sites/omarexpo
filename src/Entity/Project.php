@@ -13,7 +13,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
 use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
-use Survos\WorkflowBundle\Traits\MarkingTrait;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\String\Slugger\AsciiSlugger;
@@ -39,7 +38,6 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[Vich\Uploadable]
 class Project extends SurvosBaseEntity
 {
-    use MarkingTrait;
 
 
     const PLACE_NEW = 'new';

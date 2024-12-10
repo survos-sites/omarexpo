@@ -1,0 +1,5 @@
+survos_google_sheets:
+    application_name: voxitour
+    credentials: false
+    client_secret: '%env(JSON_AUTH)%'
+

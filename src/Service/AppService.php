@@ -79,7 +79,7 @@ class AppService
                                 private SluggerInterface                                $asciiSlugger,
 
                                 private FilesystemOperator                              $defaultStorage,
-                                #[Autowire('%local_uri_prefix%')] private string        $localUriPrefix,
+//                                #[Autowire('%local_uri_prefix%')] private string        $localUriPrefix,
                                 private MessageBusInterface                             $bus,
                                 private PropertyAccessorInterface                       $accessor,
     )

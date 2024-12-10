@@ -12,7 +12,6 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Survos\CoreBundle\Entity\RouteParametersInterface;
 use Survos\CoreBundle\Entity\RouteParametersTrait;
-use Survos\WorkflowBundle\Traits\MarkingTrait;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use function Symfony\Component\String\u;
@@ -35,7 +34,6 @@ use VertigoLabs\DoctrineFullTextPostgres\ORM\Mapping\TsVector;
 class Item implements RouteParametersInterface, \Stringable
 {
     use RouteParametersTrait;
-    use MarkingTrait;
     use AttributesTrait;
 
         // icon: fas fa-vector-square # could also be a qr-code
@@ -210,7 +208,6 @@ class Item implements RouteParametersInterface, \Stringable
 
     public function __construct(string $code)
     {
-        $this->marking = self::PLACE_NEW;
         $this->setProject($this);
     }
 
@@ -353,14 +350,6 @@ class Item implements RouteParametersInterface, \Stringable
         $this->status = $status;
 
         return $this;
-    }
-
-    /** @deprecated "Hack to get marking directly" */
-    public function getMarking(): ?string {
-        return $this->getStatus();
-    }
-    public function getCurrentPlace(): ?string {
-        return $this->getMarking();
     }
 
     public function getLocalCode(): ?string

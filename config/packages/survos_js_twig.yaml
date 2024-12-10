@@ -1,0 +1,13 @@
+survos_js_twig:
+  debug: true
+  db: voxitour-db
+  version: 7
+  stores:
+    -
+      name: tours
+      schema: "++id,code,title,projectCode"
+      url: /api/items
+    -
+      name: projects
+      schema: "code"
+      url: /api/projects
