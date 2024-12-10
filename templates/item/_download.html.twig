@@ -1,0 +1,4 @@
+{% if collection.importFilename %}
+<span class="fas fa-download"></span>
+<a href="{{ path('app_download', {filename: collection.importFilename}) }}">{{ collection.importFilename }}</a>
+{% endif %}

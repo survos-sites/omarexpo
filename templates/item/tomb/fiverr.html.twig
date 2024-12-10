@@ -1,0 +1,188 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Label Generator</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
+
+<style>
+	@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+	 @media print {
+            body {
+                font-family: Arial, sans-serif; /* Use a printer-friendly font */
+            }
+
+
+            .card-main-class,
+            .card-second-class {
+                box-shadow: none; /* Remove shadows for printing */
+                border: none; /* Remove borders for printing */
+                margin: 0; /* Remove margins for printing */
+                padding: 0; /* Remove padding for printing */
+            }
+
+            /* Adjust the appearance of text for printing */
+            h1, h4, span, p {
+                font-size: 12pt;
+            }
+
+
+
+
+            /* Hide the QR code image for printing */
+            .d-flex.justify-content-center img {
+                display: none;
+            }
+        }
+body{
+	/*background-color: #EED9E2;*/
+	font-family: 'Montserrat', sans-serif;
+}
+.card-main-class{
+	margin-top: 30px;
+	border-radius: 10px;
+	padding: 10px;
+	box-shadow: 0px 0px 30px -1px rgba(51,41,41,0.75) inset;
+-webkit-box-shadow: 0px 0px 30px -1px rgba(51,41,41,0.75) inset;
+-moz-box-shadow: 0px 0px 30px -1px rgba(51,41,41,0.75) inset;
+}
+.card-second-class{
+	border-radius: 10px;
+	padding: 30px;
+	box-shadow: 0px 0px 30px -1px rgba(255,255,255,0.75);
+-webkit-box-shadow: 0px 0px 30px -1px rgba(255,255,255,0.75);
+-moz-box-shadow: 0px 0px 30px -1px rgba(255,255,255,0.75);
+}
+.card-main-class h1{
+	font-size: 65px;
+	border-bottom: 3px solid black;
+	line-height: 85px;
+}
+.card-main-class p{
+	margin-top: 40px;
+	font-size: 22px;
+	text-align: justify;
+}
+.card-main-class span{
+	margin-top: 0px;
+	font-size: 22px;
+	text-align: justify;
+}
+.card-left-section{
+	border-left: 2px solid black;
+}
+.card-left-section h4{
+	font-size: 25px;
+	font-weight: 700;
+	margin-top: 31px;
+}
+.card-left-section span{
+	font-size: 15px;
+	font-weight: 500;
+}
+.card-footer-last-section{
+	background-color: #363437;
+	padding: 20px;
+}
+.card-footer-last-section h2{
+	color: white;
+	font-size: 25px;
+}
+.card-footer-last-section p{
+	color: white;
+	padding: 0px;
+	margin: 0px;
+	font-size: 13px;
+	text-align: left;
+}
+.flex {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+/*Responsive*/
+@media(max-width:800px){
+
+.card-main-class h1{
+	font-size: 25px !important;
+	line-height:none !important;
+}
+
+
+.card-left-section{
+	border-left: none !important;
+	padding: 0px !important;
+	margin: 0px !important;
+}
+.card-footer-last-section{
+	margin-top: 30px;
+   padding-left: 0px !important;
+   margin-left: 0px !important;
+}
+.card-footer-last-section h2{
+	font-size: 20px !important;
+}
+.card-footer-last-section p{
+	font-size: 10px !important;
+}
+.justify-content-center img{
+	margin-top: 20px;
+}
+}
+</style>
+</head>
+<body>
+  <div class="container col-lg-9"  id="sectionToSave">
+        <div class="card-main-class">
+        <div class="card-second-class">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-8">
+                <div class="flex">
+                  <div>
+                    <h1><b>{{ i.label }}</b></h1>
+                    <div class="d-flex justify-content-center">
+                      {% set url = absolute_url(path('project_mobile', i.rp)) %}
+                      <a href="{{ url }}" target="_blank">
+                        <img src="{{ qr_code_data_uri(url) }}" class="img-fluid col-md-5 ">
+                      </a>
+
+                      <div class="border-all1">
+                      <h1>
+                        <twig:ux:icon name="material-symbols:headphones-outline"  height="64" width="64"  class="w-4 h-4" />
+                        {{ i.orderIdx }}
+                      </h1>
+                      </div>
+
+                    </div>
+
+                  </div>
+
+
+              </div>
+              <div class="col-md-4 ">
+                <div class="container card-left-section">
+                  {% for var,val in i.attributes %}
+                    {% if var not in ['audio','video','email','telefono', 'autor', 'orderr','image', 'code', 'orden', 'tecnica','title','tour'] %}
+                    {% if val %}
+                    <h4>{{ var|title }}</h4>
+                    <span>{{ val }}</span>
+                    {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</body>
+</html>

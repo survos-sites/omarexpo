@@ -1,0 +1,272 @@
+{% extends 'project/base.html.twig' %}
+
+{% block title %}Item {{ item.inventoryNumber }}{% endblock %}
+
+{% block stylesheets %}
+<style>
+#msg {
+  visibility: hidden;
+  color: red;
+  font-weight: bold;
+  font-size: 22px;
+    font-family: Verdana, serif;
+}
+button {
+  padding: 5px 10px;
+  border: 1px solid grey;
+  font-size: 18px;
+  background: white;
+}
+
+.audio-controls {
+  display: flex;
+  align-items: center;
+  padding-top: 20px;
+}
+.audio-controls button {
+  margin: 0px 5px;
+}
+canvas {
+  margin-top: 10px;
+  background-color: black;
+}
+select {
+  height: 25px;
+  margin: 0px 5px;
+}
+a {
+  margin-left: 20px;
+}
+.app {
+  padding-top: 20px;
+}
+</style>
+{% endblock %}
+{#{{ parent() }}#}
+{#<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/openplayerjs@latest/dist/openplayer.min.css" />#}
+{#{% endblock %}#}
+
+{#{% block javascripts %}#}
+{#{{ parent() }}#}
+{#<script src="https://cdn.jsdelivr.net/npm/openplayerjs@latest/dist/openplayer.min.js"></script>#}
+{#<script type="module">#}
+{#    // Check the `API and events` link below for more options#}
+{#    const player = new OpenPlayerJS('player');#}
+{#    player.init();#}
+{#</script>#}
+{#{% endblock %}#}
+
+{% block PAGE_MENU %}
+{#    {{ parent() }}#}
+    {% set options = {
+        showAppMenu: false,
+        project: project,
+        item:item
+    } %}
+    <twig:menu :type="PAGE_MENU" :caller="_self" :options="options" x="y">
+
+    </twig:menu>
+{% endblock %}
+
+{% block body %}
+
+    <button>Show QR code</button>
+{#    #}
+{#    {% set rp = item.rp|merge({hash: random(9999999)}) %}#}
+{#    {% set url = absolute_url(path('project_mobile', rp)) %}#}
+{#    <a href="{{ url }}" target="_blank" class="">#}
+{#        <img class="tour-image d-none d-lg-block"#}
+{#             {{ stimulus_controller('qr', {text: url}) }}#}
+{#        />#}
+{#        @app#}
+{#    </a>#}
+
+{#    <a href="{{ path('item_show', item.rp) }}">#}
+{#        ADMIN#}
+{#    </a>#}
+
+    <h1>{{ project.code }}/{{ item.code }}</h1>
+    {% set url = url('item_show', item.rp) %}
+    <a href="{{ url  }}">{{ item.inventoryNumber  }} <sup><small>#{{ item.id }}</small></sup></a>
+    <a href="{{ path('item_edit', item.rp) }}"><span class="fas fa-edit"></span> </a>
+    <a href="{{ path('item_tomb', item.rp) }}"><span class="fas fa-edit"></span>TOMB </a>
+
+    {% set _sc = 'recorder' %}
+
+
+<div {{ stimulus_controller(_sc, {
+    assetEndpoint: path(app.request.get('_route'), app.request.get('_route_params')|merge({_format: 'json'})),
+    filename: 'abc'}) }}>
+    <div class="app">
+    <h4>Record your audio here</h4>
+  <select name="" id="micSelect" {{ stimulus_target(_sc, 'micSelect') }}></select>
+
+  <select id="visSelect" {{ stimulus_target(_sc, 'visSelect') }}>
+    <option value="frequencybars">Bar</option>
+    <option value="sinewave">Wave</option>
+    <option value="circle">Circle</option>
+  </select>
+
+  <a id="download" {{ stimulus_target(_sc, 'download') }} hidden>Download</a>
+
+  <div class="audio-controls">
+    <button id="record" {{ stimulus_target(_sc, 'record') }}>Record</button>
+    <button id="stop" {{ stimulus_target(_sc, 'stop') }} disabled>Stop</button>
+     <button id="upload" disabled {{ stimulus_target(_sc, 'upload') }}>Upload</button>
+    <audio id="audio" {{ stimulus_target(_sc, 'audio') }} controls hidden></audio>
+  </div>
+
+  <div id="msg" {{ stimulus_target(_sc, 'msg') }}>Recording...</div>
+  <canvas {{ stimulus_target(_sc, 'canvas') }}  width="500" height="300"></canvas>
+  <hr>
+<div>
+
+
+    {#<span class="text-danger">Recorder moved, as it was grabbing the microphone</span>#}
+{% endblock body %}
+
+{% block recorder %}
+
+
+
+    {% endblock %}
+
+    {% block video %}
+        @v
+        <audio controls src="{{ asset.url }}"></audio>
+        {{ asset.url }} is a video! {{ asset.mimeType }}
+    {% endblock %}
+    {% block image %}
+{#        <a target="_blank" href="{{ asset.url }}">#}
+{#            {{ asset.url }}#}
+{#        </a>#}
+        {% set flysystemPath = asset.filename %}
+        {% for filter in filters|default(['tiny']) %}
+            {% set thumbUrl = flysystemPath | imagine_filter(filter)   %}
+
+            <figure class="figure">
+                <a href="{{ thumbUrl }}" target="_blank" title="{{ filter }} {{ flysystemPath }}">
+                    <img draggable="true" src="{{ thumbUrl }}" class="figure-img img-thumbnail img-fluid rounded" alt="{{ thumbUrl }}">
+                </a>
+                <figcaption class="figure-caption text-end">
+                    <b>
+                        {{ thumbUrl }}
+                    </b>
+                </figcaption>
+            </figure>
+        {% endfor %}
+    {% endblock %}
+    {% block audio %}
+        <audio controls src="{{ asset.url }}"></audio>
+    {% endblock %}
+
+    {% block old %}
+
+
+
+    <div class="grid-x grid-padding-x">
+        <div class="large-12 medium-12 small-12 cell">
+            <div id="single-song-player">
+                <img alt="cover art" data-amplitude-song-info="cover_art_url" />
+                <div class="bottom-container">
+                    <progress class="amplitude-song-played-progress" id="song-played-progress"></progress>
+
+                    <div class="time-container">
+              <span class="current-time">
+                <span class="amplitude-current-minutes"></span>:<span class="amplitude-current-seconds"></span>
+              </span>
+                        <span class="duration">
+                <span class="amplitude-duration-minutes"></span>:<span class="amplitude-duration-seconds"></span>
+              </span>
+                    </div>
+
+                    <div class="control-container">
+                        <div class="amplitude-play-pause" id="play-pause">
+                            <i id="play-button" class="fa fa-play-circle"></i> Play/Pause
+                        </div>
+                        <div class="meta-container">
+                            <span data-amplitude-song-info="name" class="song-name"></span>
+                            <span data-amplitude-song-info="artist"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-3 d-lg-block d-none d-print-block">
+            <img height="150" src="{{ qr_code_url(url) }}" />
+            <br />{{ 'inventory'|trans }}
+        </div>
+
+
+        <div class="col-md-6">
+            Path: <code>{{ item.assetRelativePath }}</code>
+            {{ item.assets.count }} Assets
+            {% include "item/_images.html.twig" with {item: item} %}
+            <div>
+                {{ item.transcript|markdown_to_html }}
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="item-description">
+                {{ item.description }}
+            </div>
+            <div class="item-location">
+                {{ item.location }}
+            </div>
+            {{ block('tourInfo') }}
+        </div>
+
+    </div>
+
+    <table class="table">
+        <tbody>
+        {% for var, val in item.attributes %}
+        <tr>
+            <td>{{ var }}</td>
+            <th>{{ val }}
+                <a href="{{ path('item_index', item.project.rp({attribute: var, value: val})) }}">
+                <span class="text-xs">
+                    Find Similar
+                </span>
+                </a>
+
+            </th>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td>Id</td>
+            <th>#{{ item.id }}</th>
+        </tr>
+        </tbody>
+    </table>
+
+{% endblock %}
+
+    {% block tourInfo %}
+        {% if item.stops.count %}
+            <h3>On Tour:</h3>
+            <ul>
+                {% for stop in item.stops %}
+                    {% set tour = stop.tour %}
+                    <li>
+                        <a href="{{ path('tour_show', tour.rp) }}">
+                            {{ tour.name }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% if false and  item.project.tours %}
+            <h3>Add To Tour:</h3>
+            {{ form_start(stopForm) }}
+            {{ form_rest(stopForm) }}
+            <input type="submit" value='Add To Tour' class="btn btn-primary" >
+            {{ form_end(stopForm) }}
+
+        {% endif %}
+    {% endblock %}

@@ -31,4 +31,7 @@ return [
     Survos\DeploymentBundle\SurvosDeploymentBundle::class => ['all' => true],
     Survos\StorageBundle\SurvosStorageBundle::class => ['all' => true],
     Knp\Bundle\TimeBundle\KnpTimeBundle::class => ['all' => true],
+    Nelmio\CorsBundle\NelmioCorsBundle::class => ['all' => true],
+    ApiPlatform\Symfony\Bundle\ApiPlatformBundle::class => ['all' => true],
+    Endroid\QrCodeBundle\EndroidQrCodeBundle::class => ['all' => true],
 ];

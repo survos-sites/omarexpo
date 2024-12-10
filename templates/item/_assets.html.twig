@@ -1,0 +1,30 @@
+{# caller needs to pass item.assets, stop.assets, etc. #}
+
+{% if assets %}
+    <ul>
+        {% for asset in assets %}
+            <li>
+
+                {% if asset.isText %}
+                    {% include "exhibit/_asset.html.twig" %}
+                {% elseif asset.isImage %}
+                    {% set imageUrl = upload_root ~ asset.path ~ '/' ~ asset.name %}
+
+                    <a target="_blank" href="{{ imageUrl }}">
+                        <img width="100" src="{{ imageUrl }}" />
+                    </a><br />                                {{ asset.name }}
+
+                {% elseif asset.isVideo %}
+                    <video width="320" height="240" controls>
+                        <source src="{{ asset.localUrl }}" type="{{ asset.mimeType }}">
+                        Your browser does not support the video tag.
+                    </video>
+                {% else %}
+                    <a href="{{ asset.localUrl }}" title="{{ asset.filepath }}">
+                        <span class="fas fa-download"></span>{{ asset.localUrl }}
+                    </a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}

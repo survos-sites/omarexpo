@@ -1,0 +1,52 @@
+
+<div class="table-responsive">
+
+<table class="table table-DataTable">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Actions</th>
+        <th>Images</th>
+        <th>Title</th>
+        <th>Collection</th>
+        <th>Location</th>
+        <th>InventoryNumber</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for item in items|slice(0, 50) %}
+        <tr>
+            <td>
+                <a href="{{ path('item_show', item.rp) }}">
+                    {{ item.id }}
+                </a>
+            </td>
+            <td>
+                <a href="{{ path('item_edit', item.rp) }}"><i class="fas fa-pencil"></i></a>
+            </td>
+
+            <td>
+                {% include "item/_images.html.twig" with {item: item} %}
+            </td>
+            <td><a href="{{ path('item_show', item.rp) }}">{{ item.title }}</a></td>
+            <td>
+                <a href="{{ path('collection_show', item.collection.rp({startRow: item.startRow})) }}">
+                    {{ item.collection.longCode }} <small>R:{{ item.startRow }}</small>
+                </a>
+            </td>
+            <td>
+                <a href="{{ path('location_show', item.location.rp) }}">{{ item.location.name }}</a>
+            </td>
+            <td>{{ item.inventoryNumber }}</td>
+            <td><div>{{ item.description }}</div> </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="9">no records found</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+</div>

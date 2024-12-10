@@ -35,6 +35,13 @@ class Item implements RouteParametersInterface, \Stringable
 {
     use RouteParametersTrait;
     use AttributesTrait;
+    const UNIQUE_PARAMETERS=['itemId' => 'code'];
+
+    public function getUniqueIdentifiers(): array
+    {
+        //
+        return $this->getProject()->getRp([ 'itemId' => $this->getCode()??'bad-code']);
+    }
 
         // icon: fas fa-vector-square # could also be a qr-code
 
@@ -204,6 +211,12 @@ class Item implements RouteParametersInterface, \Stringable
 
     #[ORM\Column(length: 255)]
     private ?string $label = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $size = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $year = null;
 
 
     public function __construct(string $code)
@@ -467,11 +480,6 @@ class Item implements RouteParametersInterface, \Stringable
         return $this;
     }
 
-    public function getUniqueIdentifiers(): array
-    {
-        //
-        return $this->getProject()->getRp([ 'itemId' => $this->getCode()??'bad-code']);
-    }
 
 
     function getPublicRP(?array $addlParams = [] ): array
@@ -729,6 +737,30 @@ class Item implements RouteParametersInterface, \Stringable
     public function setLabel(string $label): static
     {
         $this->label = $label;
+
+        return $this;
+    }
+
+    public function getSize(): ?string
+    {
+        return $this->size;
+    }
+
+    public function setSize(?string $size): static
+    {
+        $this->size = $size;
+
+        return $this;
+    }
+
+    public function getYear(): ?int
+    {
+        return $this->year;
+    }
+
+    public function setYear(?int $year): static
+    {
+        $this->year = $year;
 
         return $this;
     }

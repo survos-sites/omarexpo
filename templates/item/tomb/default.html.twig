@@ -1,0 +1,51 @@
+{% set core = i.core %}
+
+<div class="p-5 my-5 xbg-primary xxtext-white">
+    {#        <h1 class="label">{{ i.label }}</h1>#}
+    {#        <p class="description">{{ i.description }}</p>#}
+
+{#    {{ i.core.fieldCodes|join(' ') }}#}
+    <div>
+
+        {% for field in core.fields %}
+            {% if field.isDatabase %}
+                <code>{{ field.internalCode }}</code>
+                <div class="field {{ field.internalCode }}">
+                    <span class="value">
+                        {{ i.getFieldValue(field)  }}
+                    </span>
+                </div>
+
+            {% endif %}
+{#        {% for rel in ['mat','tec','pla','loc'] %}#}
+{#        {% set field = core.fieldByInternalCode(rel) %}#}
+        {% if field.isAttribute %}
+            {% set value = i.getFieldValue(field) %}
+            {% if value %}
+        <div class="field {{ field.attributeType }}">
+                <code><span class="text-muted">{{ field.label|default(field.code) }}</span> {{ field.attributeType }}</code>
+                <span class="value">
+                        {{ value  }}
+                    </span>
+        </div>
+            {% endif %}
+
+        {% elseif field.isRelation %}
+            {% set values = i.getFieldValue(field) %}
+            {% if values|length %}
+            <code>{{ field.relatedCoreCode }}</code>
+            <div class="field {{ field.relatedCoreCode }}">
+                {% for v in i.getFieldValue(field)  %}
+                    {{ v.rightInstance.label|default(v.rightInstance.code) }}
+                {% endfor %}
+            </div>
+            {% endif %}
+
+        {% endif %}
+        {% endfor %}
+
+    </div>
+
+</div>
+
+

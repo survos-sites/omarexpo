@@ -1,0 +1,81 @@
+{% extends "item/item_layout.html.twig" %}
+
+{% block title %}Edit Item (with Dropzone, etc.){% endblock %}
+{% form_theme attributesForm 'bootstrap_4_layout.html.twig' %}
+
+{% block content %}
+
+    {% set collection = item.collection %}
+    <main role="main">
+
+        <hr>
+        <div class="row">
+            <div class="col-sm-7">
+                <div class="row">
+                    <div class="col-6" style="background-color: lightcyan">
+                        {{ form_start(form) }}
+                        <h3>Core
+                            <button class="btn btn-primary float-right">{{ button_label|default('Save') }}</button>
+                        </h3>
+                        {{ form_row(form.title) }}
+                        {{ form_row(form.description) }}
+
+                        {{ form_row(form.location) }}
+                        {{ form_row(form.shortCode) }}
+                        {{ form_row(form.code) }}
+                        {{ form_rest(form) }}
+                        <button class="btn btn-primary float-right">{{ button_label|default('Save') }}</button>
+                        {{ form_end(form) }}
+                    </div>
+                    <div class="col-6" style="background-color: lightgoldenrodyellow">
+                        {{ form_start(attributesForm) }}
+                        <h3>Attributes
+                            <a href="{{ path('collection_edit', collection.rp) }}" class="btn btn-warning">{{ button_label|default('Configure Fields') }}</a>
+
+                            <button class="btn btn-primary float-right">{{ button_label|default('Save') }}</button>
+                        </h3>
+                        {{ form_rest(attributesForm) }}
+                        <button class="btn btn-primary float-right">{{ button_label|default('Save') }}</button>
+                        {{ form_end(attributesForm) }}
+                    </div>
+                    <hr />
+                </div>
+            </div>
+
+            <div class="col-sm-5">
+
+                {{ form_start(assetRequestForm, { 'attr': {'class': 'form-inline'} } ) }}
+                {{ form_rest((assetRequestForm)) }}
+                <input type="submit" value="{{ 'assetRequest.send'|trans }}" />
+                {{ form_end(assetRequestForm) }}
+                <hr />
+
+                {% for type in ['image', 'audio'] %}
+                    <h3>{{ type|title }}</h3>
+                    <ul class="list-group small js-reference-list js-{{ type }}-list" data-url="{{ path('admin_exhibit_list_media', item.rp({type:type}) ) }}"></ul>
+                    <hr>
+                    <form action="{{ path('admin_exhibit_add_media',
+                        item.rp({type:type})
+                    ) }}" method="POST"
+                          enctype="multipart/form-data"
+                          class="dropzone js-{{ type }}-dropzone">
+                        {# see https://www.dropzonejs.com/#config-dictDefaultMessage also, for translation #}
+                        <div class="dz-message" data-dz-message><span>{{ ('dropzone.'~type~'.message')|trans}}</span></div>
+                    </form>
+                {% endfor %}
+            </div>
+        </div>
+
+        {{ include('exhibit/_delete_form.html.twig') }}
+    </main>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {#
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js" integrity="sha256-cs4thShDfjkqFGk5s2Lxj35sgSRr4MRcyccmi0WKqCM=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.8.3/Sortable.min.js" integrity="sha256-uNITVqEk9HNQeW6mAAm2PJwFX2gN45l8a4yocqsFI6I=" crossorigin="anonymous"></script>
+    #}
+
+    {{ encore_entry_script_tags('admin_exhibit_form') }}
+{% endblock %}

@@ -1,0 +1,59 @@
+
+
+{#
+{% set path = uploaded_asset(image.filePath) %}
+{{  path }}<br />
+{% set path = image.filename %}
+{{  path }}<br />
+
+<img src="{{ path }}" alt="{{ image.filename }}" title="{{ path }}" width="100" />
+<br /><small><a href="{{ path }}" target="_blank"><span class="fas fa-external-link-alt"></span>{{ path }} </a></small>
+
+<code>
+    <br />MediaPath: {{ image.mediaPath }}
+    <br />MediaPath: {{ image.filename }}
+    <br />
+
+    {% set url =  image.filename|imagine_filter('small') %}
+    medium : {{ url }}
+
+    <hr />
+
+    <a href="{{  image.filename|imagine_filter('small') }}">
+        <img class="show-article-img" src="{{ image.filename|imagine_filter('small') }}">
+        <br />small
+
+    </a>
+    <br />
+</code>
+
+{# eventually get thumbnails working with liip ...
+#}
+<hr />
+{{ image.position }}
+{{ image.filename }}
+{{ image.originalFilename }}
+
+{% if image.isImage %}
+{% set thumbPath = image.filename|imagine_filter('tiny') %}
+<img src="{{ thumbPath }}"  alt="{{ thumbPath }}"/>
+
+    <h1>RAW</h1>
+    <img src="{{ image.filename }}"  alt="{{ image.filename }}"/>
+
+
+<br /><a href="{{ thumbPath }}" target="_blank">{{ thumbPath}}</a>
+
+{% elseif image.type == 'text' %}
+
+    <div class="transcript container">
+        <h3>{{ image.filename}}</h3>
+        <p class="collapse collapseExample" xid="collapseExample" id="transcript_{{ image.id }}" aria-expanded="false">
+    {{ image.text }}
+        </p>
+        <a role="button" class="collapsed" data-toggle="collapse" xhref="#collapseExample" href="#transcript_{{ image.id }}" aria-expanded="false" aria-controls=""transcript_{{ image.id }}"></a>
+    </div>
+
+    {% else %}
+    {{ image.type }} not really handled.
+{% endif %}

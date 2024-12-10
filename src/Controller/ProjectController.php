@@ -44,7 +44,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
-use Tchoulom\ViewCounterBundle\Counter\ViewCounter;
 
 #[Route('/{_locale}/admin')] // , name: 'admin')]
 //#[IsGranted('PROJECT_EDIT', 'project')]
@@ -459,7 +458,6 @@ class ProjectController extends AbstractController
                          Project                     $project,
                          AppService                  $appService,
                          EntityManagerInterface      $entityManager,
-                         ViewCounter                 $viewCounter,
                          #[MapQueryParameter] string $filterString = '',
     ): Response
     {
@@ -490,36 +488,9 @@ class ProjectController extends AbstractController
             }
 
         // copied from ItemController show, make a trait?
-        $asset = (new Asset())->setProject($project)->setRelatedClass(Asset::PROJECT_ASSET);
-        $form = $this->createForm(AssetFormType::class, $asset);
-//        foreach ($project->getAssets() as $asset) { dd($asset); }
-//        dd($project->getAssets()->count());
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->entityManager->persist($asset);
-            $this->entityManager->flush();
-            // if we wanted to send an email or something
-//            $this->sendToDataCollectors($form, $asset);
-
-            return $this->redirectToRoute('project_show', $project->getRP());
-        }
-
-        $filters = $filterString ? explode(',', $filterString) : [];
-        foreach ($filters as $filter) {
-            foreach ($project->getItems() as $item) {
-                foreach ($item->getAssets() as $asset) {
-                    $appService->setPaths($asset, explode(',', $filter));
-                }
-                $entityManager->flush();
-            }
-        }
 
         return $this->render('project/show.html.twig', [
             'project' => $project,
-            'form' => $form->createView(),
-            'roomRepo' => $entityManager->getRepository(ItemCollection::class),
-            'filters' => $filters
         ]);
     }
 

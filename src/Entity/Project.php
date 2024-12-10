@@ -38,6 +38,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[Vich\Uploadable]
 class Project extends SurvosBaseEntity
 {
+    const UNIQUE_PARAMETERS=['projectId' => 'code'];
 
 
     const PLACE_NEW = 'new';
@@ -351,12 +352,6 @@ class Project extends SurvosBaseEntity
     }
 
 
-    public function getUniqueIdentifiers(): array
-    {
-        return ['projectId' => $this->getCode()];
-        // return ['projectSlug' => $this->getCode()];
-    }
-    const UNIQUE_PARAMETERS=['projectId' => 'code'];
 
     /**
      * @return mixed

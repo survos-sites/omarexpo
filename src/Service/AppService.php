@@ -633,6 +633,8 @@ class AppService
 
         }
         $item
+            ->setSize($record[self::SIZE_COLUMN])
+            ->setYear($record['year'])
             ->setLabel($record[self::LABEL_COLUMN . ".{$locale}*"])
             ->setDescription($record['tecnica']);
         return $item;

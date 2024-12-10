@@ -1,0 +1,48 @@
+
+{#<div class="container col-lg-9" >#}
+    <div class="card-main-class ">
+        <div class="card-second-class">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div>
+                            <div class="display-6">{{ i.label }}
+                                <span class="text-muted float-end">{{ i.code }}</span>
+                            </div>
+
+                            <p class="text-muted">
+                                {{ i.description }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 ">
+                        <div class="container card-left-section">
+                            {% for field in ['title','autor','telefono','tecnia'] %}
+                                {% set fieldValue = attribute(data, field)|default(false) %}
+                                {% if fieldValue %}
+                                    <h4>
+                                        {{ field|trans(domain='messages') }}
+                                    </h4>
+                                    <span>
+                                        {{ fieldValue is iterable ? fieldValue|map(i => i.label|default(i.code))|join(',') : fieldValue }}
+                                    </span>
+                                {% endif %}
+
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card-footer-last-section">
+                            <div class=" container">
+                                <h2>{{ i.project.code }}</h2>
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{#</div>#}

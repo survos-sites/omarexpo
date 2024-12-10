@@ -1,0 +1,11 @@
+{% extends 'item/item_layout.html.twig' %}
+
+{% block title %}New Item{% endblock %}
+
+{% block body %}
+    {% set collection = item.collection %}
+    <h1>Create new Item in <a href="{{ path('collection_show', collection.rp) }}">{{ collection.name }}</a></h1>
+
+    {{ include('item/_form.html.twig') }}
+
+{% endblock %}

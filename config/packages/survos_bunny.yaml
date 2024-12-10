@@ -1,0 +1,5 @@
+survos_storage:
+  # this is generated automatically with bin/console storage:config <api-key>
+  api_key: '%env(STORAGE_API_KEY)%'
+  # set a default storage zone
+  storage_zone: ~

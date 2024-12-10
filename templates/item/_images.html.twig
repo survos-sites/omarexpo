@@ -1,0 +1,38 @@
+
+<ul class="list-group list-group-horizontal">
+
+    {% set images = item.images %}
+    {% for image in images %}
+        {% set imageUrl = image.uri %}
+
+        <li class="list-group-item">
+
+            {# @todo: fix this!!
+            {{ dump(image) }}
+            {{ dump(uploaded_asset(image.filename)) }}
+            #}
+
+            {% if tryThumbnails|default(true) %}
+
+                    {% set flysystemPath = image.uri %}
+                    {% for filter in ['medium','tiny'] %}
+                    {% set thumbUrl = flysystemPath | imagine_filter(filter)   %}
+                    <figure class="figure">
+                            <a href="{{ thumbUrl }}" target="_blank">
+                                    <img src="{{ thumbUrl }}" class="figure-img img-fluid rounded" alt="{{ thumbUrl }}">
+                            </a>
+                            <figcaption class="figure-caption text-end">{{ filter }}
+                                    <b>
+                                            {{ flysystemPath }}
+
+                                    </b>
+                            </figcaption>
+                    </figure>
+                    {% endfor %}
+
+            {% endif %}
+
+        </li>
+    {% endfor %}
+
+</ul>

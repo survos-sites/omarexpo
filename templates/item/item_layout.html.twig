@@ -1,0 +1,49 @@
+{% extends 'collection_base.html.twig' %}
+
+{#{% import "@SurvosBase/macros/cards.html.twig" as card_widget %}#}
+
+{% block header %}
+
+
+    {% set collection = item.collection %}
+    <h2><a href="{{ path('collection_show', collection.rp ) }}"><i class="{{ constant('ICON', collection) }}"></i> {{ collection.name  }} </a>
+        <br /><code class="text-xs">{{ collection.longCode }}</code>
+        Item: <a href="{{ path('item_show', item.rp) }}">{{ item.inventoryNumber }}: {{ item.title }}</a></h2>
+<small>{{ item.filename }}</small>
+
+    {#
+<a class="btn btn-primary" href="{{ path('item_edit', item.rp) }}">edit</a>
+<a class="btn btn-success" href="{{ path('item_player', item.rp) }}">Play</a>
+<a class="btn btn-success" href="{{ path('item_show', item.rp) }}">Show</a>
+<a class="btn btn-success" href="{{ path('item_pdf', item.rp) }}">PDF</a>
+<a class="btn btn-success" href="{{ path('amplitude_player', item.rp) }}">AmpJS</a>
+
+    <a class="btn btn-primary" href="{{ path('project_index', (
+    {_fragment: 'tour?#projectSlug=' ~ item.rp|url_encode}
+)) }} ">
+    <span class="fas fa-qrcode"></span>
+</a>
+<a class="btn btn-success" href="{{ path('item_recorder', item.rp) }}"><i class="fas fa-microphone"></i></a>
+    <br />
+    #}
+{% endblock %}
+
+{% block content %}
+
+    Add the item content to block 'content'.
+{% endblock %}
+
+{% block body %}
+
+{#    {{ dump(item) }}#}
+{#    {{ card_widget.pane({#}
+{#        content: block('header'),#}
+{#        id: item.inventoryNumber,#}
+{#        title: item.title,#}
+{#        collapsed: true#}
+{#    }#}
+{#    ) }}#}
+
+    {{ block('content') }}
+{% endblock %}
+

@@ -36,7 +36,7 @@ use Tchoulom\ViewCounterBundle\Counter\ViewCounter;
 /**
  * @IsGranted("ROLE_USER")
  */
-#[Route(path: '/{_locale}/{projectId}/item')]
+#[Route(path: '/item/')]
 class ItemController extends AbstractController
 {
     public function __construct(private EntityManagerInterface $em,
@@ -384,73 +384,15 @@ class ItemController extends AbstractController
     #[Route(path: '/show/{itemId}.{_format}', name: 'item_show', methods: ['GET', 'POST'], options: ['expose' => true])]
     public function itemShow(Request                     $request,
                              Item                        $item,
-                             ViewCounter $viewCounter,
                              #[MapQueryParameter] string $filterString = '',
     string $_format = 'html'
     ): Response
     {
 
-//        $item = $viewCounter->saveView($item);
-//        $itemViewCounter = $viewCounter->getViewCounter($item);
-//        $this->em->flush();
-//        $itemViewCounter->setViewDate()
-//        dd($itemViewCounter, $item->getViews());
-
-        // option to add to tour
-        $asset = (new Asset())->setItem($item)->setRelatedClass(Asset::ITEM_ASSET);
-        $form = $this->createForm(AssetFormType::class, $asset);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->em;
-            $entityManager->persist($asset);
-            $entityManager->flush();
-
-//            if ($_format === 'json')
-            {
-                // return the serialized item? Or just the asset?
-                return new JsonResponse($this->normalizer->normalize($item, 'array', ['groups' => ['item.read']]));
-            }
-
-            // if we wanted to send an email or something
-//            $this->sendToDataCollectors($form, $asset);
-
-            return $this->redirectToRoute('item_show', $item->getRP());
-        }
-
-        $filters = $filterString ? explode(',', $filterString):[];
-        foreach ($filters as $filter) {
-            foreach ($item->getAssets() as $asset) {
-                $this->appService->setPaths($asset, explode(',', $filter));
-                $this->em->flush();
-            }
-        }
-
         return $this->render('item/show.html.twig', [
             'item' => $item,
             'project' => $item->getProject(),
-            'filters' => $filters,
-            'form' => $form->createView(),
         ]);
-
-        $stopForm = $this->createForm(StopType::class, $stop);
-        $stopForm->handleRequest($request);
-        if ($stopForm->isSubmitted() && $stopForm->isValid()) {
-            $this->entityManager->persist($stop);
-            $this->entityManager->flush();
-            return $this->redirectToRoute('stop_show', $stop->getRP());
-        }
-
-        // return new Response(sprintf("<html><body>%s %s</body></html>", $item->getId(), $item->getproject()) );
-        $params = [
-            'project' => $item->getproject(),
-            'ancestors' => [], // @todo: tree? $this->collectionRepository->getPath($item->getCollection()),
-            'item' => $item,
-            'stopForm' => $stopForm->createView()
-        ];
-        return $this->render('item/show.html.twig', $params);
-
-        return $this->jsonResponse([], $request, 'html');
     }
 
     /**

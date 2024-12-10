@@ -1,0 +1,59 @@
+{# <div class="col-xl-6"> #}
+{#    <div class="card h-100 w-6in border-1 mb-4"> #}
+<div class="card">
+    <div class="card-header">
+
+        {#            {% set ref = i.get('_refcodes')[0]|default(false) %} #}
+        {#            {% if ref %} #}
+        {#                <span class="float-end img-thumbnail"> #}
+        {#                {% set url = projectImagePathRegex|format(i.project.owner.source, ref) %} #}
+        {#                <img width="100px" height="100px" src="{{ url|imagine_filter('small') }}" alt=""/> #}
+        {#                </span> #}
+        {#            {% endif %} #}
+
+        <span class="float-start">
+                {{ project.name }}
+            </span>
+
+        <span class=" text-secondary text-smaller">
+                &nbsp; {{ item.code }}
+            </span>
+
+        <h6 class="card-title float-end">{{ item.attributes.autor|default('') }}</h6>
+        <p class="card-subtitle text-muted mb-0"></p>
+    </div>
+    <div class="card-body">
+        <h1><i>
+                {{ item.attributes.title|default() }}
+            </i>
+        </h1>
+        <div>
+            <div class="float-end">
+
+                {% set url = absolute_url(path('project_mobile', item.rp)) %}
+                <a href="{{ url }}" target="_blank">
+                    <img class="img-thumbnail" src="{{ qr_code_url(url) }}"/>
+                </a>
+                <twig:ux:icon name="material-symbols:headphones-outline"/>
+
+                <br/>Audio #{{ item.id }}
+
+            </div>
+            <div>
+                {{ item.attributes.tecnica |default('') }}
+                <br/>{{ item.attributes.medidas|default('') }}
+                <br/>Año: {{ item.attributes.año|default('') }}
+            </div>
+            <p class="text-muted">
+                {{ item.description }}
+            </p>
+
+        </div>
+
+    </div>
+</div>
+
+{# </div><!-- end col --> #}
+
+
+
