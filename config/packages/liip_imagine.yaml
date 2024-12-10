@@ -1,4 +1,51 @@
-# Documentation on how to configure the bundle can be found at: https://symfony.com/doc/current/bundles/LiipImagineBundle/basic-usage.html
+# config/packages/liip_imagine.yamn
+
 liip_imagine:
-    # valid drivers options include "gd" or "gmagick" or "imagick"
-    driver: "imagick"
+    driver: imagick
+    twig:
+        mode: lazy
+    default_filter_set_settings:
+        format: webp
+        quality: 68
+
+    loaders:
+        flysystem_loader:
+            flysystem:
+                # this comes from flysystem.yaml
+                filesystem_service: default.storage
+
+    # default loader to use for all filter sets
+    data_loader: flysystem_loader
+    filter_sets:
+        auto_rotate: ~
+        large:
+            filters:
+                thumbnail:
+                    size:          [800, 800]
+                    allow_upscale: true
+                    mode: inset
+        medium:
+            filters:
+                thumbnail:
+                    size:          [400, 400]
+                    allow_upscale: true
+                    mode: inset
+        small:
+            filters:
+                thumbnail:
+                    size:          [200, 200]
+                    allow_upscale: true
+                    mode: inset
+
+        tiny:
+            filters:
+                thumbnail:
+                    size:          [120, 120]
+#                    allow_upscale: true
+                    mode: inset
+
+
+    controller:
+        filter_action:        'App\Controller\ImageController::filterAction'
+        filter_runtime_action:        'App\Controller\ImageController::filterRuntimeAction'
+        redirect_response_code: 302

@@ -31,4 +31,5 @@ return [
     Liip\ImagineBundle\LiipImagineBundle::class => ['all' => true],
     Inspector\Symfony\Bundle\InspectorBundle::class => ['all' => true],
     Survos\MobileBundle\SurvosMobileBundle::class => ['all' => true],
+    Survos\SimpleDatatables\SurvosSimpleDatatablesBundle::class => ['all' => true],
 ];

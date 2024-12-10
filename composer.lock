@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4b05ec618087b97394e821c0d329aba5",
+    "content-hash": "0770b2b4a0cb460ec184b1afcfc5f591",
     "packages": [
         {
             "name": "api-platform/doctrine-common",
@@ -6069,6 +6069,83 @@
             "time": "2024-12-03T18:19:36+00:00"
         },
         {
+            "name": "survos/simple-datatables-bundle",
+            "version": "1.5.424",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/survos/SurvosSimpleDatatablesBundle.git",
+                "reference": "288fd4c281bc7f139d057f157621609087d4a782"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/survos/SurvosSimpleDatatablesBundle/zipball/288fd4c281bc7f139d057f157621609087d4a782",
+                "reference": "288fd4c281bc7f139d057f157621609087d4a782",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.3",
+                "survos/core-bundle": "^1.5",
+                "symfony/config": "^6.4 || ^7.1",
+                "symfony/dependency-injection": "^6.4 || ^7.1",
+                "symfony/http-kernel": "^6.4 || ^7.1",
+                "symfony/options-resolver": "^6.4 || ^7.1",
+                "symfony/stimulus-bundle": "^2.21",
+                "symfony/ux-twig-component": "^2.8",
+                "twig/twig": "^3.4"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^2.0",
+                "phpunit/phpunit": "^11.4",
+                "rector/rector": "dev-main",
+                "roave/security-advisories": "dev-latest",
+                "symfony/browser-kit": "^6.4 || ^7.1",
+                "symfony/framework-bundle": "^6.4 || ^7.1",
+                "symfony/phpunit-bridge": "^6.4 || ^7.1",
+                "symfony/twig-bundle": "^6.4 || ^7.1",
+                "symfony/var-dumper": "^6.4 || ^7.1"
+            },
+            "suggest": {
+                "monolog/monolog": "Allows more advanced logging of the application flow"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.6-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Survos\\SimpleDatatables\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tac Tacelosky",
+                    "email": "tacman@gmail.com"
+                }
+            ],
+            "description": "incorporate simple datatables, using twig and stimulus",
+            "keywords": [
+                "symfony-ux",
+                "symfony6"
+            ],
+            "support": {
+                "issues": "https://github.com/survos/SurvosSimpleDatatablesBundle/issues",
+                "source": "https://github.com/survos/SurvosSimpleDatatablesBundle/tree/1.5.424"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/kbond",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-12-07T14:16:18+00:00"
+        },
+        {
             "name": "survos/storage-bundle",
             "version": "1.5.424",
             "source": {
@@ -12016,6 +12093,78 @@
                 }
             ],
             "time": "2024-11-20T13:19:52+00:00"
+        },
+        {
+            "name": "twig/markdown-extra",
+            "version": "v3.17.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twigphp/markdown-extra.git",
+                "reference": "76219b06e104a706879752e6e4d79f63ef7e9f23"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twigphp/markdown-extra/zipball/76219b06e104a706879752e6e4d79f63ef7e9f23",
+                "reference": "76219b06e104a706879752e6e4d79f63ef7e9f23",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0.2",
+                "symfony/deprecation-contracts": "^2.5|^3",
+                "twig/twig": "^3.13|^4.0"
+            },
+            "require-dev": {
+                "erusev/parsedown": "dev-master as 1.x-dev",
+                "league/commonmark": "^1.0|^2.0",
+                "league/html-to-markdown": "^4.8|^5.0",
+                "michelf/php-markdown": "^1.8|^2.0",
+                "symfony/phpunit-bridge": "^6.4|^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "Resources/functions.php"
+                ],
+                "psr-4": {
+                    "Twig\\Extra\\Markdown\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com",
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
+                }
+            ],
+            "description": "A Twig extension for Markdown",
+            "homepage": "https://twig.symfony.com",
+            "keywords": [
+                "html",
+                "markdown",
+                "twig"
+            ],
+            "support": {
+                "source": "https://github.com/twigphp/markdown-extra/tree/v3.17.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/twig/twig",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2024-12-02T08:57:02+00:00"
         },
         {
             "name": "twig/string-extra",

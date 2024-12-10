@@ -166,6 +166,9 @@
     "survos/mobile-bundle": {
         "version": "1.5.424"
     },
+    "survos/simple-datatables-bundle": {
+        "version": "1.5.424"
+    },
     "survos/storage-bundle": {
         "version": "1.5.424"
     },
