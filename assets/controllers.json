@@ -1,5 +1,40 @@
 {
     "controllers": {
+        "@survos/bootstrap-bundle": {
+            "search": {
+                "enabled": true,
+                "fetch": "lazy",
+                "autoimport": []
+            }
+        },
+        "@survos/js-twig-bundle": {
+            "dexie": {
+                "enabled": true,
+                "fetch": "lazy",
+                "autoimport": []
+            },
+            "jstwig": {
+                "enabled": true,
+                "fetch": "lazy",
+                "autoimport": []
+            }
+        },
+        "@survos/mobile-bundle": {
+            "mobile": {
+                "enabled": true,
+                "fetch": "lazy",
+                "autoimport": []
+            }
+        },
+        "@survos/simple-datatables-bundle": {
+            "table": {
+                "enabled": true,
+                "fetch": "lazy",
+                "autoimport": {
+                    "@survos/simple-datatables/style.css": true
+                }
+            }
+        },
         "@symfony/ux-turbo": {
             "turbo-core": {
                 "enabled": true,

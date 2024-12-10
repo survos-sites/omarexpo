@@ -25,4 +25,47 @@ return [
     '@hotwired/turbo' => [
         'version' => '7.3.0',
     ],
+    'twig' => [
+        'version' => '1.17.1',
+    ],
+    'locutus/php/strings/sprintf' => [
+        'version' => '2.0.16',
+    ],
+    'locutus/php/strings/vsprintf' => [
+        'version' => '2.0.16',
+    ],
+    'locutus/php/math/round' => [
+        'version' => '2.0.16',
+    ],
+    'locutus/php/math/max' => [
+        'version' => '2.0.16',
+    ],
+    'locutus/php/math/min' => [
+        'version' => '2.0.16',
+    ],
+    'locutus/php/strings/strip_tags' => [
+        'version' => '2.0.16',
+    ],
+    'locutus/php/datetime/strtotime' => [
+        'version' => '2.0.16',
+    ],
+    'locutus/php/datetime/date' => [
+        'version' => '2.0.16',
+    ],
+    'locutus/php/var/boolval' => [
+        'version' => '2.0.16',
+    ],
+    'dexie' => [
+        'version' => '4.0.10',
+    ],
+    '@survos-mobile/mobile' => [
+        'path' => './vendor/survos/mobile-bundle/assets/src/controllers/mobile_controller.js',
+    ],
+    'simple-datatables' => [
+        'version' => '9.2.1',
+    ],
+    'simple-datatables/dist/style.min.css' => [
+        'version' => '9.2.1',
+        'type' => 'css',
+    ],
 ];
