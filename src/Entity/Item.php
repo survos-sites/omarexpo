@@ -188,9 +188,6 @@ class Item implements RouteParametersInterface, \Stringable
     #[Groups(['item.read','item.write'])]
     private string $visibility;
 
-    #[ORM\Column(type: 'boolean', nullable: true)]
-    private $onTour;
-
     #[ORM\Column(type: 'string', length: 16)]
     private $shortCode;
 
@@ -201,21 +198,27 @@ class Item implements RouteParametersInterface, \Stringable
     private ?int $views = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['item.read'])]
     private ?string $audio = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['item.read'])]
     private ?string $video = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['item.read'])]
     private ?string $image = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['item.read'])]
     private ?string $label = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['item.read'])]
     private ?string $size = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['item.read'])]
     private ?int $year = null;
 
 
@@ -437,37 +440,6 @@ class Item implements RouteParametersInterface, \Stringable
         return $this->getByType(Asset::ASSET_TEXT);
     }
 
-    /**
-     * @return Collection|Asset[]
-     */
-    public function getAudios()
-    {
-        return $this->getByType(Asset::ASSET_AUDIO);
-    }
-
-    public function addAsset(Asset $image): self
-    {
-        if (!$this->assets->contains($image)) {
-            $this->assets[] = $image;
-            $image->setItem($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAsset(Asset $image): self
-    {
-        if ($this->assets->contains($image)) {
-            $this->assets->removeElement($image);
-            // set the owning side to null (unless already changed)
-            if ($image->getItem() === $this) {
-                $image->setItem(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getSectionTitle(): ?string
     {
         return $this->sectionTitle;
@@ -637,41 +609,6 @@ class Item implements RouteParametersInterface, \Stringable
     }
 
 
-    public function getAssetRelativePath(): ?string
-    {
-        return $this->assetRelativePath;
-    }
-
-    public function setAssetRelativePath(?string $assetRelativePath): self
-    {
-        $this->assetRelativePath = $assetRelativePath;
-
-        return $this;
-    }
-
-    #[Groups(['item.read'])]
-    public function getItemImageUri(): ?string
-    {
-        foreach ($this->getAssets() as $asset) {
-           if ($asset->isImage()) {
-               return $asset->getUri();
-           }
-        }
-        return null;
-
-    }
-    #[Groups(['item.read'])]
-    public function getAudioUri(): ?string
-    {
-        foreach ($this->getAssets() as $asset) {
-            if (!$asset->isImage()) {
-                return $asset->getUrl();
-            }
-        }
-        return null;
-
-    }
-
     public function getViews(): ?int
     {
         return $this->views;
@@ -685,13 +622,6 @@ class Item implements RouteParametersInterface, \Stringable
     }
 
 
-    /**
-     * @return Collection<int, Asset>
-     */
-    public function getAssets(): Collection
-    {
-        return $this->assets;
-    }
 
     public function getAudio(): ?string
     {

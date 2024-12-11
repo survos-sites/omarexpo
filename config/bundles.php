@@ -32,4 +32,7 @@ return [
     Inspector\Symfony\Bundle\InspectorBundle::class => ['all' => true],
     Survos\MobileBundle\SurvosMobileBundle::class => ['all' => true],
     Survos\SimpleDatatables\SurvosSimpleDatatablesBundle::class => ['all' => true],
+    SpomkyLabs\PwaBundle\SpomkyLabsPwaBundle::class => ['all' => true],
+    Survos\Bundle\MakerBundle\SurvosMakerBundle::class => ['dev' => true, 'test' => true],
+    FOS\JsRoutingBundle\FOSJsRoutingBundle::class => ['all' => true],
 ];

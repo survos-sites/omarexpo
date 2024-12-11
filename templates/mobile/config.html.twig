@@ -1,0 +1,81 @@
+{% extends '@SurvosMobile/onsPage.html.twig' %}
+{% block pageId 'config' %} {# could get this from _self! #}
+{% block body %}
+
+        <ons-list {{ stimulus_controller('app') }}>
+            <ons-list-header>{{ 'settings'|trans }}</ons-list-header>
+            {# click?  or change?   #}
+            <ons-list-item {{ stimulus_action('app', 'auto', 'click') }}>
+                <label class="center" for="switch1" >
+                    {{ 'auto-play'|trans }}<span id="switch-status">&nbsp;(on)</span>
+                </label>
+                <div class="right">
+                    <ons-switch id="model-switch" input-id="switch1" checked="true"></ons-switch>
+                </div>
+            </ons-list-item>
+
+            {# use ons-select for a dropdown list, see kitchen-sink #}
+
+            <ons-list-header>{{ 'language'|trans }}</ons-list-header>
+            {% for supportedLocale in app.enabled_locales %}
+
+            <ons-list-item tappable>
+                <label class="left">
+                    <ons-radio class="radio-fruit" input-id="radio-0" value="Apples"></ons-radio>
+                </label>
+                <label for="radio-0" class="center">{{ supportedLocale }}</label>
+            </ons-list-item>
+            {% endfor %}
+
+            <ons-list-item>
+                <div class="center">
+                    Some translations are automatically generated.
+                </div>
+            </ons-list-item>
+
+            <ons-list-header>Collections -
+                <span id="checkboxes-header">Audio Tours</span>
+            </ons-list-header>
+            {% for project in projects %}
+                <ons-list-item tappable>
+                    <label class="left">
+                        <ons-checkbox class="checkbox-color" value="{{ project.id }}"></ons-checkbox>
+                    </label>
+                    <label class="center" for="checkbox-0">
+                        {{ project.name }}
+                    </label>
+                </ons-list-item>
+
+            {% endfor %}
+
+            <ons-list-header>Range slider</ons-list-header>
+            <ons-list-item>
+                {# language learners way want a slower version #}
+                Adjust the playback speed:
+                <ons-row>
+                    <ons-col width="40px" style="text-align: center; line-height: 31px;">
+                        <ons-icon icon="md-volume-down"></ons-icon>
+                    </ons-col>
+                    <ons-col>
+                        <ons-range id="range-slider" value="25" style="width: 100%;"></ons-range>
+                    </ons-col>
+                    <ons-col width="40px" style="text-align: center; line-height: 31px;">
+                        <ons-icon icon="md-volume-up"></ons-icon>
+                    </ons-col>
+                </ons-row>
+                Volume:<span id="volume-value">&nbsp;25</span> <span id="careful-message" style="display: none">&nbsp;(careful, that's loud)</span>
+            </ons-list-item>
+        </ons-list>
+
+
+        <style>
+            .right-icon {
+                margin-left: 10px;
+            }
+
+            .right-label {
+                color: #666;
+            }
+        </style>
+
+{% endblock %}

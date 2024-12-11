@@ -1,0 +1,55 @@
+{% extends "@SurvosMobile/onsPage.html.twig" %}
+{% set onsMeta = ons_metadata(_self, 'tab') %}
+{% block pageId 'items' %}
+
+{% block body %}
+
+{% set globals = {a: 'b'} %}
+{% set store = 'items' %}
+
+    <a href="{{ path('app_landing') }}">LANDING</a>
+
+    <twig:dexie
+        refreshEvent="items.prechange"
+        :store="store"
+        :globals="globals"
+        :filter="{}"
+        :caller="_self">
+        <twig:block name="twig_template" id="end_of_template">
+            <ons-list>
+                {% for row in rows %}
+                    <ons-list-item tappable
+
+                            {{ stimulus_action('app','open_page','click', {
+                                page: 'player',
+                                store: 'items',
+                                id: row.id
+                            }) }}
+                    >
+                        <label class="left">
+                            {% set thumb = '/media/cache/small/%s/%s'|format(row.code, row.image) %}
+                            <a href="{{ thumb }}">
+                                <img style="max-height: 100px" src="{{ thumb }}" alt="{{ thumb }}"/>
+                            </a>
+
+{#                            <ons-radio name="itemId" input-id="{{ row.code }}" checked></ons-radio>#}
+                        </label>
+                        <label for="{{ row.code }}" class="center">
+
+                            <h3>
+                                {{ row.label }}
+                            </h3>
+
+                            <span style="font-size: 8px">{{ row.id }}/</span>
+                            {{ row.year }}
+{#                            {{ row.description }}#}
+                        </label>
+                    </ons-list-item>
+                {% endfor %}
+            </ons-list>
+            <!-- end_of_template -->
+        </twig:block>
+
+    </twig:dexie>
+
+{% endblock %}

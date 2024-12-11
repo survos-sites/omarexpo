@@ -1,0 +1,118 @@
+{% extends "@SurvosMobile/onsPage.html.twig" %}
+
+{% block tabId 'tours' %}
+{% block pageController 'tours' %}
+{% block body %}
+    {% set _app_sc = 'app' %}
+
+    {% set store = 'tours' %}
+    {% set stimulusSettings = stimulus_action(_app_sc, 'player', 'click',
+        {
+            page: 'player',
+            store: store,
+            id: '@id'
+        }
+    ).toArray %}
+
+    {% set globals = {
+        stimulusSettings: stimulusSettings
+    } %}
+
+
+    <ons-list {{ stimulus_controller('tour',
+        controllerOutlets = { 'app': '#app' }) }}>
+            <twig:dexie
+                    refreshEvent="tours.prechange"
+                    :store="store"
+                    :globals="globals"
+                    :filter="{}"
+                    :caller="_self">
+
+            <twig:block name="twig_template" id="literal">
+                {% for row in rows %}
+                    <ons-list-item tappable {{ stimulus_action('app', 'player', 'click',
+                        {
+                            page: 'player',
+                            store: 'tours',
+                            id: row.id
+                        }) }}>
+                        <div class="left" style="width: 140px">
+{#                            <a >#}
+                            <div class="user">
+                                {% set thumb = false %}
+                                {% for asset in row.assets %}
+                                    {% if asset.thumbnails['tiny']|default(false) %}
+                                    {% set thumb = asset.thumbnails['tiny'] %}
+                                    {% endif %}
+                                {% endfor %}
+                                {% if thumb %}
+                                <img alt="{{ thumb }}" class="float-start tour-image"
+                                     style="margin-right: 12px"
+                                     src="{{ thumb }}" />
+                                {% endif %}
+
+                            </div>
+{#                            </a>#}
+
+{#                            <a data-action="app->tour#click"#}
+{#                               data-app-id-param="{{ row.id }}">#}
+
+{#                                <img alt="{{ row.itemImageUri }}" src="/media/cache/tiny/{{ row.itemImageUri }}"/>#}
+{#                                <br/>#}
+
+{#                            </a>#}
+                            {#                                <img class="thumbnail" ng-src="{{ video.thumbnail }}"> #}
+                        </div>
+                        <div class="center">
+                            <div class="title">
+                                <h3>
+                                    <ons-icon icon="fa-headphones"></ons-icon>
+                                    <span style ="font-size: 16px">{{ row.orderIdx }}</span>
+
+                                    {#                                <span style="font-size: 8px">{{ row.projectId }}/</span>#}
+
+                                    {# get the first asset #}
+
+                                    {#  there's probably a better way to add the margin #}
+{#                                    {% if row.itemImageUri %}#}
+{#                                        <b>{{ row.itemImageUri }}</b>#}
+{#                                        <b>{{ row.filename }}</b>#}
+{#                                        {% set thumb = row.thumbnails.tiny %}#}
+{#                                        <b>{{ thumb }}</b>#}
+{#                                    <img alt="{{ thumb }}" class="float-start" style="margin-right: 12px"#}
+{#                                         src="{{ thumb}} }}" />#}
+{#                                    {% endif %}#}
+                                    <span class="m-2 desc">
+                                    {{ row.title }}
+                                    {{ row.name }}
+                                    </span>
+                                </h3>
+                            </div>
+                            <div class="desc">
+{#                                <img alt="{{ data.itemImageUri }}"#}
+{#                                     src="/media/cache/tiny/{{ data.itemImageUri }}" />#}
+
+                                <span class="m-2">
+                                {{ row.description }}
+                                </span>
+{#                                open player for {{ row.id }}#}
+{#                                Image: {{ row.itemImageUri }}#}
+                            </div>
+
+{#                            <div>#}
+
+{#                                <audio controls>#}
+{#                                    <source src="{{ row.audioUri }}" type="audio/mpeg">#}
+{#                                </audio>#}
+
+{#                            </div>#}
+                        </div>
+                    </ons-list-item>
+                {% endfor %}
+                <!-- literal -->
+            </twig:block>
+
+        </twig:dexie>
+    </ons-list>
+
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends '@SurvosMobile/onsPage.html.twig' %}
+
+{% block pageId 'about' %}
+{#{% block pageTitle 'About' %}#}
+{#{% block toolbar %}#}
+{#    {{ parent() }}#}
+{#    #}{#  need a better way for the title #}
+{#    <div class="center">About</div>#}
+{#{% endblock %}#}
+
+{% block body %}
+    <p>
+        Voxitour is a project of museado.
+    </p>
+    <div>
+        Github Repo: __<br />
+
+    </div>
+    <p>
+        This page does <b>NOT</b> have the tabs at the bottom.  Use the back arrow above
+        to navigate to the previous page.
+    </p>
+
+    {{ block('x') }}
+{% endblock %}
+
+{% block x %}
+Modifiers
+A modifier is a cross-component way to provide customizability for Onsen UI components in the shape of custom attributes. When a component is defined with a modifier, it will have a separate class namespace so that you can apply custom styles to the component. Some components have several easy-to-use preset modifiers to change the appearance.
+
+For example, each of the following buttons has a different look. To change modifiers dynamically, please manipulate modifier attribute from JavaScript.
+
+<ons-button modifier="quiet">Quiet</ons-button>
+<ons-button modifier="light">Light</ons-button>
+<ons-button modifier="large">Large</ons-button>
+<ons-button modifier="cta">Call To Action</ons-button>
+<ons-button modifier="material">Material Design</ons-button>
+For further information, please have a look at this article.
+
+Cross Platform Styling (Autostyling)
+Onsen UI components are automatically styled depending on the platform where the app runs. You can easily test this feature with your browser Dev Tools by switching between iOS and Android views or by appending ?platform=android or ?platform=ios as a query string to the URL.
+
+Automatic styling simply applies modifier="material" to the components when ons.platform.isAndroid() is true. You can disable this feature by running ons.disableAutoStyling() right after including onsenui.js (i.e. before the app is initialized). If you disable it you may need to manually specify modifier="material" in every component you want to display with Material Design. You can also specify disable-auto-styling attribute in specific components that you don’t want to auto style.
+
+Some tools are provided to give a more accurate customization.
+
+Platform utilities
+ons.platform object is available with methods such as ons.platform.isIOS(), ons.platform.isWebView(), etc.
+
+You can set a platform with ons.platform.select('android'), for example, in order to display Material Design on every platform. This must be called before the app is initialized (right after including onsenui.js).
+
+Conditional element
+A conditional element called ons-if is available to filter content depending on the platform or orientation.
+
+<ons-if> component is not available for React and Vue bindings.
+
+    <ons-if platform="android">
+        This is Android
+    </ons-if>
+    <ons-if platform="ios other">
+        This is NOT Android
+    </ons-if>
+    With this, for example, you can display
+    {% endblock %}

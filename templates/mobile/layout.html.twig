@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+    {#        <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">#}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/onsenui@2.12.8/css/onsenui.min.css">
+        {#            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/onsenui@2.12.8/css/onsenui-core.min.css">#}
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/onsenui@2.12.8/css/onsen-css-components.min.css">
+
+    {% endblock %}
+
+    {% block javascripts %}
+        {% block importmap %}{{ importmap('app') }}{% endblock %}
+    {% endblock %}
+    {{ pwa() }}
+</head>
+
+{#    {% set _appController = 'app' %}#}
+{# app_controller handles navigation #}
+<body class="app" {{ stimulus_controller('@survos-mobile/mobile') }} >
+{% block body %}{% endblock %}
+</body>
+</html>

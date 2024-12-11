@@ -156,7 +156,9 @@
                 </td>
                 <td>
                     {% if project.items.count %}
+                        QR code
                         {% set itemUrl = url('item_redirect', project.items[0].rp ) %}
+                        {{ itemUrl }}
                         <a href="{{ itemUrl }}">
                             <img alt="{{ itemUrl }}" title="{{ itemUrl }}"
                                     {{ stimulus_controller('qr', {text: itemUrl}) }}

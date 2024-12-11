@@ -14,8 +14,14 @@ class OnsenController extends AbstractController
     #[Route('/{_locale}/mobile/start', name: 'project_mobile', options: ['expose' => true], methods: ['GET'])]
     public function mobile(Request $request, ProjectRepository $projectRepository): Response
     {
-        foreach (['player','projects','tours','gallery','blank','share','credits', 'config','login'] as $route) {
-            $templates[$route] = $this->renderView("mobile/$route.html.twig", [
+        foreach ([
+                     'tab/items',
+                     'tab/share',
+            'player',
+                     'tours','gallery','blank',
+                     'credits', 'config','login'] as $route) {
+            $templates[$route] =
+                $this->renderView("mobile/$route.html.twig", [
                 'debug' => $request->get('debug', false),
                 'projects' => $projectRepository->findAll(),
             ]);

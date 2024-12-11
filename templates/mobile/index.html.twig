@@ -1,0 +1,50 @@
+{% extends "@SurvosMobile/base.html.twig" %}
+
+{% block templates %}
+    {% for code, template in templates|default([]) %}
+        <template id="{{ code }}">
+            {{ template|raw }}
+        </template>
+    {% endfor %}
+{% endblock %}
+
+  {% block body %}
+      {{ block('templates') }}
+
+      <ons-splitter>
+          <!-- The side menu -->
+          <ons-splitter-side
+                  label="menu"
+                  icon="users"
+                  id="menu" collapse {{ stimulus_target('app','menu') }}>
+              <ons-page>
+                  <ons-list>
+                      {{ component('mobile_menu', {type: MOBILE_PAGE_MENU, caller: _self}) }}
+                  </ons-list>
+
+                  <ons-list-item {{ stimulus_action('app', 'clear', 'click') }}>
+                      Clear local storage
+                  </ons-list-item>
+                  <ons-list-item {{ stimulus_action('app', 'close', 'click') }}>
+                      Close/Exit
+                  </ons-list-item>
+                  </ons-list>
+              </ons-page>
+          </ons-splitter-side>
+
+          <!-- Everything not in the side menu -->
+          <ons-splitter-content>
+              <!-- https://onsen.io/v2/api/js/ons-navigator.html -->
+              <!-- navigates pages, not tabs -->
+              <ons-navigator
+                      id="navigator"
+                      {{ stimulus_target(_app_sc, 'navigator') }}
+                      page="home"
+              > <!-- the starting page -->
+
+              </ons-navigator>
+          </ons-splitter-content>
+      </ons-splitter>
+
+
+  {% endblock %}

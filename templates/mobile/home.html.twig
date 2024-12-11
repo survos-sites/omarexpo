@@ -1,0 +1,30 @@
+{#  this is really the shell, not sure why it can't be combined with index #}
+
+{% extends '@SurvosMobile/onsPage.html.twig' %}
+{% block pageId 'home' %}
+{% block toolbar '' %} {# otherwise, a blank space at the top... #}
+
+{% block body %}
+    <ons-toolbar id="home-toolbar">
+        <div {{ stimulus_target('app','title') }} class="center">
+            Voxitour
+            {% if project is defined %}
+            <span {{ stimulus_controller('dexie', {store: 'projects', id: project.id} ) }}>
+                {{ project.name }}
+            </span>
+            {% endif %}
+        </div>
+
+        {# this dropdown menu icon, click to open #}
+        <div class="left">
+            <ons-toolbar-button {{ stimulus_action('app','openMenu', 'click') }}>
+                <ons-icon icon="md-menu"></ons-icon>
+            </ons-toolbar-button>
+        </div>
+    </ons-toolbar>
+
+    <ons-tabbar id="tabbar" {{ stimulus_target('app','tabbar') }}>
+        {{ component('mobile_menu', {type: MOBILE_TAB_MENU, caller: _self}) }}
+    </ons-tabbar>
+
+{% endblock %}

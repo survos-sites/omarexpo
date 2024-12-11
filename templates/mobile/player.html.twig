@@ -1,0 +1,167 @@
+{% extends "@SurvosMobile/onsPage.html.twig" %}
+{% set onsMeta = ons_metadata(_self, 'page') %}
+
+{# https://github.com/feross/yt-player @todo https://www.npmjs.com/package/yt-player #}
+{% block pageId 'player' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        img {
+            width: 100%;
+            height: auto;
+        }
+
+        button .audio {
+            height: 200px;
+            width: auto;
+        }
+
+    </style>
+{% endblock %}
+{% block body %}
+
+
+    {# someday when we have a recorder #}
+    {#    <input type="file" accept="audio/*" capture /> #}
+
+    {#    <style> #}
+    {#        audio { #}
+    {#            position: relative; #}
+    {#            right: -600px; #}
+    {#            transform: scale(3, 3); #}
+    {#        } #}
+
+    {#    </style> #}
+
+
+{% set store = 'items' %}
+    {% set globals = {
+        template: _self,
+        isAdmin: is_granted('ROLE_ADMIN')
+    } %}
+    {# @todo: it looks for a key for database lookup, but the key from the the page params. #}
+    <twig:dexie
+            :store="store"
+            :globals="globals"
+            :templateId="onsMeta.templateId"
+            refreshEvent="player.postpush"
+            :filter="{}"
+            key="id"
+            :caller="_self">
+        <twig:block name="title">
+            {{ data.id }} title
+        </twig:block>
+        <twig:block name="twig_template" id="player_template">
+            <h1>{{ data.label|default('undefined') }}</h1>
+
+            <p>{{ data.description }}</p>
+                        <div class="center align-content-center">
+                            {% set url = data.audio %}
+                            {% set _sc = 'audio' %}
+                            <div
+{#                                    style="display: none" #}
+                                    {{ stimulus_controller(_sc, {
+                                startingTrack: asset.url
+                            }) }}>
+                                <button class="audio"
+                                        {{ stimulus_action(_sc, 'toggle') }}
+                                        type="button" title="Play / Pause"
+                                >
+                                    <div class="play">
+                                        <span {{ stimulus_target(_sc, 'play') }} class="bi bi-play fs-4"></span>
+                                        Play
+                                        <span {{ stimulus_target(_sc, 'stop') }} class="bi bi-pause-btn fs-4"></span>
+                                        Stop
+                                    </div>
+                                </button>
+                                <audio {{ stimulus_target(_sc, 'audio') }}
+                                        crossorigin="use-credentials"
+                                        preload="auto" loop>
+                                </audio>
+                            </div>
+
+                            OLD audio
+
+                            <figure>
+                                <audio title="{{ asset.url }}" controls src="{{ asset.url }}"></audio>
+                            </figure>
+                        </div>
+
+                        {% set image = row.image %}
+                            {{ image }}
+{#                        <img alt="{{ image }}" title="{{ image }}" class="center img align-content-center"#}
+{#                             style="height:auto; min-width: 300px" src="{{ image }}"/>#}
+            {#        <audio src="{{ data.audioUri }}"></audio> #}
+            <div>
+                {{ data.transcript }}
+            </div>
+
+
+            {% if globals.isAdmin|default(true) %}
+                <a target="_blank" href="{{ path('item_show', data.rp) }}" class="btn btn-danger">ADMIN</a>
+                <a href="{{ path('asset_new', data.rp) }}">
+                    ADD ASSET
+                </a>
+            {% endif %}
+
+            <div>
+                <table class="table">
+                    <tbody>
+                    {% for var, val in data.attributes %}
+                        {% if val %}
+                            <tr>
+                                <td>{{ var }}</td>
+                                <th>{{ val }}
+                                </th>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                    <tr>
+                        <td>Id</td>
+                        <th>#{{ item.id }}</th>
+                    </tr>
+                    </tbody>
+                </table>
+                {% if globals.isAdmin %}
+
+                <h3>{{ data.assets|length }} Assets</h3>
+                <ol>
+                    {% for asset in data.assets %}
+                        <li>{{ asset.filename }}
+                            <ol>
+                                {% for filter, url in asset.thumbnails %}
+                                    <li>{{ filter }}: {{ url }}</li>
+                                {% endfor %}
+                            </ol>
+                        </li>
+                    {% endfor %}
+                </ol>
+                {% endif %}
+
+            </div>
+
+            {# wrong place to check debug! template rendered earlier #}
+            {% if debug|default(false) %}
+
+                <h3>{{ data.assets|length }}</h3>
+                <ol>
+
+                    {% for asset in data.assets %}
+                        <li>
+                            <a target="_blank" href="{{ asset.url }}">
+                                {{ asset.url }}
+                            </a>
+
+                        </li>
+                    {% endfor %}
+                </ol>
+                {% for var, val in data %}
+                    <li>{{ var }}: {{ val|json_encode }}</li>
+                {% endfor %}
+            {% endif %}
+
+            <!-- player_template -->
+        </twig:block>
+    </twig:dexie>
+
+{% endblock %}

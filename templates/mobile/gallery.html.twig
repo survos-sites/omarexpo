@@ -1,0 +1,45 @@
+{% extends "@SurvosMobile/onsPage.html.twig" %}
+
+{% block pageId 'gallery' %}
+{#{% block toolbar %}#}
+{#    {{ parent() }}#}
+{#    <div class="center">Gallery</div>#}
+{#{% endblock %}#}
+{% block body %}
+
+    <div {{ stimulus_controller('gallery', {activeIndex: 2},
+        controllerOutlets = { 'app': '#app' }) }}
+    >
+        {{ _self }}
+        rendering dexie with tours to a carousel
+    <twig:dexie
+            store="tours"
+            :caller="_self"
+    >
+        <!-- this is the twig template.  It will be rendered here and replace this block -->
+        <twig:block name="twig_template">
+            <ons-carousel id="carousel" {{ stimulus_target('gallery', 'carousel') }} fullscreen swipeable auto-scroll auto-scroll-ratio="0.1">
+                {% for row in rows %}
+                    {# we could also pass the id and then look it up again, but not necessary. Or pass the whole object #}
+                    <ons-carousel-item data-title="{{ row.title  }}">
+                        <ons-card>
+                            <h2>{{ row.title }}</h2>
+                            <div>
+                                {{ row.itemImageUri }}
+{#                                <img src="/media/cache/tiny/{{ row.itemImageUri }}" />#}
+                            </div>
+                            <div class="showdown">
+                                {{ row.transcript }}
+                            </div>
+                        </ons-card>
+                    </ons-carousel-item>
+                {% endfor %}
+            </ons-carousel>
+
+        </twig:block>
+    </twig:dexie>
+
+    </div>
+
+
+{% endblock %}

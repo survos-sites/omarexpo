@@ -1,0 +1,60 @@
+{% extends "@SurvosMobile/onsPage.html.twig" %}
+
+{% block pageId 'share' %}
+{# since share is a tab page, it's not necessary to change the header, like a menu page #}
+{% block toolbar %}
+{#    {{ parent() }}#} {#  this will add the back button #}
+{% endblock %}
+{% block body %}
+
+{#    {% set url = absolute_url(path('project_mobile')) %}#}
+{#    <img src="{{ qr_code_url(url) }}" />#}
+{#    <br />{{ url }}#}
+{% set globals = {
+    _locale: app.request.locale,
+    host: app.request.schemeAndHttpHost
+} %}
+<twig:dexie
+        store="projects"
+        refreshEvent="dexie.share"
+        :globals="globals"
+        :caller="_self"
+>
+    <twig:block name="title" data-id="xxy">
+         {{ data.name }}
+    </twig:block>
+    <twig:block name="twig_template" id="share_template">
+        <h1>{{ data.name }}</h1>
+        {% set rp = data.rp %}
+        {% set rp = rp|merge({_locale: globals._locale}) %}
+{#        {% set rp = data.rp|merge({_locale: app.request.locale}) %}#}
+        {% set url = globals.host ~ path('project_mobile', rp)  %}
+        <div {{ stimulus_controller('qr', {text: url}) }}>
+            <img {{ stimulus_target('qr', 'img') }} />
+            <br />{{ url }}
+        </div>
+        <div>
+            {{ data.description }}
+        </div>
+        <!-- share_template -->
+    </twig:block>
+
+</twig:dexie>
+
+    {#        <h1>{{ data.title|default('undefined') }}</h1>#}
+    {#        <div {{ stimulus_controller('qr', {text: project.id) class="qr"></div>#}
+
+
+{#    <twig:PwaInstall>#}
+{#        <twig:block name="launch">#}
+{#            <button class="btn btn-outline-success">#}
+{#                Launch button here...#}
+{#            </button>#}
+{#        </twig:block>#}
+{#        <twig:block name="install">#}
+{#            <i class="bi bi-download"></i>#}
+{#            Install#}
+{#        </twig:block>#}
+{#    </twig:PwaInstall>#}
+
+{% endblock %}

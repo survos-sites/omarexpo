@@ -1,5 +1,8 @@
 twig:
     file_name_pattern: '*.twig'
+    globals:
+        _app_sc: app
+        site_name: 'VoxiTour'
 
 when@test:
     twig:

@@ -1,5 +1,23 @@
 {
     "controllers": {
+        "@spomky-labs/pwa-bundle": {
+            "connection-status": {
+                "enabled": true,
+                "fetch": "eager"
+            },
+            "backgroundsync-form": {
+                "enabled": true,
+                "fetch": "eager"
+            },
+            "sync-broadcast": {
+                "enabled": true,
+                "fetch": "eager"
+            },
+            "prefetch-on-demand": {
+                "enabled": true,
+                "fetch": "eager"
+            }
+        },
         "@survos/bootstrap-bundle": {
             "search": {
                 "enabled": true,
