@@ -221,6 +221,12 @@ class Item implements RouteParametersInterface, \Stringable
     #[Groups(['item.read'])]
     private ?int $year = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?array $imageUrls = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $audioUrl = null;
+
 
     public function __construct(string $code)
     {
@@ -691,6 +697,30 @@ class Item implements RouteParametersInterface, \Stringable
     public function setYear(?int $year): static
     {
         $this->year = $year;
+
+        return $this;
+    }
+
+    public function getImageUrls(): ?array
+    {
+        return $this->imageUrls;
+    }
+
+    public function setImageUrls(?array $imageUrls): static
+    {
+        $this->imageUrls = $imageUrls;
+
+        return $this;
+    }
+
+    public function getAudioUrl(): ?string
+    {
+        return $this->audioUrl;
+    }
+
+    public function setAudioUrl(?string $audioUrl): static
+    {
+        $this->audioUrl = $audioUrl;
 
         return $this;
     }

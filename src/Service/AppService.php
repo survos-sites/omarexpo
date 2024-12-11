@@ -74,7 +74,7 @@ class AppService
                                 private NormalizerInterface                             $normalizer,
                                 private DenormalizerInterface                           $denormalizer,
                                 private MailerInterface                                 $mailer,
-                                #[Autowire('%kernel.project_dir%/public/audio')] private string $dataDir,
+                                #[Autowire('%kernel.project_dir%/public/omar')] private string $dataDir,
                                 #[Autowire('%kernel.project_dir%/')] private string $projectDir,
                                 private CacheManager                                    $imagineCacheManager,
                                 private SluggerInterface                                $asciiSlugger,
@@ -496,8 +496,10 @@ class AppService
             $finder = new Finder();
             foreach ($finder->files()->in($this->dataDir . '/' . $item->getCode()) as $file) {
                 $filename = $file->getFilename();
+                dump($filename);
                 if (preg_match('/AUDIO/', $filename)) {
                     $item->setAudio($filename);
+                    dd($filename);
                 } elseif (preg_match('/VIDEO/', $filename)) {
                     $item->setVideo($filename);
                 } else {
@@ -508,6 +510,7 @@ class AppService
                     }
                 }
             }
+            dd($item->getAudio());
         }
         $this->em->flush();
         return;

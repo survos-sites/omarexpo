@@ -55,8 +55,11 @@
             <h1>{{ data.label|default('undefined') }}</h1>
 
             <p>{{ data.description }}</p>
+            <b>{{ data.year }}</b>
                         <div class="center align-content-center">
-                            {% set url = data.audio %}
+                            {% set url = 'https://omarexpo.survos.com/audio/' ~ data.code ~ '/' ~ data.audio %}
+
+                            <audio src="{{ url }}" controls />
                             {% set _sc = 'audio' %}
                             <div
 {#                                    style="display: none" #}
@@ -88,9 +91,9 @@
                         </div>
 
                         {% set image = row.image %}
-                            {{ image }}
-{#                        <img alt="{{ image }}" title="{{ image }}" class="center img align-content-center"#}
-{#                             style="height:auto; min-width: 300px" src="{{ image }}"/>#}
+            {% set url = '/media/cache/medium/%s/%s'|format(data.code, data.image) %}
+                        <img alt="{{ image }}" title="{{ image }}" class="center img align-content-center"
+                             style="height:auto; min-width: 300px" src="{{ url }}"/>
             {#        <audio src="{{ data.audioUri }}"></audio> #}
             <div>
                 {{ data.transcript }}

@@ -69,7 +69,8 @@
         </twig:block>
 
             <twig:block name="av">
-            {% set audio =  '/audio/%s/%s'|format(row.code, row.audio) %}
+            {% set audio =  'https://omarexpo.survos.com/audio/%s/%s'|format(row.code, row.audio) %}
+                {{ audio }}
             <audio title="{{ audio }}" controls src="{{ audio }}"></audio>
 
             {% set video =  '/assets/%s/%s'|format(row.code, row.video) %}
