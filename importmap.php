@@ -16,6 +16,10 @@ return [
         'path' => './assets/app.js',
         'entrypoint' => true,
     ],
+    'mobile_app' => [
+        'path' => './assets/mobile_app.js',
+        'entrypoint' => true,
+    ],
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
     ],
@@ -67,5 +71,56 @@ return [
     'simple-datatables/dist/style.min.css' => [
         'version' => '9.2.1',
         'type' => 'css',
+    ],
+    'qrcode' => [
+        'version' => '1.5.4',
+    ],
+    'dijkstrajs' => [
+        'version' => '1.0.3',
+    ],
+    'bazinga-translator' => [
+        'version' => '6.1.0',
+    ],
+    'intl-messageformat' => [
+        'version' => '10.7.10',
+    ],
+    'tslib' => [
+        'version' => '2.8.1',
+    ],
+    '@formatjs/fast-memoize' => [
+        'version' => '2.2.5',
+    ],
+    '@formatjs/icu-messageformat-parser' => [
+        'version' => '2.9.7',
+    ],
+    '@formatjs/icu-skeleton-parser' => [
+        'version' => '1.8.11',
+    ],
+    'onsenui' => [
+        'version' => '2.12.8',
+    ],
+    'onsenui/js/onsenui.min.js' => [
+        'version' => '2.12.8',
+    ],
+    'onsenui/css/onsenui-core.min.css' => [
+        'version' => '2.12.8',
+        'type' => 'css',
+    ],
+    'onsenui/css/onsen-css-components.min.css' => [
+        'version' => '2.12.8',
+        'type' => 'css',
+    ],
+    'onsenui/css/onsenui-fonts.min.css' => [
+        'version' => '2.12.8',
+        'type' => 'css',
+    ],
+    'stimulus-attributes' => [
+        'version' => '1.0.1',
+    ],
+    'escape-html' => [
+        'version' => '1.0.3',
+    ],
+    'fos-routing' => [
+        'version' => '0.0.6',
     ],
 ];

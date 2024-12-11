@@ -43,6 +43,18 @@
     "endroid/qr-code-bundle": {
         "version": "6.0.0"
     },
+    "friendsofsymfony/jsrouting-bundle": {
+        "version": "3.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "2.3",
+            "ref": "a9f2e49180f75cdc71ae279a929c4b2e0638de84"
+        },
+        "files": [
+            "config/routes/fos_js_routing.yaml"
+        ]
+    },
     "google/apiclient": {
         "version": "2.18",
         "recipe": {
@@ -122,6 +134,9 @@
             "tests/bootstrap.php"
         ]
     },
+    "spomky-labs/pwa-bundle": {
+        "version": "1.2.4"
+    },
     "survos/bootstrap-bundle": {
         "version": "1.5.424"
     },
@@ -161,6 +176,9 @@
         "version": "1.5.424"
     },
     "survos/js-twig-bundle": {
+        "version": "1.5.424"
+    },
+    "survos/maker-bundle": {
         "version": "1.5.424"
     },
     "survos/mobile-bundle": {
