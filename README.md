@@ -31,3 +31,6 @@ aws s3api put-object-acl \
 aws s3api put-object-acl \
 --bucket "{bucket_name}" \
 --acl public-read
+
+dokku storage:mount omarexpo /mnt/volume-1/project-data/omarexpo/cache:/app/public/media/cache
+dokku storage:mount omarexpo /mnt/volume-1/project-data/omarexpo/audio:/app/public/omar-audio
