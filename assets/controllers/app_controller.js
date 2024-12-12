@@ -42,6 +42,7 @@ export default class extends MobileController {
         });
 
         document.addEventListener('share.prechange', (e) => {
+            return;
             const data = {id: this.getCurrentProjectId()};
             // console.error(data);
             // const activeTabIndex = e.detail.activeIndex;
