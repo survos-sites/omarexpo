@@ -43,8 +43,7 @@
     <twig:dexie
             :store="store"
             :globals="globals"
-            :templateId="onsMeta.templateId"
-            refreshEvent="player.postpush"
+            :refreshEvent="onsMeta.triggerEvent"
             :filter="{}"
             key="id"
             :caller="_self">

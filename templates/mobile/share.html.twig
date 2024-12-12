@@ -1,4 +1,5 @@
 {% extends "@SurvosMobile/onsPage.html.twig" %}
+{% set onsMeta = ons_metadata(_self, 'tab') %}
 
 {% block pageId 'share' %}
 {# since share is a tab page, it's not necessary to change the header, like a menu page #}

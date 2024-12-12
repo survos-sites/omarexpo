@@ -17,12 +17,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Yaml\Yaml;
 
 //#[Route('/{_locale}')] // , name: 'app')]
-#[Route('/')] // , name: 'app')]
+#[Route('/admin')] // , name: 'app')]
+#[IsGranted("ROLE_ADMIN")]
 class AppController extends AbstractController
 {
     public function __construct(
@@ -32,9 +34,6 @@ class AppController extends AbstractController
 
     }
 
-    /**
-     * @Cache(expires="+2 days")
-     */
     #[Route(path: '/tours.{_format}', name: 'projects_json', methods: ['GET'])]
     public function ProjectJson(Request $request, NormalizerInterface $normalizer, $_format = 'html'): Response
     {

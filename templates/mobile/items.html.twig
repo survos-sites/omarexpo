@@ -1,0 +1,46 @@
+{% extends "@SurvosMobile/onsPage.html.twig" %}
+{% set onsMeta = ons_metadata(_self, 'tab') %}
+
+{% block body %}
+
+{% set globals = {a: 'b'} %}
+{% set store = 'items' %}
+
+    <a href="{{ path('app_landing') }}">LANDING</a>
+
+    <twig:dexie
+        refreshEvent="items.prechange"
+        :store="store"
+        :globals="globals"
+        :filter="{}"
+        :caller="_self">
+        <twig:block name="twig_template" id="end_of_template">
+            <ons-list>
+                {% for row in rows %}
+                {% set thumb = '/media/cache/small/%s/%s'|format(row.code, row.image) %}
+                <ons-list-item class="list-item" tappable
+                               {{ stimulus_action('app','open_page','click', {
+                                   page: 'player',
+                                   store: 'items',
+                                   id: row.id
+                               }) }}
+                >
+                    <div class="top list-item__top">
+                        <div class="left list-item__left">
+                            <img class="pokemon_thumbnail" src="{{ thumb }}"
+                                 alt="{{ thumb }}"/>
+                        </div>
+                        <div class="center list-item__center">
+                                {{ row.label }}
+                                {{ row.label }}
+                        </div>
+                    </div>
+                </ons-list-item>
+                {% endfor %}
+            </ons-list>
+            <!-- end_of_template -->
+        </twig:block>
+
+    </twig:dexie>
+
+{% endblock %}
