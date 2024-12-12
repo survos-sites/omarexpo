@@ -24,7 +24,7 @@ use Symfony\Component\Yaml\Yaml;
 
 //#[Route('/{_locale}')] // , name: 'app')]
 #[Route('/admin')] // , name: 'app')]
-#[IsGranted("ROLE_ADMIN")]
+//#[IsGranted("ROLE_ADMIN")]
 class AppController extends AbstractController
 {
     public function __construct(
@@ -211,7 +211,7 @@ class AppController extends AbstractController
     {
 
         // mobile-friendly SPA, top level (tour list).
-        return $this->render('tour/app.html.twig', [
+        return $this->render('tour/.html.twig', [
             // hack!
             'project' => (new Project())
         ]);

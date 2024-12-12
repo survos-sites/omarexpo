@@ -8,39 +8,9 @@
 {% endblock %}
 {% block body %}
 
-{#    {% set url = absolute_url(path('project_mobile')) %}#}
-{#    <img src="{{ qr_code_url(url) }}" />#}
-{#    <br />{{ url }}#}
-{% set globals = {
-    _locale: app.request.locale,
-    host: app.request.schemeAndHttpHost
-} %}
-<twig:dexie
-        store="projects"
-        refreshEvent="dexie.share"
-        :globals="globals"
-        :caller="_self"
->
-    <twig:block name="title" data-id="xxy">
-         {{ data.name }}
-    </twig:block>
-    <twig:block name="twig_template" id="share_template">
-        <h1>{{ data.name }}</h1>
-        {% set rp = data.rp %}
-        {% set rp = rp|merge({_locale: globals._locale}) %}
-{#        {% set rp = data.rp|merge({_locale: app.request.locale}) %}#}
-        {% set url = globals.host ~ path('project_mobile', rp)  %}
-        <div {{ stimulus_controller('qr', {text: url}) }}>
-            <img {{ stimulus_target('qr', 'img') }} />
-            <br />{{ url }}
-        </div>
-        <div>
-            {{ data.description }}
-        </div>
-        <!-- share_template -->
-    </twig:block>
-
-</twig:dexie>
+    {% set url = absolute_url(path('project_mobile')) %}
+    <img src="{{ qr_code_url(url) }}" />
+    <br />{{ url }}
 
     {#        <h1>{{ data.title|default('undefined') }}</h1>#}
     {#        <div {{ stimulus_controller('qr', {text: project.id) class="qr"></div>#}

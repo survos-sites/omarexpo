@@ -90,7 +90,7 @@
                         </div>
 
                         {% set image = row.image %}
-            {% set url = '/media/cache/medium/%s/%s'|format(data.code, data.image) %}
+            {% set url = '/media/cache/small/%s/%s'|format(data.code, data.image) %}
                         <img alt="{{ image }}" title="{{ image }}" class="center img align-content-center"
                              style="height:auto; min-width: 300px" src="{{ url }}"/>
             {#        <audio src="{{ data.audioUri }}"></audio> #}
