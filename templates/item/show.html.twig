@@ -70,7 +70,30 @@ a {
 
 {% block body %}
 
-    <button>Show QR code</button>
+    <a href="{{ path('project_dashboard', project.rp) }}">
+        {{ ux_icon('tabler:arrow-back-up') }}
+    </a>
+    <h1>
+{#        {{ project.code }}/#}
+        {{ item.label|title }}</h1>
+
+<div>
+    {% set audio =  'https://omarexpo.survos.com/audio/%s/%s'|format(item.code, item.audio) %}
+    <audio title="{{ audio }}" controls src="{{ audio }}"></audio>
+</div>
+
+{% set thumbnail =  '%s/%s'|format(item.code, item.image)|imagine_filter('medium') %}
+<a title="{{ thumbnail }}" href="{{ thumbnail }}">
+    <img src="{{ thumbnail }}" alt="{{ thumbnail }}" />
+</a>
+    <br />
+    <i>{{ item.year }}</i>
+    <b>{{ item.size }}</b>
+
+<div>
+    {{ item.description }}
+</div>
+{#<button>Show QR code</button>#}
 {#    #}
 {#    {% set rp = item.rp|merge({hash: random(9999999)}) %}#}
 {#    {% set url = absolute_url(path('project_mobile', rp)) %}#}
@@ -85,7 +108,10 @@ a {
 {#        ADMIN#}
 {#    </a>#}
 
-    <h1>{{ project.code }}/{{ item.code }}</h1>
+
+{% endblock %}
+
+{% block recorder %}
     {% set url = url('item_show', item.rp) %}
     <a href="{{ url  }}">{{ item.inventoryNumber  }} <sup><small>#{{ item.id }}</small></sup></a>
     <a href="{{ path('item_edit', item.rp) }}"><span class="fas fa-edit"></span> </a>
@@ -123,13 +149,8 @@ a {
 
 
     {#<span class="text-danger">Recorder moved, as it was grabbing the microphone</span>#}
-{% endblock body %}
+{% endblock  %}
 
-{% block recorder %}
-
-
-
-    {% endblock %}
 
     {% block video %}
         @v

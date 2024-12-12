@@ -44,10 +44,11 @@
 <div class="col-12 bg-primary">
     <h3>{{ 'items'|trans|title }}</h3>
 
+{#    # , 'id', 'code','label', 'year','av']"#}
     <twig:simple_datatables
             perPage="50"
             :data="project.items"
-            :columns="['id','thumb', 'code','label','description', 'size', 'year','av']"
+            :columns="['thumb','label']"
             :caller="_self"
     >
         <twig:block name="location">
@@ -63,7 +64,8 @@
         </twig:block>
         <twig:block name="thumb">
             {% set thumbnail =  '%s/%s'|format(row.code, row.image)|imagine_filter('small') %}
-            <a title="{{ thumbnail }}" href="{{ thumbnail }}">
+
+            <a title="{{ thumbnail }}" href="{{ path('item_show', row.rp) }}">
                 <img src="{{ thumbnail }}" alt="{{ thumbnail }}" />
             </a>
         </twig:block>
