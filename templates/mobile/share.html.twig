@@ -8,9 +8,16 @@
 {% endblock %}
 {% block body %}
 
-    {% set url = absolute_url(path('project_mobile')) %}
-    <img src="{{ qr_code_url(url) }}" />
-    <br />{{ url }}
+    {% set url = absolute_url('project_mobile') %}
+{#    {% set url = globals.host ~ path('project_mobile', rp)  %}#}
+    <div {{ stimulus_controller('qr', {text: url}) }}>
+        <img {{ stimulus_target('qr', 'img') }} />
+        <br />{{ url }}
+    </div>
+
+{#    {% set url = absolute_url(path('project_mobile')) %}#}
+{#    <img src="{{ qr_code_url(url) }}" />#}
+{#    <br />{{ url }}#}
 
     {#        <h1>{{ data.title|default('undefined') }}</h1>#}
     {#        <div {{ stimulus_controller('qr', {text: project.id) class="qr"></div>#}
