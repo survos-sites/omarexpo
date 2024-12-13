@@ -6,8 +6,6 @@
 {% set globals = {a: 'b'} %}
 {% set store = 'items' %}
 
-    <a href="{{ path('app_landing') }}">LANDING</a>
-
     <twig:dexie
         refreshEvent="items.prechange"
         :store="store"
