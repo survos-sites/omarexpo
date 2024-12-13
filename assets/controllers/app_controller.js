@@ -17,14 +17,13 @@ export default class extends MobileController {
             console.assert(p, t);
         });
 
-        document.addEventListener('window.db.availble', async (e) => {
+        document.addEventListener('window.db.available', async (e) => {
             console.warn("db is available.  based on url, open a page or tab", window.location);
             // Get the URL parameters
             const urlParams = new URLSearchParams(window.location.search);
             // Extract the 'projectId' parameter value
             console.error(urlParams);
             const itemId = urlParams.get('itemId');
-            const projectId = urlParams.get('projectId');
             const db = window.db;
             if (itemId) {
                 console.error(itemId);
@@ -43,6 +42,7 @@ export default class extends MobileController {
 
         document.addEventListener('share.prechange', (e) => {
             return;
+            // this code is from when share needed to know the active project
             const data = {id: this.getCurrentProjectId()};
             // console.error(data);
             // const activeTabIndex = e.detail.activeIndex;
