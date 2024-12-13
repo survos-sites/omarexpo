@@ -43,6 +43,7 @@ final class MobileMenu implements KnpMenuHelperInterface
     public function pageMenu(KnpMenuEvent $event): void
     {
         $menu = $event->getMenu();
+        $this->add($menu, id: 'about', icon: 'fa-info');
     }
 
     #[AsEventListener(event: KnpMenuEvent::MOBILE_TAB_MENU)]

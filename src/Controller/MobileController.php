@@ -71,10 +71,15 @@ class MobileController extends AbstractController
         return [];
     }
 
-    #[Route('/{pageCode}', name: 'app_page')]
-    public function page(Request $request, string $pageCode): Response
+    #[Route('/{type}/{pageCode}', name: 'app_page')]
+    public function page(Request $request, string $type, string $pageCode): Response
     {
-        return $this->render("app/{$pageCode}.html.twig", $request->query->all());
+        return $this->render("mobile/{$pageCode}.html.twig",
+            array_merge([
+                'type' => $type,
+                $request->query->all()
+            ])
+        );
     }
 
 }

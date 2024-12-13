@@ -1,12 +1,8 @@
 {% extends '@SurvosMobile/onsPage.html.twig' %}
 
-{% block pageId 'about' %}
-{#{% block pageTitle 'About' %}#}
-{#{% block toolbar %}#}
-{#    {{ parent() }}#}
-{#    #}{#  need a better way for the title #}
-{#    <div class="center">About</div>#}
-{#{% endblock %}#}
+{#type is set in the renderer, either /page or /tab (for testing individual pages) or in OnsenConroller which grabs the menu items#}
+
+{% set onsMeta = ons_metadata(_self, type) %}
 
 {% block body %}
     <p>
@@ -14,17 +10,18 @@
     </p>
     <div>
         Github Repo: __<br />
-
     </div>
     <p>
-        This page does <b>NOT</b> have the tabs at the bottom.  Use the back arrow above
+        {% if onsMeta.isPage %}
+        This {{ type }} does <b>NOT</b> have the tabs at the bottom.  Use the back arrow above
         to navigate to the previous page.
+        {% else %}
+            This is tab {{ onsMeta.templateId }}
+        {% endif %}
     </p>
 
-    {{ block('x') }}
-{% endblock %}
-
-{% block x %}
+    {% endblock %}
+    {% block x %}
 Modifiers
 A modifier is a cross-component way to provide customizability for Onsen UI components in the shape of custom attributes. When a component is defined with a modifier, it will have a separate class namespace so that you can apply custom styles to the component. Some components have several easy-to-use preset modifiers to change the appearance.
 
@@ -61,4 +58,6 @@ A conditional element called ons-if is available to filter content depending on 
         This is NOT Android
     </ons-if>
     With this, for example, you can display
-    {% endblock %}
+</ons-if>
+{% endblock %}
+
