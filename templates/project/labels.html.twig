@@ -137,24 +137,22 @@
 {% endblock %}
 
 {% block body %}
+    <div class="d-print-none">
     {% for card in ['card5','card3','card2','card'] %}
         <a href="{{ path('project_admin_labels', project.rp({layout: card, max: 8})) }}">
             {{ card }}
         </a>
     {% endfor %}
+    </div>
     {% for idx, item in  project.items|slice(app.request.get('start', 0),app.request.get('max',99)) %}
         <div class="row">
             <div class="col-md-{{ app.request.get('width',12) }}">
-
                 {{ include('item/tomb/%s.html.twig'|format(layout), {
                     i:item,
                     project: project
                 }) }}
             </div>
-
-{#            <div class="col-lg-10">#}
-{#            </div>#}
-
         </div>
+        <span class=".page-break"></span>
     {% endfor %}
 {% endblock %}

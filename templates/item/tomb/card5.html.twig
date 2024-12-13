@@ -1,85 +1,86 @@
-{#<div class="container col-lg-9"  id="sectionToSave">#}
-  <div class="card-main-class">
+{# <div class="container col-lg-9"  id="sectionToSave"> #}
+<div class="card-main-class">
     <div class="card-second-class">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-8">
-            <div class="flex">
-              <div>
-                {# when it's too long, move up #22 in Juan's show #}
-                <h3><b>{{ i.label }}</b></h3>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="flex">
+                        <div>
+                            {# when it's too long, move up #22 in Juan's show #}
+                            <h3><b>{{ i.label }}</b>
+                                <i>
+                                    {{ i.year }}
+                                </i>
+                            </h3>
+                            <h6>
+                                {{ i.description }}
+                            </h6>
+                            <div class="d-flex justify-content-center row">
 
-                <h6>
-                  {{ i.description }}
-                </h6>
-                <div class="d-flex justify-content-center">
+                                <div class="col">
+                                    {% set url = absolute_url(path('item_redirect', i.rp)) %}
+                                    <a href="{{ url }}" target="_blank">
+                                        {% set thumbPath = '%s/%s'|format(item.code, item.image)|imagine_filter('small') %}
+                                        <img src="{{ thumbPath }}" alt="{{ thumbPath }}"/>
 
-                  <div>
+                                        {#                    <img src="{{ qr_code_data_uri(url) }}" class="img-fluid col-md-5 "> #}
+                                    </a>
+                                    {#                    </div> #}
+                                    {#                  <div> #}
+                                    {% set audio = item.audio %}
+                                    <twig:ux:icon
+                                            height="100"
+                                            width="100"
+                                            name="material-symbols:headphones-outline"
+                                            class="qr-label-thumbnail"/>
 
-                  {% set url = absolute_url(path('item_redirect', i.rp)) %}
-                  <a href="{{ url }}" target="_blank">
-                      {% set thumbPath = '%s/%s'|format(item.code, item.image)|imagine_filter('medium') %}
-                      <img src="{{ thumbPath }}"  alt="{{ thumbPath }}"/>
+                                    <span class="qr-label-thumbnail" >
+                                        {% set qrUrl = qr_code_url(url) %}
+                                        <img src="{{ qrUrl }}" style="width: 80px" alt="{{ qrUrl }}" title="{{ qrUrl }}">
+{#                                      <img {{ stimulus_controller('qr', {text: url}) }} class="d-print qr-label-thumbnail col-md-5"/>#}
 
-{#                    <img src="{{ qr_code_data_uri(url) }}" class="img-fluid col-md-5 ">#}
-                  </a>
-{#                    </div>#}
-{#                  <div>#}
-                    {% set audio = item.audio %}
-                      <twig:ux:icon
-                              height="100"
-                              width="100"
-                              name="material-symbols:headphones-outline"
-                              class="qr-label-thumbnail" />
-                  </div>
+                {#                      {{ i.orderIdx }} #}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
 
-                  <div>
-                    <span class="qr-label-thumbnail" style="font-size: 9vh">
-                      <img {{ stimulus_controller('qr', {text: url}) }} class="d-print qr-label-thumbnail col-md-5"  />
 
-{#                      {{ i.orderIdx }}#}
-                    </span>
-                    {{ i.code }}
-                  </div>
-
+                        <div class="card-footer-last-section">
+                            <div class="container">
+                                <h2>{{ project.code }}
+                                    <p>{{ i.code }}</p>
+                                </h2>
+                                {#                <h2>Juan Chawuk</h2> #}
+                                {#                <p>juanchawuk711@gmail.com | 967 2021897</p> #}
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
+                <div class="col-md-4 ">
+                    <div class="container card-left-section">
+                        {% for var,val in i.attributes %}
+                            {% if val and not (var ends with '*') %}
 
-              </div>
+                                <h4>{{ val }}</h4>
+                                <h6 class="card-subtitle">{{ var|trans|title }}</h6>
 
-
-            <div class="card-footer-last-section">
-              <div class="container">
-                <h2>{{ project.code }}
-                  <p>{{ i.code }}</p>
-                </h2>
-{#                <h2>Juan Chawuk</h2>#}
-{#                <p>juanchawuk711@gmail.com | 967 2021897</p>#}
-              </div>
+                                {#                  <h4>{{ var|trans|title }}</h4> #}
+                                {#                  <span>{{ val }}</span> #}
+                            {% else %}
+                                {#                    {{ var }} #}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
-            </div>
-
-          </div>
-          <div class="col-md-4 ">
-            <div class="container card-left-section">
-              {% for var,val in i.attributes %}
-                {% if val and not (var ends with '*') %}
-
-                  <h4>{{ val }}</h4>
-                  <h6 class="card-subtitle">{{ var|trans|title }}</h6>
-
-{#                  <h4>{{ var|trans|title }}</h4>#}
-{#                  <span>{{ val }}</span>#}
-                  {% else %}
-{#                    {{ var }}#}
-                {% endif %}
-              {% endfor %}
-            </div>
-          </div>
         </div>
-      </div>
 
 
     </div>
-  </div>
-{#</div>#}
+</div>
+<p style="page-break-before: always;">&nbsp;</p>
+<span class=".page-break"></span>
+
+{# </div> #}
