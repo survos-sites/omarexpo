@@ -15,6 +15,7 @@
         "ext-sqlite3": "*",
         "api-platform/doctrine-orm": "^4.0.11",
         "api-platform/symfony": "^4.0.11",
+        "bizkit/versioning-bundle": "^1.2",
         "doctrine/dbal": "^3.9.3",
         "doctrine/doctrine-bundle": "^2.13.1",
         "doctrine/doctrine-migrations-bundle": "^3.3.1",
