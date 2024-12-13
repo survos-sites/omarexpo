@@ -1,16 +1,12 @@
 {% extends "@SurvosMobile/start.html.twig" %}
 
+{% block title 'Omar Exhitition' %}
 {% block javascripts %}
-
+    {# only the mobile app assets #}
     {% block importmap %}{{ importmap('mobile_app') }}{% endblock %}
-{#    {{ parent() }}#}
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2ZJST5X4JY"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
+{% endblock %}
 
-        gtag('config', 'G-2ZJST5X4JY');
-    </script>
+{% block pwa %}
+    <!-- adding pwa() -->
+    {{ pwa(locale=app.request.locale) }}
 {% endblock %}

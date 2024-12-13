@@ -1,6 +1,6 @@
 # Omar Expo
 
-## Chiapas, Mexico Dec 14, 2024
+## Chiapas, Mexico Dec 13, 2024
 
 This stand-alone repo uses many of the elements from the Voxitour code.  
 

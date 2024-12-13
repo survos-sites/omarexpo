@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a2eeb7674df8dd4318f35173bc492c61",
+    "content-hash": "48c8cdcb677b881b9c21c0449d21b0fa",
     "packages": [
         {
             "name": "api-platform/doctrine-common",
@@ -5913,23 +5913,22 @@
         },
         {
             "name": "spomky-labs/pwa-bundle",
-            "version": "1.2.4",
+            "version": "1.3.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Spomky-Labs/pwa-bundle.git",
-                "reference": "a699a9e59655c918004a9ec9dba8272971f25538"
+                "reference": "7dd44c2077143824e4e1c412c50853155a8f9c7f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Spomky-Labs/pwa-bundle/zipball/a699a9e59655c918004a9ec9dba8272971f25538",
-                "reference": "a699a9e59655c918004a9ec9dba8272971f25538",
+                "url": "https://api.github.com/repos/Spomky-Labs/pwa-bundle/zipball/7dd44c2077143824e4e1c412c50853155a8f9c7f",
+                "reference": "7dd44c2077143824e4e1c412c50853155a8f9c7f",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.2",
                 "phpdocumentor/reflection-docblock": "^5.3",
                 "psr/log": "^1.0|^2.0|^3.0",
-                "symfony/asset": "^6.4|^7.0",
                 "symfony/asset-mapper": "^6.4|^7.0",
                 "symfony/config": "^6.4|^7.0",
                 "symfony/dependency-injection": "^6.4|^7.0",
@@ -5943,10 +5942,10 @@
             },
             "require-dev": {
                 "dbrekelmans/bdi": "^1.1",
-                "ekino/phpstan-banned-code": "^1.0",
+                "ekino/phpstan-banned-code": "^1.0 || ^2.0",
                 "ergebnis/phpunit-slow-test-detector": "^2.14",
                 "ext-sockets": "*",
-                "infection/infection": "^0.28",
+                "infection/infection": "^0.28 || ^0.29",
                 "matthiasnoback/symfony-config-test": "^5.1",
                 "php-parallel-lint/php-parallel-lint": "^1.4",
                 "phpstan/extension-installer": "^1.1",
@@ -5954,13 +5953,13 @@
                 "phpstan/phpstan": "^1.0",
                 "phpstan/phpstan-beberlei-assert": "^1.0",
                 "phpstan/phpstan-deprecation-rules": "^1.0",
-                "phpstan/phpstan-phpunit": "^1.4",
+                "phpstan/phpstan-phpunit": "^1.3",
                 "phpstan/phpstan-strict-rules": "^1.0",
-                "phpstan/phpstan-symfony": "^1.4",
+                "phpstan/phpstan-symfony": "^1.3",
                 "phpunit/phpunit": "^10.1|^11.0",
                 "rector/rector": "^1.0",
-                "staabm/phpstan-todo-by": "^0.1.27",
-                "struggle-for-php/sfp-phpstan-psr-log": "^0.21.0",
+                "staabm/phpstan-todo-by": "^0.1.25",
+                "struggle-for-php/sfp-phpstan-psr-log": "^0.20.0 || ^0.21.0 || ^0.22.0",
                 "symfony/filesystem": "^6.4|^7.0",
                 "symfony/framework-bundle": "^6.4|^7.0",
                 "symfony/mime": "^6.4|^7.0",
@@ -5978,6 +5977,7 @@
                 "symfony/mime": "For generating and manipulating icons or screenshots",
                 "symfony/panther": "For generating screenshots directly from your application"
             },
+            "default-branch": true,
             "type": "symfony-bundle",
             "extra": {
                 "thanks": {
@@ -6014,7 +6014,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Spomky-Labs/pwa-bundle/issues",
-                "source": "https://github.com/Spomky-Labs/pwa-bundle/tree/1.2.4"
+                "source": "https://github.com/Spomky-Labs/pwa-bundle/tree/1.3.x"
             },
             "funding": [
                 {
@@ -6030,7 +6030,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2024-08-09T16:34:38+00:00"
+            "time": "2024-10-05T13:00:44+00:00"
         },
         {
             "name": "survos/bootstrap-bundle",
@@ -15891,7 +15891,7 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": {
         "survos/mobile-bundle": 20
     },

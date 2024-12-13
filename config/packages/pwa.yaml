@@ -1,0 +1,80 @@
+pwa:
+    image_processor: 'pwa.image_processor.imagick'
+    favicons:
+        enabled: true
+        src: "images/todo.png"
+        tile_color: "#c026d3"
+        background_color: "#c3d7f7"
+        image_scale: 66
+        border_radius: 50
+        low_resolution: true
+        safari_pinned_tab_color: "#c3d7f7"
+        use_silhouette: true
+
+    manifest:
+        enabled: true
+#        public_url: '/pwa/site.{locale}.webmanifest'
+        background_color: "#c026d3"
+        theme_color: "#c026d3"
+        name: 'Voxitour'
+        short_name: 'voxitour'
+        description: 'Audio tours for museums and galleries'
+        orientation: "any"
+        display: "standalone"
+        scope: "/"
+        display_override: ['fullscreen', 'minimal-ui', 'window-controls-overlay']
+        id: "/"
+        start_url: ./
+#        start_url: "app.start_url"
+        icons:
+            - src: "images/todo.png"
+              sizes: [48, 96, 128, 144, 192, 256, 384, 512]
+              image_scale: 90
+              purpose: 'any'
+            - src: "images/todo.png"
+              sizes: [48, 96, 128, 144, 192, 256, 384, 512]
+              background_color: "#c3d7f7"
+              image_scale: 50
+              border_radius: 25
+              purpose: 'maskable'
+
+            - src: 'images/audio-guide-music-svgrepo-com.svg'
+              sizes: any
+            # https://www.veryicon.com/icons/miscellaneous/smart-site/noise-3.html
+#            - src: "/images/pulse-svgrepo-com.svg"
+##              sizes: [32, 48, 72, 96, 120, 128, 144, 180, 192, 256, 384, 512]
+##            - src: "images/space-planet-icon.svg"
+
+        screenshots:
+            - "images/screenshot1.png"
+            - "images/screenshot2.png"
+        categories: []
+        shortcuts: []
+        edge_side_panel:
+            preferred_width: 280
+        widgets: []
+    serviceworker:
+        enabled: true
+        src: "sw.js"
+        skip_waiting: true
+        workbox:
+            resource_caches:
+                - match_callback: 'origin: cdn.jsdelivr.net'
+                  strategy: 'CacheOnly'
+                  preload_urls: # Optional, but you are now sure the library is preloaded even if used on another page the user never met before
+                      - 'https://cdn.jsdelivr.net/npm/onsenui@2.12.8/js/onsenui.min.js'
+                      - 'https://cdn.jsdelivr.net/npm/onsenui@2.12.8/css/ionicons/css/ionicons.min.css'
+                      - 'https://cdn.jsdelivr.net/npm/onsenui@2.12.8/css/onsen-css-components.min.css'
+                      - 'https://cdn.jsdelivr.net/npm/onsenui@2.12.8/css/material-design-iconic-font/fonts/Material-Design-Iconic-Font.woff2?v=2.2.0'
+                      - 'https://cdn.jsdelivr.net/npm/onsenui@2.12.8/css/material-design-iconic-font/css/material-design-iconic-font.min.css'
+                      - 'https://cdn.jsdelivr.net/npm/onsenui@2.12.8/css/font_awesome/webfonts/fa-brands-400.woff2'
+#                - cache_name: app_pages
+#                  match_callback: '/planet\/\d+/'
+#                  strategy: StaleWhileRevalidate # 'CacheOnly' # ??
+#                  broadcast: true
+#                  broadcast_headers:
+#                  preload_urls:
+#                      - 'app_landing'
+
+#            offline_fallback:
+#                page: 'app_offline_page'

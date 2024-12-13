@@ -25,12 +25,19 @@
                 >
                     <div class="top list-item__top">
                         <div class="left list-item__left">
-                            <img class="ons-mobile-thumbnail" src="{{ thumb }}"
+                            <img
+                                    class="ons-mobile-thumbnail" src="{{ thumb }}"
                                  alt="{{ thumb }}"/>
                         </div>
                         <div class="center list-item__center">
-                                {{ row.label }}
-                                {{ row.label }}
+                                <h3>
+                                    {{ row.label }}
+                                </h3>
+                            <br/>
+                            <i>
+                                {{ row.year }}
+                            </i>
+
                         </div>
                     </div>
                 </ons-list-item>
