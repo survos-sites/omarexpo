@@ -1,7 +1,7 @@
 pwa:
     image_processor: 'pwa.image_processor.imagick'
     favicons:
-        enabled: false
+        enabled: true
         src: "images/todo.png"
         tile_color: "#c026d3"
         background_color: "#c3d7f7"
