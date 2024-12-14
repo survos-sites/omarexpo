@@ -7,12 +7,15 @@
                     <div class="flex border-1">
                         <div>
                             <h2>{{ i.title }}</h2>
-                            <h6 style="margin-bottom: 4px">
+                            <b style="margin-bottom: 4px">
                                 {{ i.description }}
                             </b>
-                            <i>
+                            <div>
+                                {{ i.size }}
+                            </div>
+                            <div>
                                 {{ i.year }}
-                            </i>
+                            </div>
                             <div class="d-flex justify-content-center row">
 
                                 <div class="col">
@@ -32,7 +35,8 @@
                                     <div class="float-end">
                                         {# we will only use the summary #}
                                         <blockquote>
-                                            {{ item.firstline }}
+                                            escucha más sobre el artista
+{#                                            {{ item.firstline }}#}
                                         </blockquote>
 {#                                        <blockquote>#}
 {#                                            {{ item.transcript|slice(0, 120) }}#}
@@ -62,9 +66,10 @@
                                 <h2>
                                     <img src="{{ asset('/images/omar-expo.jpeg') }}" alt="logo" style="height: 80px"/>
                                     {{ project.labelFooter|title }}
-                                    <p class="float-end">{{ i.code }}
+                                    <span class="float-end">
+{#                                        {{ i.code }}#}
                                         ${{ i.price }}
-                                    </p>
+                                    </span>
                                 </h2>
                                 {#                <h2>Juan Chawuk</h2> #}
                                 {#                <p>juanchawuk711@gmail.com | 967 2021897</p> #}
