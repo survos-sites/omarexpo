@@ -3,13 +3,13 @@
     <div class="card-second-class">
         <div class="container">
             <div class="row">
-                <div class="col-md-8">
-                    <div class="flex">
+                <div class="col-md-12">
+                    <div class="flex border-1">
                         <div>
                             <h2>{{ i.title }}</h2>
-                            <h6>
+                            <h6 style="margin-bottom: 4px">
                                 {{ i.description }}
-                            </h6>
+                            </b>
                             <i>
                                 {{ i.year }}
                             </i>
@@ -27,11 +27,6 @@
                                     {#                    </div> #}
                                     {#                  <div> #}
                                     {% set audio = item.audio %}
-                                    <twig:ux:icon
-                                            height="100"
-                                            width="100"
-                                            name="material-symbols:headphones-outline"
-                                            class="qr-label-thumbnail"/>
 
 
                                     <div class="float-end">
@@ -39,16 +34,21 @@
                                         <blockquote>
                                             {{ item.firstline }}
                                         </blockquote>
-                                        <blockquote>
-                                            {{ item.transcript|slice(0, 120) }}
-                                        </blockquote>
-                                    <span class="qr-label-thumbnail" >
+{#                                        <blockquote>#}
+{#                                            {{ item.transcript|slice(0, 120) }}#}
+{#                                        </blockquote>#}
+                                    <div class="qr-label-thumbnail" >
                                         {% set qrUrl = qr_code_url(url) %}
                                         <img src="{{ qrUrl }}" style="width: 80px" alt="{{ qrUrl }}" title="{{ qrUrl }}">
 {#                                      <img {{ stimulus_controller('qr', {text: url}) }} class="d-print qr-label-thumbnail col-md-5"/>#}
+                                    <twig:ux:icon
+                                            height="100"
+                                            width="100"
+                                            name="material-symbols:headphones-outline"
+                                            class="qr-label-thumbnail"/>
 
                                         {#                      {{ i.orderIdx }} #}
-                                    </span>
+                                    </div>
 
                                     </div>
 
@@ -59,8 +59,12 @@
 
                         <div class="card-footer-last-section">
                             <div class="container">
-                                <h2>{{ project.labelFooter|title }}
-                                    <p class="float-end">{{ i.code }}</p>
+                                <h2>
+                                    <img src="{{ asset('/images/omar-expo.jpeg') }}" alt="logo" style="height: 80px"/>
+                                    {{ project.labelFooter|title }}
+                                    <p class="float-end">{{ i.code }}
+                                        ${{ i.price }}
+                                    </p>
                                 </h2>
                                 {#                <h2>Juan Chawuk</h2> #}
                                 {#                <p>juanchawuk711@gmail.com | 967 2021897</p> #}
