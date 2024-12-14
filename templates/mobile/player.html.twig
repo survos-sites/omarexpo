@@ -2,7 +2,6 @@
 {% set onsMeta = ons_metadata(_self, 'page') %}
 
 {# https://github.com/feross/yt-player @todo https://www.npmjs.com/package/yt-player #}
-{% block pageId 'player' %}
 {% block stylesheets %}
     {{ parent() }}
     <style>
@@ -21,12 +20,16 @@
 {% block body %}
 
 
-{% set store = 'items' %}
+    {% set store = 'items' %}
     {% set globals = {
         template: _self,
         isAdmin: is_granted('ROLE_ADMIN')
     } %}
     {# @todo: it looks for a key for database lookup, but the key from the the page params. #}
+    {#
+        when dexie hears a postpush.player event, it populates data with the row value if the id,
+         then dispatches events back to app_controller to update the DOM with the title and content
+    #}
     <twig:dexie
             :store="store"
             :globals="globals"
@@ -34,59 +37,60 @@
             :filter="{}"
             key="id"
             :caller="_self">
-        <twig:block name="title">
-            {{ data.id }} title
+        <twig:block name="title" id="title_template">
+            {{ data.code }} {{  data.label }}
+            <!-- title_template -->
         </twig:block>
         <twig:block name="twig_template" id="player_template">
             <h1>{{ data.label|default('undefined') }}</h1>
 
             <p>{{ data.description }}</p>
+            <b>{{ data.size }}</b>
             <b>{{ data.year }}</b>
-                        <div class="center align-content-center">
-                            {% set url = 'https://omarexpo.survos.com/audio/' ~ data.code ~ '/' ~ data.audio %}
+            <div class="center align-content-center">
+                {% set url = 'https://omarexpo.survos.com/audio/' ~ data.code ~ '/' ~ data.audio %}
 
-                            <audio src="{{ url }}" controls />
-                            {% set _sc = 'audio' %}
-                            <div
-{#                                    style="display: none" #}
-                                    {{ stimulus_controller(_sc, {
-                                startingTrack: asset.url
-                            }) }}>
-                                <button class="audio"
-                                        {{ stimulus_action(_sc, 'toggle') }}
-                                        type="button" title="Play / Pause"
-                                >
-                                    <div class="play">
-                                        <span {{ stimulus_target(_sc, 'play') }} class="bi bi-play fs-4"></span>
-                                        Play
-                                        <span {{ stimulus_target(_sc, 'stop') }} class="bi bi-pause-btn fs-4"></span>
-                                        Stop
-                                    </div>
-                                </button>
-                                <audio {{ stimulus_target(_sc, 'audio') }}
-                                        crossorigin="use-credentials"
-                                        preload="auto" loop>
-                                </audio>
-                            </div>
-
-                            OLD audio
-
-                            <figure>
-                                <audio title="{{ asset.url }}" controls src="{{ asset.url }}"></audio>
-                            </figure>
+                <audio src="{{ url }}" controls/>
+                {% set _sc = 'audio' %}
+                <div
+                        {#                                    style="display: none" #}
+                        {{ stimulus_controller(_sc, {
+                            startingTrack: asset.url
+                        }) }}>
+                    <button class="audio"
+                            {{ stimulus_action(_sc, 'toggle') }}
+                            type="button" title="Play / Pause"
+                    >
+                        <div class="play">
+                            <span {{ stimulus_target(_sc, 'play') }} class="bi bi-play fs-4"></span>
+                            Play
+                            <span {{ stimulus_target(_sc, 'stop') }} class="bi bi-pause-btn fs-4"></span>
+                            Stop
                         </div>
+                    </button>
+                    <audio {{ stimulus_target(_sc, 'audio') }}
+                            crossorigin="use-credentials"
+                            preload="auto" loop>
+                    </audio>
+                </div>
 
-                        {% set image = row.image %}
+                OLD audio
+
+                <figure>
+                    <audio title="{{ asset.url }}" controls src="{{ asset.url }}"></audio>
+                </figure>
+            </div>
+
+            {% set image = row.image %}
             {% set url = '/media/cache/small/%s/%s'|format(data.code, data.image) %}
-                        <img alt="{{ image }}" title="{{ image }}" class="center img align-content-center"
-                             style="height:auto; min-width: 300px" src="{{ url }}"/>
+            <img alt="{{ image }}" title="{{ image }}" class="center img align-content-center"
+                 style="height:auto; min-width: 300px" src="{{ url }}"/>
             {#        <audio src="{{ data.audioUri }}"></audio> #}
             <div>
                 {{ data.transcript }}
             </div>
 
             <a href="{{ data.youtubeUrl }}" target="_blank">{{ data.youtubeUrl }}</a>
-
 
 
             {% if globals.isAdmin|default(true) %}
@@ -116,18 +120,18 @@
                 </table>
                 {% if globals.isAdmin %}
 
-                <h3>{{ data.assets|length }} Assets</h3>
-                <ol>
-                    {% for asset in data.assets %}
-                        <li>{{ asset.filename }}
-                            <ol>
-                                {% for filter, url in asset.thumbnails %}
-                                    <li>{{ filter }}: {{ url }}</li>
-                                {% endfor %}
-                            </ol>
-                        </li>
-                    {% endfor %}
-                </ol>
+                    <h3>{{ data.assets|length }} Assets</h3>
+                    <ol>
+                        {% for asset in data.assets %}
+                            <li>{{ asset.filename }}
+                                <ol>
+                                    {% for filter, url in asset.thumbnails %}
+                                        <li>{{ filter }}: {{ url }}</li>
+                                    {% endfor %}
+                                </ol>
+                            </li>
+                        {% endfor %}
+                    </ol>
                 {% endif %}
 
             </div>

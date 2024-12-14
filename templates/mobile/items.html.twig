@@ -29,11 +29,14 @@
                                     class="ons-mobile-thumbnail" src="{{ thumb }}"
                                  alt="{{ thumb }}"/>
                         </div>
-                        <div class="center list-item__center">
+                        <div class="xcenter xlist-item__center">
                                 <h3>
                                     {{ row.label }}
                                 </h3>
-                            <br/>
+                            <div style="margin: 4px">
+                            {{ row.size }}
+
+                            </div>
                         </div>
                         <div class="right list-item__right">
                             {{ row.year }}

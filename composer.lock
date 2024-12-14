@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5097a1f00bec85787592790f82b37b7f",
+    "content-hash": "f260520061f8b87be2b516510b9319e6",
     "packages": [
         {
             "name": "api-platform/doctrine-common",
@@ -6034,7 +6034,7 @@
         },
         {
             "name": "survos/bootstrap-bundle",
-            "version": "1.5.432",
+            "version": "1.5.433",
             "source": {
                 "type": "git",
                 "url": "https://github.com/survos/BootstrapBundle.git",
@@ -6121,7 +6121,7 @@
             ],
             "support": {
                 "issues": "https://github.com/survos/BootstrapBundle/issues",
-                "source": "https://github.com/survos/BootstrapBundle/tree/1.5.432"
+                "source": "https://github.com/survos/BootstrapBundle/tree/1.5.433"
             },
             "funding": [
                 {
@@ -6133,7 +6133,7 @@
         },
         {
             "name": "survos/command-bundle",
-            "version": "1.5.432",
+            "version": "1.5.433",
             "source": {
                 "type": "git",
                 "url": "https://github.com/survos/SurvosCommandBundle.git",
@@ -6187,7 +6187,7 @@
             ],
             "support": {
                 "issues": "https://github.com/survos/SurvosCommandBundle/issues",
-                "source": "https://github.com/survos/SurvosCommandBundle/tree/1.5.432"
+                "source": "https://github.com/survos/SurvosCommandBundle/tree/1.5.433"
             },
             "funding": [
                 {
@@ -6199,7 +6199,7 @@
         },
         {
             "name": "survos/core-bundle",
-            "version": "1.5.432",
+            "version": "1.5.433",
             "source": {
                 "type": "git",
                 "url": "https://github.com/survos/SurvosCoreBundle.git",
@@ -6276,7 +6276,7 @@
             ],
             "support": {
                 "issues": "https://github.com/survos/SurvosCoreBundle/issues",
-                "source": "https://github.com/survos/SurvosCoreBundle/tree/1.5.432"
+                "source": "https://github.com/survos/SurvosCoreBundle/tree/1.5.433"
             },
             "funding": [
                 {
@@ -6288,7 +6288,7 @@
         },
         {
             "name": "survos/crawler-bundle",
-            "version": "1.5.432",
+            "version": "1.5.433",
             "source": {
                 "type": "git",
                 "url": "https://github.com/survos/SurvosCrawlerBundle.git",
@@ -6361,7 +6361,7 @@
             "description": "Provides a way to create tests that crawl a site",
             "support": {
                 "issues": "https://github.com/survos/SurvosCrawlerBundle/issues",
-                "source": "https://github.com/survos/SurvosCrawlerBundle/tree/1.5.432"
+                "source": "https://github.com/survos/SurvosCrawlerBundle/tree/1.5.433"
             },
             "funding": [
                 {
@@ -6373,7 +6373,7 @@
         },
         {
             "name": "survos/flickr-bundle",
-            "version": "1.5.432",
+            "version": "1.5.433",
             "source": {
                 "type": "git",
                 "url": "https://github.com/survos/SurvosFlickrBundle.git",
@@ -6422,7 +6422,7 @@
             ],
             "support": {
                 "issues": "https://github.com/survos/SurvosFlickrBundle/issues",
-                "source": "https://github.com/survos/SurvosFlickrBundle/tree/1.5.432"
+                "source": "https://github.com/survos/SurvosFlickrBundle/tree/1.5.433"
             },
             "funding": [
                 {
@@ -6434,7 +6434,7 @@
         },
         {
             "name": "survos/google-sheets-bundle",
-            "version": "1.5.432",
+            "version": "1.5.433",
             "source": {
                 "type": "git",
                 "url": "https://github.com/survos/SurvosGoogleSheetsBundle.git",
@@ -6490,7 +6490,7 @@
             ],
             "support": {
                 "issues": "https://github.com/survos/SurvosGoogleSheetsBundle/issues",
-                "source": "https://github.com/survos/SurvosGoogleSheetsBundle/tree/1.5.432"
+                "source": "https://github.com/survos/SurvosGoogleSheetsBundle/tree/1.5.433"
             },
             "funding": [
                 {
@@ -6561,16 +6561,16 @@
         },
         {
             "name": "survos/js-twig-bundle",
-            "version": "1.5.432",
+            "version": "1.5.433",
             "source": {
                 "type": "git",
                 "url": "https://github.com/survos/JsTwigBundle.git",
-                "reference": "df5a35a5e9447918d59598b40f308c71e72b6062"
+                "reference": "f786828bfabedc4255e1fd66c61b2f780dce59a1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/survos/JsTwigBundle/zipball/df5a35a5e9447918d59598b40f308c71e72b6062",
-                "reference": "df5a35a5e9447918d59598b40f308c71e72b6062",
+                "url": "https://api.github.com/repos/survos/JsTwigBundle/zipball/f786828bfabedc4255e1fd66c61b2f780dce59a1",
+                "reference": "f786828bfabedc4255e1fd66c61b2f780dce59a1",
                 "shasum": ""
             },
             "require": {
@@ -6607,7 +6607,7 @@
             ],
             "support": {
                 "issues": "https://github.com/survos/JsTwigBundle/issues",
-                "source": "https://github.com/survos/JsTwigBundle/tree/1.5.432"
+                "source": "https://github.com/survos/JsTwigBundle/tree/1.5.433"
             },
             "funding": [
                 {
@@ -6615,7 +6615,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-12-14T12:40:11+00:00"
+            "time": "2024-12-14T14:34:14+00:00"
         },
         {
             "name": "survos/mobile-bundle",
@@ -6623,12 +6623,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/survos/SurvosMobileBundle.git",
-                "reference": "bc251cd93a1105dd7a63929847b08cc3cc74154e"
+                "reference": "c1090192098c2baeec355dbaa1d2901246d13bd2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/survos/SurvosMobileBundle/zipball/bc251cd93a1105dd7a63929847b08cc3cc74154e",
-                "reference": "bc251cd93a1105dd7a63929847b08cc3cc74154e",
+                "url": "https://api.github.com/repos/survos/SurvosMobileBundle/zipball/c1090192098c2baeec355dbaa1d2901246d13bd2",
+                "reference": "c1090192098c2baeec355dbaa1d2901246d13bd2",
                 "shasum": ""
             },
             "require": {
@@ -6667,7 +6667,7 @@
             ],
             "support": {
                 "issues": "https://github.com/survos/SurvosMobileBundle/issues",
-                "source": "https://github.com/survos/SurvosMobileBundle/tree/1.5.432"
+                "source": "https://github.com/survos/SurvosMobileBundle/tree/1.5.433"
             },
             "funding": [
                 {
@@ -6675,11 +6675,11 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-12-13T17:28:13+00:00"
+            "time": "2024-12-14T14:34:15+00:00"
         },
         {
             "name": "survos/simple-datatables-bundle",
-            "version": "1.5.432",
+            "version": "1.5.433",
             "source": {
                 "type": "git",
                 "url": "https://github.com/survos/SurvosSimpleDatatablesBundle.git",
@@ -6744,7 +6744,7 @@
             ],
             "support": {
                 "issues": "https://github.com/survos/SurvosSimpleDatatablesBundle/issues",
-                "source": "https://github.com/survos/SurvosSimpleDatatablesBundle/tree/1.5.432"
+                "source": "https://github.com/survos/SurvosSimpleDatatablesBundle/tree/1.5.433"
             },
             "funding": [
                 {
@@ -6756,7 +6756,7 @@
         },
         {
             "name": "survos/storage-bundle",
-            "version": "1.5.432",
+            "version": "1.5.433",
             "source": {
                 "type": "git",
                 "url": "https://github.com/survos/SurvosStorageBundle.git",
@@ -6811,7 +6811,7 @@
             ],
             "support": {
                 "issues": "https://github.com/survos/SurvosStorageBundle/issues",
-                "source": "https://github.com/survos/SurvosStorageBundle/tree/1.5.432"
+                "source": "https://github.com/survos/SurvosStorageBundle/tree/1.5.433"
             },
             "funding": [
                 {
@@ -15263,7 +15263,7 @@
         },
         {
             "name": "survos/maker-bundle",
-            "version": "1.5.432",
+            "version": "1.5.433",
             "source": {
                 "type": "git",
                 "url": "https://github.com/survos/SurvosMakerBundle.git",
@@ -15366,7 +15366,7 @@
             ],
             "support": {
                 "issues": "https://github.com/survos/SurvosMakerBundle/issues",
-                "source": "https://github.com/survos/SurvosMakerBundle/tree/1.5.432"
+                "source": "https://github.com/survos/SurvosMakerBundle/tree/1.5.433"
             },
             "funding": [
                 {

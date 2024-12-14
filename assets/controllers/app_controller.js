@@ -109,6 +109,9 @@ export default class extends MobileController {
         const id = e.params.id;
         console.error(e.params);
         this.navigatorTarget.pushPage('player', {data: e.params});
+        document.addEventListener('postpush.player', evt => {
+            console.error(evt);
+        });
         return;
         const data = db.table(e.params.store).get(id).then(
             (data) => {
@@ -166,7 +169,6 @@ export default class extends MobileController {
         });
 
         // const project = await db.projects.where('id').equals(e.params.id).first();
-        // console.log('RRRRRRRRRRRRRBBBBBBBBBBBBBNNNNN-------', project,e.params.id);
         let newParams = { projectId: foundProject.code };
         // Modify the current URL and assign it to window.location
         window.location.href = this.modifyUrl(window.location.href, newParams);
