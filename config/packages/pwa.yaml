@@ -16,8 +16,8 @@ pwa:
 #        public_url: '/pwa/site.{locale}.webmanifest'
         background_color: "#c026d3"
         theme_color: "#c026d3"
-        name: 'SUEÑO ALETEANDO'
-        short_name: 'ALETEANDO'
+        name: 'Sueño Aleteando'
+        short_name: 'Aleteando'
         description: 'Omar Medina artista visual especializado en laca y cultura chiapaneca nos presenta una exposición basada en el uso de madera, piedra y barro como parte de su inspiración y armonía, dando paso a la creación de figuras y texturas azarosas e improvisada'
         orientation: "any"
         display: "standalone"
