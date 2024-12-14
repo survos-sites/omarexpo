@@ -28,6 +28,7 @@ use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use PhpImap\Exceptions\ConnectionException;
 use PhpImap\Mailbox;
 use Psr\Log\LoggerInterface;
+use Survos\GoogleSheetsBundle\Service\GoogleSheetsApiService;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Finder\Finder;
@@ -70,6 +71,7 @@ class AppService
                                 private ItemRepository                                  $itemRepository,
                                 private FormFactoryInterface                            $formFactory,
                                 private LoggerInterface                                 $logger,
+                                private SheetService $sheetService,
                                 private SerializerInterface                             $serializer,
                                 private NormalizerInterface                             $normalizer,
                                 private DenormalizerInterface                           $denormalizer,
@@ -321,7 +323,8 @@ class AppService
     public function downloadSheetsToLocal(Project $project): array
     {
         $files = [];
-        $dir = $this->dataDir . '/' . $project->getCode();
+//        $dir = $this->dataDir . '/' . $project->getCode();
+        $dir = $this->projectDir . $project->getCode();
         if (!file_exists($dir)) {
             try {
                 mkdir($dir, 0777, true);
@@ -329,13 +332,12 @@ class AppService
                 throw new \Exception('Could not create directory ' . $dir . ' ' . $exception->getMessage()) ;
             }
         }
-        return [];
 
         $this->sheetService->getData($project->getGoogleSheetsId(),
             function(?array $values, Sheet $sheet)
                 use (&$files, $dir, $project)
         {
-            file_put_contents($files[] = $dir .  sprintf("/%s.csv", $sheet->getProperties()->getTitle()),
+            file_put_contents($files[] = $fn= $dir .  sprintf("/%s.csv", $sheet->getProperties()->getTitle()),
                 $this->asCsv($values??[]));
         }
         );
@@ -484,22 +486,22 @@ class AppService
         }
 
         // now at root
-        $csv = Reader::createFromPath($this->projectDir . 'omar.csv', 'r');
+        $csv = Reader::createFromPath($this->projectDir . 'omar/obj.csv', 'r');
         $csv->setHeaderOffset(0);
 
         $header = $csv->getHeader(); //returns the CSV header record
 //returns all the records as
         $records = $csv->getRecords(); // an Iterator object containing arrays
         foreach ($records as $record) {
-            $item = $this->importItem($record, $project);
+            if (!$item = $this->importItem($record, $project)) {
+                continue;
+            }
             // now get the images
             $finder = new Finder();
             foreach ($finder->files()->in($this->dataDir . '/' . $item->getCode()) as $file) {
                 $filename = $file->getFilename();
-                dump($filename);
                 if (preg_match('/AUDIO/', $filename)) {
                     $item->setAudio($filename);
-                    dd($filename);
                 } elseif (preg_match('/VIDEO/', $filename)) {
                     $item->setVideo($filename);
                 } else {
@@ -510,7 +512,6 @@ class AppService
                     }
                 }
             }
-            dd($item->getAudio());
         }
         $this->em->flush();
         return;
@@ -626,9 +627,12 @@ class AppService
         }
     }
 
-    private function importItem(array $record, Project $project): Item
+    private function importItem(array $record, Project $project): ?Item
     {
-        $code = $record[self::CODE_COLUMN];
+        if (!$code = trim($record[self::CODE_COLUMN])) {
+            return null;
+        }
+
         $locale = 'es';
         if (!$item = $this->itemRepository->findOneBy(['code' => $code])) {
             $item = (new Item($code))
@@ -636,13 +640,26 @@ class AppService
                 ->setCode($code);
             $item->setProject($project);
             $this->em->persist($item);
-
         }
+        $price = $record['Price']??null;
+        $price = str_replace('.', '', $price);
+//        if (preg_match('/(\d+),/', $price, $matches)) {
+//            $price = $matches[1];
+//        } else {
+//            dd($price, $record);
+//        }
         $item
-            ->setSize($record[self::SIZE_COLUMN])
+            ->setTitle($record['LABEL.es'])
+            ->setYoutubeUrl($record['youtube'])
+            ->setPrice($price)
+            ->setTranscript($record['transcript*'])
+            ->setSize(str_replace(' ', '', $record[self::SIZE_COLUMN]))
             ->setYear($record['year'])
-            ->setLabel($record[self::LABEL_COLUMN . ".{$locale}*"])
-            ->setDescription($record['tecnica']);
+            ->setLabel($record[self::LABEL_COLUMN . ".{$locale}"])
+            ->setDescription($record['tec']);
+        if ($price < 10) {
+            dd($record);
+        }
         return $item;
         // @todo: tag size
         $item->setDimensions($record);
@@ -653,9 +670,11 @@ class AppService
         $item->setTitle($record[self::LABEL_COLUMN] ?? $item->getCode())
             ->setShortCode($item->getCode());
         $item->setDefaultLocale($collection->getDefaultLocale());
+        /* if we re-add translatino
         $item
             ->setLabel($item->getTitle(), $locale)
             ->setDescription($record['description*'] ?? null, $locale);
+        */
 
 // handle translations for all translatable entities
         foreach ($record as $var => $value) {

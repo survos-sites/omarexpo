@@ -533,13 +533,12 @@ class ProjectController extends AbstractController
     public function download_sheets(
         Project                $project,
         AppService             $appService,
-        LosAltosService        $altosService,
         GoogleApiClientService $clientService,
         GoogleSheetsApiService $sheetService,
     ): Response
     {
         $files = $appService->downloadSheetsToLocal($project);
-        return $this->redirectToRoute('project_show', $project->getrp());
+        return $this->redirectToRoute('project_dashboard', $project->getrp());
 
 
         $sheetService->setSheetServices($project->getGoogleSheetsId());

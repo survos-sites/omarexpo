@@ -227,6 +227,14 @@ class Item implements RouteParametersInterface, \Stringable
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $audioUrl = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['item.read'])]
+    private ?string $youtubeUrl = null;
+
+    #[ORM\Column(nullable: true)]
+    #[Groups(['item.read'])]
+    private ?int $price = null;
+
 
     public function __construct(string $code)
     {
@@ -271,6 +279,12 @@ class Item implements RouteParametersInterface, \Stringable
     {
         $this->code = $code;
         return $this;
+    }
+
+    public function getFirstLine(): string
+    {
+        return explode("\n", $this->getTranscript())[0];
+
     }
 
     public function setAttributes(?array $attributes): self
@@ -721,6 +735,30 @@ class Item implements RouteParametersInterface, \Stringable
     public function setAudioUrl(?string $audioUrl): static
     {
         $this->audioUrl = $audioUrl;
+
+        return $this;
+    }
+
+    public function getYoutubeUrl(): ?string
+    {
+        return $this->youtubeUrl;
+    }
+
+    public function setYoutubeUrl(?string $youtubeUrl): static
+    {
+        $this->youtubeUrl = $youtubeUrl;
+
+        return $this;
+    }
+
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+
+    public function setPrice(?int $price): static
+    {
+        $this->price = $price;
 
         return $this;
     }

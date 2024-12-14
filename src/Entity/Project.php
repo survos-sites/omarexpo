@@ -9,6 +9,7 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Repository\ProjectRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
@@ -204,6 +205,9 @@ class Project extends SurvosBaseEntity
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $locale = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $labelFooter = null;
 
 //    #[ORM\Column(length: 255, nullable: true)]
 //    #[Assert\Image(
@@ -760,6 +764,18 @@ class Project extends SurvosBaseEntity
     public function setLocale(?string $locale): static
     {
         $this->locale = $locale;
+
+        return $this;
+    }
+
+    public function getLabelFooter(): ?string
+    {
+        return $this->labelFooter;
+    }
+
+    public function setLabelFooter(?string $labelFooter): static
+    {
+        $this->labelFooter = $labelFooter;
 
         return $this;
     }

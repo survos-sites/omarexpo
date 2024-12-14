@@ -29,6 +29,7 @@ class CreateProjectCommand extends Command
             ->addOption('label', null, InputOption::VALUE_OPTIONAL, 'project label',"A label would be helpful!")
             ->addOption('loc', 'loc', InputOption::VALUE_OPTIONAL, 'default location name')
             ->addOption('googleId', null, InputOption::VALUE_OPTIONAL, 'google sheets id')
+            ->addOption('labelFooter', null, InputOption::VALUE_OPTIONAL, 'Footer text for the bottom of the label')
             ->addOption('flickr', null, InputOption::VALUE_OPTIONAL, 'flickr album id')
             ->addOption('description', null, InputOption::VALUE_OPTIONAL, 'project description',"A description would be helpful for everyone!")
         ;
@@ -64,6 +65,9 @@ class CreateProjectCommand extends Command
         }
         if ($id = $input->getOption('flickr')) {
             $project->setFlickrAlbumId($id);
+        }
+        if ($s = $input->getOption('labelFooter')) {
+            $project->setLabelFooter($s);
         }
         $project->setLocale($projectLocale);
 
