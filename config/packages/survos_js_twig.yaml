@@ -1,7 +1,7 @@
 survos_js_twig:
   debug: true
   db: omar-db
-  version: 7.1
+  version: 7.2
   stores:
     -
       name: items

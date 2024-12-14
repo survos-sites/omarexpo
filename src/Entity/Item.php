@@ -235,6 +235,10 @@ class Item implements RouteParametersInterface, \Stringable
     #[Groups(['item.read'])]
     private ?int $price = null;
 
+    #[ORM\Column(length: 22, nullable: true)]
+    #[Groups(['item.read'])]
+    private ?string $youtubeId = null;
+
 
     public function __construct(string $code)
     {
@@ -746,6 +750,7 @@ class Item implements RouteParametersInterface, \Stringable
 
     public function setYoutubeUrl(?string $youtubeUrl): static
     {
+        $this->setYoutubeId(u($youtubeUrl)->after('be/')->toString());
         $this->youtubeUrl = $youtubeUrl;
 
         return $this;
@@ -759,6 +764,18 @@ class Item implements RouteParametersInterface, \Stringable
     public function setPrice(?int $price): static
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    public function getYoutubeId(): ?string
+    {
+        return $this->youtubeId;
+    }
+
+    public function setYoutubeId(?string $youtubeId): static
+    {
+        $this->youtubeId = $youtubeId;
 
         return $this;
     }
