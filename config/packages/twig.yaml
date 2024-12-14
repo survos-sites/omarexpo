@@ -2,7 +2,7 @@ twig:
     file_name_pattern: '*.twig'
     globals:
         _app_sc: app
-        site_name: 'VoxiTour'
+        site_name: 'Suenos'
 
 when@test:
     twig:

@@ -6,18 +6,17 @@
                 <div class="col-md-8">
                     <div class="flex">
                         <div>
-                            {# when it's too long, move up #22 in Juan's show #}
-                            <h3><b>{{ i.label }}</b>
-                                <i>
-                                    {{ i.year }}
-                                </i>
-                            </h3>
+                            <h2>{{ i.title }}</h2>
                             <h6>
                                 {{ i.description }}
                             </h6>
+                            <i>
+                                {{ i.year }}
+                            </i>
                             <div class="d-flex justify-content-center row">
 
                                 <div class="col">
+
                                     {% set url = absolute_url(path('item_redirect', i.rp)) %}
                                     <a href="{{ url }}" target="_blank">
                                         {% set thumbPath = '%s/%s'|format(item.code, item.image)|imagine_filter('small') %}
@@ -34,22 +33,34 @@
                                             name="material-symbols:headphones-outline"
                                             class="qr-label-thumbnail"/>
 
+
+                                    <div class="float-end">
+                                        {# we will only use the summary #}
+                                        <blockquote>
+                                            {{ item.firstline }}
+                                        </blockquote>
+                                        <blockquote>
+                                            {{ item.transcript|slice(0, 120) }}
+                                        </blockquote>
                                     <span class="qr-label-thumbnail" >
                                         {% set qrUrl = qr_code_url(url) %}
                                         <img src="{{ qrUrl }}" style="width: 80px" alt="{{ qrUrl }}" title="{{ qrUrl }}">
 {#                                      <img {{ stimulus_controller('qr', {text: url}) }} class="d-print qr-label-thumbnail col-md-5"/>#}
 
-                {#                      {{ i.orderIdx }} #}
+                                        {#                      {{ i.orderIdx }} #}
                                     </span>
+
+                                    </div>
+
+
                                 </div>
                             </div>
                         </div>
 
-
                         <div class="card-footer-last-section">
                             <div class="container">
-                                <h2>{{ project.code }}
-                                    <p>{{ i.code }}</p>
+                                <h2>{{ project.labelFooter|title }}
+                                    <p class="float-end">{{ i.code }}</p>
                                 </h2>
                                 {#                <h2>Juan Chawuk</h2> #}
                                 {#                <p>juanchawuk711@gmail.com | 967 2021897</p> #}

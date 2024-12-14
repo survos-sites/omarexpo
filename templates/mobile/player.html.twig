@@ -85,6 +85,9 @@
                 {{ data.transcript }}
             </div>
 
+            <a href="{{ data.youtubeUrl }}" target="_blank">{{ data.youtubeUrl }}</a>
+
+
 
             {% if globals.isAdmin|default(true) %}
                 <a target="_blank" href="{{ path('item_show', data.rp) }}" class="btn btn-danger">ADMIN</a>

@@ -8,38 +8,12 @@
 #}
 {#{% import "@SurvosBase/macros/cards.html.twig" as cards %}#}
 
-{% macro entityRow(class, details, project) %}
-{% endmacro %}
-
-{% macro entityCard(class, details, project) %}
-<div class="col-xl-3 col-md-6 mb-4">
-    <div class="card border-left-primary shadow h-100 py-2">
-        <div class="card-body">
-            <div class="row no-gutters align-items-center">
-                <div class="col mr-2">
-                    <a href="{{ path(details.entity ~ '_index', project.rp) }}">
-                        <div class="text-lg font-weight-bold text-primary mb-1">{{ (details.entity ~ '.index')|trans }}</div>
-                    </a>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ details.count}}</div>
-                </div>
-                <div class="col-auto">
-                    <i class="{{ details.icon }} fa-2x text-gray-300"></i>
-                </div>
-            </div>
-        </div>
-        <div class="card-footer">
-            {% for entity in attribute(project, 'properties')|slice(0, 30) %}
-                <li>{{ entity.name }}: {{ entity.type }}</li>
-            {% endfor %}
-        </div>
-    </div>
-</div>
-{% endmacro %}
-
 {% block body %}
     <h1>
         {{ project.code }}
     </h1>
+    <a href="{{ path('project_admin_labels', project.rp) }}" target="_blank">Labels</a>
+    <a href="{{ path('project_mobile', project.rp) }}" target="_blank">Home</a>
 
 <div class="col-12 bg-primary">
     <h3>{{ 'items'|trans|title }}</h3>
@@ -48,9 +22,15 @@
     <twig:simple_datatables
             perPage="50"
             :data="project.items"
-            :columns="['thumb','label']"
+            :columns="['thumb', 'details', 'youtubeUrl']"
             :caller="_self"
     >
+        <twig:block name="details">
+            <h3>{{ row.title }}</h3>
+            <b>{{ row.year }}</b>
+            <i>{{ row.description }}</i>
+            <blockquote>{{ row.firstLine }}</blockquote>
+        </twig:block>
         <twig:block name="location">
 
             <a href="{{ path('project_planner', project.rp) }}#loc-{{ row.id }}">
@@ -84,6 +64,9 @@
 {#            </video>#}
 
         </twig:block>
+            <twig:block name="youtube">
+                {{ dump(row) }}
+            </twig:block>
             <twig:block name="code">
             {% if row.code|default(false) %}
             <a href="{{ path('item_show', row.rp) }}">{{ row.code }}</a>

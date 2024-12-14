@@ -17,25 +17,23 @@ export default class extends MobileController {
             console.assert(p, t);
         });
 
+        // from dexie_controller.  Should be able to call via the outlet, too.
         document.addEventListener('window.db.available', async (e) => {
-            console.warn("db is available.  based on url, open a page or tab", window.location);
+            // console.warn("db is available.  based on url, open a page or tab", window.location);
             // Get the URL parameters
             const urlParams = new URLSearchParams(window.location.search);
             // Extract the 'projectId' parameter value
-            console.error(urlParams);
             const itemId = urlParams.get('itemId');
             const db = window.db;
             if (itemId) {
                 console.error(itemId);
                 // const allTours = await db.tours.toArray();
                 const matchingTour = await db.items.where({ code: itemId }).first();
-                // const matchingTour = allTours.filter(tour => tour.code === itemId);
-                // this is an array of results, we just and the first one.
-                // console.error(matchingTour, 'XXX');
-                // this.tabbarTarget.setActiveTab(1, {animation: 'none'}); // hack!
-                // console.error('the active tab should now be the tour list');
                 this.navigatorTarget.pushPage('player', {data: {id: matchingTour.id}});
-                return;
+
+                // this is an array of results, we just and the first one.
+                // if we were opening a tab.  Should be generalized
+                // this.tabbarTarget.setActiveTab(1, {animation: 'none'}); // hack!
             }
 
         });

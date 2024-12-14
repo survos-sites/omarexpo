@@ -16,9 +16,9 @@ pwa:
 #        public_url: '/pwa/site.{locale}.webmanifest'
         background_color: "#c026d3"
         theme_color: "#c026d3"
-        name: 'Voxitour'
-        short_name: 'voxitour'
-        description: 'Audio tours for museums and galleries'
+        name: 'SUEÑO ALETEANDO'
+        short_name: 'ALETEANDO'
+        description: 'Omar Medina artista visual especializado en laca y cultura chiapaneca nos presenta una exposición basada en el uso de madera, piedra y barro como parte de su inspiración y armonía, dando paso a la creación de figuras y texturas azarosas e improvisada'
         orientation: "any"
         display: "standalone"
         scope: "/"
@@ -62,12 +62,6 @@ pwa:
                 - match_callback: 'origin: cdn.jsdelivr.net'
                   strategy: 'CacheOnly'
                   preload_urls: # Optional, but you are now sure the library is preloaded even if used on another page the user never met before
-                      - 'https://cdn.jsdelivr.net/npm/onsenui@2.12.8/js/onsenui.min.js'
-                      - 'https://cdn.jsdelivr.net/npm/onsenui@2.12.8/css/ionicons/css/ionicons.min.css'
-                      - 'https://cdn.jsdelivr.net/npm/onsenui@2.12.8/css/onsen-css-components.min.css'
-                      - 'https://cdn.jsdelivr.net/npm/onsenui@2.12.8/css/material-design-iconic-font/fonts/Material-Design-Iconic-Font.woff2?v=2.2.0'
-                      - 'https://cdn.jsdelivr.net/npm/onsenui@2.12.8/css/material-design-iconic-font/css/material-design-iconic-font.min.css'
-                      - 'https://cdn.jsdelivr.net/npm/onsenui@2.12.8/css/font_awesome/webfonts/fa-brands-400.woff2'
 #                - cache_name: app_pages
 #                  match_callback: '/planet\/\d+/'
 #                  strategy: StaleWhileRevalidate # 'CacheOnly' # ??

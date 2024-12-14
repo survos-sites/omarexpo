@@ -12,8 +12,8 @@ survos_bootstrap:
       showAppMenu: false
 
   app:
-    code: voxitour
-    abbr: <b>voxi</b>Tour
+    code: omarexpo
+    abbr: <b>suenos</b>
   options:
     # consider https://startbootstrap.com/previews/simple-sidebar as another theme
     theme: tabler

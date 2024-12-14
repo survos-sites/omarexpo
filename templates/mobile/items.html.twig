@@ -34,10 +34,11 @@
                                     {{ row.label }}
                                 </h3>
                             <br/>
-                            <i>
-                                {{ row.year }}
-                            </i>
-
+                        </div>
+                        <div class="right list-item__right">
+                            {{ row.year }}
+                            <br />
+                            ${{ row.price|number_format(0, ",", ".") }}
                         </div>
                     </div>
                 </ons-list-item>
