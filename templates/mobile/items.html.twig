@@ -16,7 +16,7 @@
             <ons-list>
                 {% for row in rows %}
                 {% set thumb = '/media/cache/small/%s/%s'|format(row.code, row.image) %}
-                <ons-list-item class="list-item" tappable
+                <ons-list-item class="list-item custom-list-item" tappable
                                {{ stimulus_action('app','open_page','click', {
                                    page: 'player',
                                    store: 'items',
@@ -24,24 +24,23 @@
                                }) }}
                 >
                     <div class="top list-item__top">
+                        <div class="custom-list-item-wrapper">
                         <div class="left list-item__left">
-                            <img
-                                    class="ons-mobile-thumbnail" src="{{ thumb }}"
-                                 alt="{{ thumb }}"/>
+                            <img class="ons-mobile-thumbnail" src="{{ thumb }}" alt="{{ thumb }}"/>
                         </div>
                         <div class="xcenter xlist-item__center">
                                 <h3>
                                     {{ row.label }}
                                 </h3>
-                            <div style="margin: 4px">
+                            <div class="custom-list-item-row">
                             {{ row.size }}
 
                             </div>
                         </div>
                         <div class="right list-item__right">
-                            {{ row.year }}
-                            <br />
-                            ${{ row.price|number_format(0, ",", ".") }}
+                            <h6>${{ row.price|number_format(0, ",", ".") }}</h6>
+                            <p class="content">{{ row.year }}</p>
+                        </div>
                         </div>
                     </div>
                 </ons-list-item>
