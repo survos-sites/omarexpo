@@ -1,19 +1,20 @@
 {# <div class="container col-lg-9"  id="sectionToSave"> #}
-<div class="card-main-class">
-    <div class="card-second-class">
+<div class="label-card">
+    <div class="">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="flex border-1">
-                        <div>
-                            <h2>{{ i.title }}</h2>
-                            <b style="margin-bottom: 4px">
-                                {{ i.description }}
-                            </b>
-                            <div>
+                    <div>
+                        <div class="card">
+                            <div class="card-header flex-column align-items-start">
+                                <h2 class="mb-0">{{ i.title }}</h2>
+                                <p class="card-subtitle">{{ i.description }}</p>
+                            </div>
+                            <div class="card-body">
+                            <div class="text-muted fw-medium mb-1">
                                 {{ i.size }}
                             </div>
-                            <div>
+                            <div class="text-muted fw-medium mb-3">
                                 {{ i.year }}
                             </div>
                             <div class="d-flex justify-content-center row">
@@ -23,7 +24,7 @@
                                     {% set url = absolute_url(path('item_redirect', i.rp)) %}
                                     <a href="{{ url }}" target="_blank">
                                         {% set thumbPath = '%s/%s'|format(item.code, item.image)|imagine_filter('small') %}
-                                        <img src="{{ thumbPath }}" alt="{{ thumbPath }}"/>
+                                        <img class="img-thumbnail" src="{{ thumbPath }}" alt="{{ thumbPath }}"/>
 
                                         {#                    <img src="{{ qr_code_data_uri(url) }}" class="img-fluid col-md-5 "> #}
                                     </a>
@@ -32,22 +33,22 @@
                                     {% set audio = item.audio %}
 
 
-                                    <div class="float-end">
+                                    <div class="float-end col-sm-5">
                                         {# we will only use the summary #}
-                                        <blockquote>
+                                        <blockquote class="text-body fw-semibold">
                                             escucha a Omar hablar sobre esta pieza
                                             {#                                            {{ item.firstline }}#}
                                         </blockquote>
 {#                                        <blockquote>#}
 {#                                            {{ item.transcript|slice(0, 120) }}#}
 {#                                        </blockquote>#}
-                                    <div class="qr-label-thumbnail" >
+                                    <div class="d-flex align-items-lg-center gap-3" >
                                         {% set qrUrl = qr_code_url(url) %}
-                                        <img src="{{ qrUrl }}" style="width: 80px" alt="{{ qrUrl }}" title="{{ qrUrl }}">
+                                        <img class="img-fluid" src="{{ qrUrl }}" style="width: 80px" alt="{{ qrUrl }}" title="{{ qrUrl }}">
 {#                                      <img {{ stimulus_controller('qr', {text: url}) }} class="d-print qr-label-thumbnail col-md-5"/>#}
                                     <twig:ux:icon
-                                            height="100"
-                                            width="100"
+                                            height="50"
+                                            width="50"
                                             name="material-symbols:headphones-outline"
                                             class="qr-label-thumbnail"/>
 
@@ -59,22 +60,21 @@
 
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="card-footer-last-section">
-                            <div class="container">
-                                <h2>
-                                    <img src="{{ asset('/images/omar-expo.jpeg') }}" alt="logo" style="height: 80px"/>
+                            </div>
+                        <div class="card-footer bg-white d-flex align-items-center gap-2 justify-content-between">
+                                <h2 class="mb-0 d-flex align-items-center gap-2">
+                                    <img class="avatar avatar-lg object-cover" src="{{ asset('/images/omar-expo.jpeg') }}" alt="logo"/>
                                     {{ project.labelFooter|title }}
-                                    <span class="float-end">
+                                </h2>
+                                    <span class="float-end h2 mb-0">
 {#                                        {{ i.code }}#}
                                         ${{ i.price }}
                                     </span>
-                                </h2>
                                 {#                <h2>Juan Chawuk</h2> #}
                                 {#                <p>juanchawuk711@gmail.com | 967 2021897</p> #}
-                            </div>
                         </div>
+                        </div>
+
                     </div>
 
                 </div>
