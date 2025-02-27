@@ -12,7 +12,7 @@ pwa:
         use_silhouette: true
 
     manifest:
-        enabled: true
+        enabled: false
 #        public_url: '/pwa/site.{locale}.webmanifest'
         background_color: "#c026d3"
         theme_color: "#c026d3"
@@ -54,7 +54,7 @@ pwa:
             preferred_width: 280
         widgets: []
     serviceworker:
-        enabled: true
+        enabled: false
         src: "sw.js"
         skip_waiting: true
         workbox:

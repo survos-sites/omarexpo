@@ -50,7 +50,7 @@ final class MobileMenu implements KnpMenuHelperInterface
     public function tabMenu(KnpMenuEvent $event): void
     {
         $menu = $event->getMenu();
-        $this->add($menu, id: 'items', label: 'items', icon: 'fa-list');
+        $this->add($menu, id: 'items_brainstorming', label: 'items', icon: 'fa-list');
         $this->add($menu, id: 'share', label: 'share', icon: 'fa-qrcode');
 
     }

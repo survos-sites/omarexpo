@@ -1,5 +1,23 @@
 # Omar Expo
 
+# Developer installation
+
+
+
+```bash
+git clone git@github.com:survos-sites/omarexpo && cd omarexpo
+symfony proxy:domain:attach omarexpo
+composer install
+../survos/link .
+# create .env.local with the AWS keys
+symfony server:start -d
+# this loads the thumbnails, it's very slow, but only happens once
+symfony open:local --path=es/admin/dashboard/omar
+symfony open:local
+```
+
+
+
 ## Chiapas, Mexico Dec 13, 2024
 
 This stand-alone repo uses many of the elements from the Voxitour code.  

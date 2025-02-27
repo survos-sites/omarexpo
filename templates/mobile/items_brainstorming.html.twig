@@ -1,0 +1,65 @@
+{% extends "@SurvosMobile/onsPage.html.twig" %}
+{% set onsMeta = ons_metadata(_self, 'tab') %}
+
+{% block body %}
+
+{% set globals = {a: 'b'} %}
+{% set store = 'items' %}
+
+    <twig:dexie
+        refreshEvent="items.prechange"
+        :store="store"
+        :globals="globals"
+        :filter="{}"
+        :caller="_self">
+        <twig:block name="message" id="app_message" data-parameters="rows|item|id">
+            {{ id }}
+            this is rendered and then emitted, so app_controller needs to listen to it.
+            <!-- app_message -->
+        </twig:block>
+        <twig:block name="header_template" id="list_wrapper" data-element="ons-list">
+            This content will go at the top of the wrapper
+            <ons-list>
+            </ons-list>
+            <!-- list_wrapper -->
+        </twig:block>
+        <twig:block name="twig_template" id="list-item" data-element="ons-list-item">
+                {% for row in rows %}
+                {% set thumb = '/media/cache/small/%s/%s'|format(row.code, row.image) %}
+                <ons-list-item class="list-item" tappable
+                               {{ stimulus_action('app','open_page','click', {
+                                   page: 'player',
+                                   store: 'items',
+                                   id: row.id
+                               }) }}
+                >
+                    <div class="top list-item__top">
+                        <div class="left list-item__left">
+                            <img
+                                    class="ons-mobile-thumbnail" src="{{ thumb }}"
+                                 alt="{{ thumb }}"/>
+                        </div>
+                        <div class="xcenter xlist-item__center">
+                                <h3>
+                                    {{ row.label }}
+                                </h3>
+                            <div style="margin: 4px">
+                            {{ row.size }}
+
+                            </div>
+                        </div>
+                        <div class="right list-item__right">
+                            {{ row.year }}
+                            <br />
+                            ${{ row.price|number_format(0, ",", ".") }}
+                        </div>
+                    </div>
+                </ons-list-item>
+                {% endfor %}
+            </ons-list>
+            <!-- list-item -->
+        </twig:block>
+
+    </twig:dexie>
+
+{% endblock %}

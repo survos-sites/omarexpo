@@ -65,7 +65,7 @@
 
         </twig:block>
             <twig:block name="youtube">
-                {{ dump(row) }}
+                {{ row.youtubeId }}
             </twig:block>
             <twig:block name="code">
             {% if row.code|default(false) %}

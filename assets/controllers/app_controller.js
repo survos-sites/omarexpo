@@ -17,6 +17,14 @@ export default class extends MobileController {
             console.assert(p, t);
         });
 
+
+        document.dispatchEvent(new CustomEvent('dexie.load-data', {
+            detail: {
+                msg: 'initial database load',
+                filter: {},
+            }
+        }))
+
         // from dexie_controller.  Should be able to call via the outlet, too.
         document.addEventListener('window.db.available', async (e) => {
             // console.warn("db is available.  based on url, open a page or tab", window.location);
