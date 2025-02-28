@@ -28,7 +28,7 @@ use Symfony\Component\Yaml\Yaml;
 class AppController extends AbstractController
 {
     public function __construct(
-        private EntityManagerInterface $entityManager
+        private readonly EntityManagerInterface $entityManager
     )
     {
 
@@ -124,7 +124,7 @@ class AppController extends AbstractController
         foreach ($request->files as $file) {
             /** @var UploadedFile $fileName */
             $tempName = $file->getPath() . '/' . $file->getFilename();
-            die($tempName . get_class($file));
+            die($tempName . $file::class);
         }
 
 
@@ -166,7 +166,7 @@ class AppController extends AbstractController
         ]);
         $response->setContentDisposition(
             ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-            basename($filename)
+            basename((string) $filename)
         );
         return $response;
 
@@ -221,9 +221,7 @@ class AppController extends AbstractController
     private function array_trim($input)
     {
         return is_array($input) ? array_filter($input,
-            function (&$value) {
-                return $value = $this->array_trim($value);
-            }
+            fn(&$value) => $value = $this->array_trim($value)
         ) : $input;
     }
 
@@ -249,7 +247,7 @@ class AppController extends AbstractController
 
         return new Response($data, 200, ['Content-Type' => 'application/' . $_format]);
 
-        return $this->json(json_decode($data, true));
+        return $this->json(json_decode((string) $data, true));
     }
 
     #[Route(path: '/{projectId}/audio-guide', name: 'player')]

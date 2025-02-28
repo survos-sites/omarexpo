@@ -30,3 +30,7 @@
 /public/audio/
 /public/js/
 /public/omar/
+
+###> phpstan/phpstan ###
+phpstan.neon
+###< phpstan/phpstan ###

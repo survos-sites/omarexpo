@@ -37,7 +37,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 //, attributes: ['order' => ['id' => 'DESC'], 'pagination_items_per_page' => 10, 'maximum_items_per_page' => 300, 'pagination_client_items_per_page' => true])]
 #[Vich\Uploadable]
-class Project extends SurvosBaseEntity
+class Project extends SurvosBaseEntity implements \Stringable
 {
     const UNIQUE_PARAMETERS=['projectId' => 'code'];
 
@@ -304,9 +304,9 @@ class Project extends SurvosBaseEntity
         return $this->getMarking();
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->getName();
+        return (string) $this->getName();
     }
 
     // for acmi
@@ -550,7 +550,7 @@ class Project extends SurvosBaseEntity
 
     public function setFormDataJson($jsonString)
     {
-        return $this->setFormData(json_decode($jsonString));
+        return $this->setFormData(json_decode((string) $jsonString));
     }
 
     public function setFormData(?array $formData): self
@@ -572,11 +572,9 @@ class Project extends SurvosBaseEntity
 
     public function getPropertyByCode($code): ?Property
     {
-        $property = $this->getProperties()->filter(function (Property $property) use ($code) {
-            return $property->getCode() == $code;
-        })->first();
+        $property = $this->getProperties()->filter(fn(Property $property) => $property->getCode() == $code)->first();
 
-        return $property ? $property : null;
+        return $property ?: null;
     }
 
     public function addProperty(Property $property): self
@@ -645,7 +643,7 @@ class Project extends SurvosBaseEntity
     public function setGoogleSheetsId(?string $googleSheetsId): static
     {
         // https://docs.google.com/spreadsheets/d/1OSn0nMK8h7xZkZsT4OAPp_zhm-YOyIE6/edit#gid=192718484
-        if (preg_match('|d/(.*?)/edit|', $googleSheetsId, $matches)) {
+        if (preg_match('|d/(.*?)/edit|', (string) $googleSheetsId, $matches)) {
             $googleSheetsId = $matches[1];
         }
         $this->googleSheetsId = $googleSheetsId;

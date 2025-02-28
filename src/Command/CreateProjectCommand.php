@@ -35,10 +35,11 @@ class CreateProjectCommand extends Command
         ;
     }
 
-    public function __construct(private EntityManagerInterface $em,
-                                private AppService $appService,
-                                #[Autowire('%kernel.project_dir%')] private string $projectDir,
-                                string $name = null)
+    public function __construct(private readonly EntityManagerInterface $em,
+                                private readonly AppService $appService,
+                                #[Autowire('%kernel.project_dir%')]
+ private readonly string $projectDir,
+                                ?string $name = null)
     {
         parent::__construct($name);
 
@@ -57,7 +58,7 @@ class CreateProjectCommand extends Command
         if (!$project = $repo->findOneBy(['code' => $slug])) {
             $project = (new Project())
                 ->setCode($slug)
-                ->setLabel($slug, $projectLocale); // a default
+                ->setLabel($slug); // a default
             $this->em->persist($project);
         }
         if ($googleId = $input->getOption('googleId')) {
@@ -72,7 +73,7 @@ class CreateProjectCommand extends Command
         $project->setLocale($projectLocale);
 
         if ($description = $input->getOption('description')) {
-            $project->setDescription($description, $projectLocale);
+            $project->setDescription($description);
         }
 
         // if items are missing a location, a default is required.  This could be tied to a collection someday
@@ -81,7 +82,7 @@ class CreateProjectCommand extends Command
         }
 
         if ($label = $input->getOption('label')) {
-            $project->setLabel($label, $projectLocale);
+            $project->setLabel($label);
             $project->setName($label); // original
         }
 

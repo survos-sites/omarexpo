@@ -39,8 +39,8 @@ use Tchoulom\ViewCounterBundle\Counter\ViewCounter;
 #[Route(path: '/item/')]
 class ItemController extends AbstractController
 {
-    public function __construct(private EntityManagerInterface $em,
-                                private AppService $appService,
+    public function __construct(private readonly EntityManagerInterface $em,
+                                private readonly AppService $appService,
                                 private readonly NormalizerInterface $normalizer,
                                 private readonly SerializerInterface $serializer)
     {
@@ -318,7 +318,7 @@ class ItemController extends AbstractController
 
             if ($quick_add) {
                 // sigh, should handle this better!  Maybe even an embedded type?  Check for duplicates, add default stop, even assign collectors.
-                foreach (explode("\n", $form->get('titles')->getData()) as $title) {
+                foreach (explode("\n", (string) $form->get('titles')->getData()) as $title) {
                     $quickExhibit = clone $item;
                     $collection->addItem($quickExhibit);
 
@@ -441,7 +441,7 @@ class ItemController extends AbstractController
             */
 
             $this->entityManager->flush();
-            $this->sendToDataCollectors($form, $item, $appService);
+            $this->sendToDataCollectors($form, $item);
 
             return $this->redirectToRoute('item_show', $item->getRp());
         }

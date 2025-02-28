@@ -20,9 +20,9 @@ class SurvosBaseEntity implements RouteParametersInterface
             // isn't there a property accessor method?
             try {
                 $propertyAccessor->setValue($this, $var, $val);
-            } catch (NoSuchPropertyException $exception) {
+            } catch (NoSuchPropertyException) {
                 //
-            } catch (\InvalidArgumentException $exception) {
+            } catch (\InvalidArgumentException) {
                 // it might be a date string
                 try {
                     $date = new \DateTimeImmutable($val);

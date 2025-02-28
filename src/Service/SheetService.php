@@ -19,11 +19,11 @@ class SheetService
 {
 
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private PropertyAccessorInterface $accessor,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly PropertyAccessorInterface $accessor,
         private ?Google_Client $googleClient=null,
                                 private ?Sheets $googleSheetsService = null,
-                                #[Autowire('%env(JSON_AUTH)%')] string $jsonAuth=null)
+                                #[Autowire('%env(JSON_AUTH)%')] ?string $jsonAuth=null)
     {
         $client =  new Google_Client();
 //        $client->setApplicationName('Google Sheets API');
@@ -171,7 +171,7 @@ class SheetService
     }
 
 
-    public function updateCell(string $spreadsheetId, $cell, array $updateRow, string $sheetId=null)
+    public function updateCell(string $spreadsheetId, $cell, array $updateRow, ?string $sheetId=null)
     {
 //        $client = $this->googleClient;
 //        $client->setScopes([\Google_Service_Sheets::SPREADSHEETS]);
@@ -219,16 +219,16 @@ class SheetService
     {
         try {
             // use new name
-            $body = new BatchUpdateSpreadsheetRequest(array(
+            $body = new BatchUpdateSpreadsheetRequest([
 //            $body = new \Google_Service_Sheets_BatchUpdateSpreadsheetRequest(array(
-                'requests' => array(
-                    'addSheet' => array(
-                        'properties' => array(
+                'requests' => [
+                    'addSheet' => [
+                        'properties' => [
                             'title' => $tabName
-                        )
-                    )
-                )
-            ));
+                        ]
+                    ]
+                ]
+            ]);
             $service = new \Google_Service_Sheets($this->googleClient);
             $result1 = $service->spreadsheets->batchUpdate($project->getGoogleSheetsId() ,$body);
         } catch(\Exception $exception) {

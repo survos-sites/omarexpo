@@ -6,6 +6,9 @@
 {% set globals = {a: 'b'} %}
 {% set store = 'items' %}
 
+    <div {{ stimulus_controller('@survos/js-twig-bundle/dexie') }}>
+        ??
+    </div>
     <twig:dexie
         refreshEvent="items.prechange"
         :store="store"

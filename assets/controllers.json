@@ -17,6 +17,10 @@
                 "enabled": true,
                 "fetch": "eager"
             },
+            "device-motion": {
+                "enabled": true,
+                "fetch": "eager"
+            },
             "device-orientation": {
                 "enabled": true,
                 "fetch": "eager"
@@ -30,6 +34,10 @@
                 "fetch": "eager"
             },
             "install": {
+                "enabled": true,
+                "fetch": "eager"
+            },
+            "network-information": {
                 "enabled": true,
                 "fetch": "eager"
             },
@@ -49,7 +57,15 @@
                 "enabled": true,
                 "fetch": "eager"
             },
+            "speech-synthesis": {
+                "enabled": true,
+                "fetch": "eager"
+            },
             "sync-broadcast": {
+                "enabled": true,
+                "fetch": "eager"
+            },
+            "touch": {
                 "enabled": true,
                 "fetch": "eager"
             },
@@ -68,7 +84,7 @@
         "@survos/js-twig-bundle": {
             "dexie": {
                 "enabled": true,
-                "fetch": "lazy",
+                "fetch": "eager",
                 "autoimport": []
             },
             "jstwig": {
@@ -90,6 +106,15 @@
                 "fetch": "lazy",
                 "autoimport": {
                     "@survos/simple-datatables/style.css": true
+                }
+            }
+        },
+        "@symfony/ux-live-component": {
+            "live": {
+                "enabled": true,
+                "fetch": "eager",
+                "autoimport": {
+                    "@symfony/ux-live-component/dist/live.min.css": true
                 }
             }
         },

@@ -273,13 +273,10 @@ class ProjectController extends AbstractController
         $items = $project->getItems()
             ->filter(fn(Item $item) => !$item->getLocation());
         $iterator = $items->getIterator();
-        $iterator->uasort(function (Item $a, Item $b) {
-//            dd($a, $b->getHeight());
-//            return ($a->getSize() < $b->getSize()) ? -1 : 1;
-            return ($a->getHeight() < $b->getHeight()) ? 1 : -1
-//                : (($a->getWidth() < $b->getWidth()) ? 1 : -1)
-                ;
-        });
+        $iterator->uasort(fn(Item $a, Item $b) =>
+            //            dd($a, $b->getHeight());
+            //            return ($a->getSize() < $b->getSize()) ? -1 : 1;
+            ($a->getHeight() < $b->getHeight()) ? 1 : -1);
 //        iterator_apply($iterator, function () {
 //            dump($iterator->getHeight());
 //        }, $items->toArray());
@@ -331,7 +328,7 @@ class ProjectController extends AbstractController
                         $row = array_pad($row, count($keys), null);
                     }
                     $record = array_combine($keys, $row);
-                } catch (\Exception $e) {
+                } catch (\Exception) {
                     continue;
                 }
                 // first, get the db record
@@ -374,7 +371,7 @@ class ProjectController extends AbstractController
     public function wizard(Request $request, SluggerInterface $asciiSlugger): Response
     {
         $project = new Project();
-        $project->setName('Test ' . rand(0, 1000))
+        $project->setName('Test ' . random_int(0, 1000))
             ->setCode($asciiSlugger->slug($project->getName()));
 
         $form = $this->createForm(ProjectWizardType::class, $project);
@@ -394,7 +391,7 @@ class ProjectController extends AbstractController
 
         $project = new Project();
         $project = new Project();
-        $project->setName('Test ' . rand(0, 1000))
+        $project->setName('Test ' . random_int(0, 1000))
             ->setLocale('en')
             ->setCode($asciiSlugger->slug($project->getName()));
 
@@ -417,20 +414,20 @@ class ProjectController extends AbstractController
 
             // first time only.  Could also be a YAML file
             if ($form->has('collectionNames'))
-                foreach (explode("\n", $form->get('collectionNames')->getData()) as $roomName) {
+                foreach (explode("\n", (string) $form->get('collectionNames')->getData()) as $roomName) {
                     $room = (new ItemCollection(['name' => $roomName, 'parent' => $rootNode]));
                     // $project->addCollection($room); // this is done in the constructor if parent is set.
                 }
 
             if ($form->has('propertyNames'))
-                foreach (explode("\n", $form->get('propertyNames')->getData()) as $propertyName) {
+                foreach (explode("\n", (string) $form->get('propertyNames')->getData()) as $propertyName) {
                     $property = (new Property(['project' => $project, 'name' => $propertyName])
                     );
                     $project->addProperty($property);
                 }
 
             if ($form->has('locationNames'))
-                foreach (explode("\n", $form->get('locationNames')->getData()) as $name) {
+                foreach (explode("\n", (string) $form->get('locationNames')->getData()) as $name) {
                     $location = (new Location(['project' => $project, 'name' => $name]));
                     $project->addLocation($location);
                 }
@@ -497,7 +494,7 @@ class ProjectController extends AbstractController
     #[Route('/import/{projectId}', name: 'project_import')]
     #[Route('/action/{projectId}/{action}', name: 'project_action')]
     public function action(Request $request, Project $project, AppService $appService,
-                           string  $action = null): Response
+                           ?string  $action = null): Response
     {
         $action = match ($request->get('_route')) {
             'project_import' => 'import',
@@ -571,7 +568,7 @@ class ProjectController extends AbstractController
         dd($response);
 
         $sheets = $sheetService->getGoogleSpreadSheets();
-        foreach ($sheets as $key => $sheet) {
+        foreach ($sheets as $sheet) {
             dd($sheet->properties);
             if (isset($sheet->properties->title) && $sheet->properties->title == $title) {
                 return $sheet->properties->sheetId;
@@ -645,7 +642,7 @@ class ProjectController extends AbstractController
         ]);
         $response->setContentDisposition(
             ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-            basename($filename)
+            basename((string) $filename)
         );
         return $response;
 
@@ -882,7 +879,7 @@ class ProjectController extends AbstractController
         $data = $scraperService->fetchData('https://dummyjson.com/products?limit=0', asData: 'object');
         foreach ($data->products as $p) {
             $tabs[$p->category][] = $p;
-            $code = join('-', array_map(fn($part) => substr($part, 0, 3), explode('-', $p->category)));
+            $code = implode('-', array_map(fn($part) => substr($part, 0, 3), explode('-', (string) $p->category)));
             $p->id = $code . '-' . count($tabs[$p->category]);
 
 //            dd($code, $p);

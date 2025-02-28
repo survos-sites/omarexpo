@@ -120,7 +120,7 @@ class User implements UserInterface,  PasswordAuthenticatedUserInterface, \Strin
 
     public function __toString(): string
     {
-        return $this->getEmail();
+        return (string) $this->getEmail();
     }
 
 

@@ -66,25 +66,27 @@ class AppService
 
     private $project;
 
-    public function __construct(private EntityManagerInterface                          $em,
-                                private ProjectRepository                               $projectRepository,
-                                private ItemRepository                                  $itemRepository,
-                                private FormFactoryInterface                            $formFactory,
-                                private LoggerInterface                                 $logger,
-                                private SheetService $sheetService,
-                                private SerializerInterface                             $serializer,
-                                private NormalizerInterface                             $normalizer,
-                                private DenormalizerInterface                           $denormalizer,
-                                private MailerInterface                                 $mailer,
-                                #[Autowire('%kernel.project_dir%/public/omar')] private string $dataDir,
-                                #[Autowire('%kernel.project_dir%/')] private string $projectDir,
-                                private CacheManager                                    $imagineCacheManager,
-                                private SluggerInterface                                $asciiSlugger,
+    public function __construct(private readonly EntityManagerInterface                          $em,
+                                private readonly ProjectRepository                               $projectRepository,
+                                private readonly ItemRepository                                  $itemRepository,
+                                private readonly FormFactoryInterface                            $formFactory,
+                                private readonly LoggerInterface                                 $logger,
+                                private readonly SheetService $sheetService,
+                                private readonly SerializerInterface                             $serializer,
+                                private readonly NormalizerInterface                             $normalizer,
+                                private readonly DenormalizerInterface                           $denormalizer,
+                                private readonly MailerInterface                                 $mailer,
+                                #[Autowire('%kernel.project_dir%/public/omar')]
+ private readonly string $dataDir,
+                                #[Autowire('%kernel.project_dir%/')]
+ private readonly string $projectDir,
+                                private readonly CacheManager                                    $imagineCacheManager,
+                                private readonly SluggerInterface                                $asciiSlugger,
 
-                                private FilesystemOperator                              $defaultStorage,
+                                private readonly FilesystemOperator                              $defaultStorage,
 //                                #[Autowire('%local_uri_prefix%')] private string        $localUriPrefix,
-                                private MessageBusInterface                             $bus,
-                                private PropertyAccessorInterface                       $accessor,
+                                private readonly MessageBusInterface                             $bus,
+                                private readonly PropertyAccessorInterface                       $accessor,
     )
     {
     }
@@ -223,7 +225,7 @@ class AppService
         // ...
     }
 
-    public function findOrCreateLocation(Project $project, string $name, string $code = null): Location
+    public function findOrCreateLocation(Project $project, string $name, ?string $code = null): Location
     {
         if (!$code) {
             $code = $this->asciiSlugger->slug($name);
@@ -243,7 +245,7 @@ class AppService
     {
         $data = (new OptionsResolver())
             ->setDefaults([
-                'name' => ucfirst($code)
+                'name' => ucfirst((string) $code)
             ])->resolve($data);
 
         if (!$collection = $this->collectionRepository->findOneBy([
@@ -278,7 +280,7 @@ class AppService
 
         $data = (new OptionsResolver())
             ->setDefaults([
-                'name' => ucfirst($slug),
+                'name' => ucfirst((string) $slug),
                 'localRootDir' => null,
                 'location' => null,
                 'address' => null,
@@ -335,7 +337,7 @@ class AppService
 
         $this->sheetService->getData($project->getGoogleSheetsId(),
             function(?array $values, Sheet $sheet)
-                use (&$files, $dir, $project)
+                use (&$files, $dir, $project): void
         {
             file_put_contents($files[] = $fn= $dir .  sprintf("/%s.csv", $sheet->getProperties()->getTitle()),
                 $this->asCsv($values??[]));
@@ -365,7 +367,7 @@ class AppService
             } else {
                 foreach ($record as $columnIdx => $value) {
                     dd($keys, $record, $data);
-                    if (str_ends_with($keys[$columnIdx], '!')) {
+                    if (str_ends_with((string) $keys[$columnIdx], '!')) {
                         $record[$columnIdx] = null;
                     }
                 }
@@ -392,7 +394,7 @@ class AppService
         return $this->project;
     }
 
-    public function importEmail(Mailbox $mailbox, Project $project = null): array
+    public function importEmail(Mailbox $mailbox, ?Project $project = null): array
     {
         $exhibits = [];
         // could add more filters, project or item specific
@@ -423,7 +425,7 @@ class AppService
             $to = $mail->to;
 
             // if it's an existing item.
-            if (preg_match('/\+item-(\d+)/', $mail->toString, $m)) {
+            if (preg_match('/\+item-(\d+)/', (string) $mail->toString, $m)) {
                 $id = $m[1];
                 if (!$item = $this->itemRepository->find($id)) {
                     $msg = ("Item $id not found");
@@ -431,7 +433,7 @@ class AppService
                     continue;
                 }
                 // if it's a new item.
-            } elseif (preg_match($regex = '/\+coll-(\d+)/', $mail->toString, $m)) {
+            } elseif (preg_match($regex = '/\+coll-(\d+)/', (string) $mail->toString, $m)) {
                 $id = $m[1];
                 if (!$collection = $this->collectionRepository->find($id)) {
                     $msg = ("Collection $id not found");
@@ -551,7 +553,7 @@ class AppService
                         dd($records);
                         break;
                     case '@col':
-                        foreach ($records as $idx => $row) {
+                        foreach ($records as $row) {
                             assert(array_key_exists(self::CODE_COLUMN, $row), $csvFilename . ' missing CODE');
 
                             $coll[$row[self::CODE_COLUMN]] = $row;
@@ -559,7 +561,7 @@ class AppService
                         break;
                     case '@loc':
                         $prevRow = [];
-                        foreach ($records as $idx => $row) {
+                        foreach ($records as $row) {
                             // only for keys that allow repeat (or template, eventually)
                             $useValuesFromPreviousRow = [];
                             foreach ($prevRow as $var => $val) {
@@ -601,7 +603,7 @@ class AppService
                     }
                 }
 
-                foreach ($records as $idx => $record) {
+                foreach ($records as $record) {
 
                     // @todo: handle meta sheets, like _REF, @p, @F
                     // check that the csv exists
@@ -614,7 +616,7 @@ class AppService
                     // project,collection,location,item all have code/label/description
                     switch ($basename) {
                         default:
-                            $item = $this->importItem($record, $code, $collection, $coll, $locs);
+                            $item = $this->importItem($record, $code);
                         // import to Item
                     }
 
@@ -629,7 +631,7 @@ class AppService
 
     private function importItem(array $record, Project $project): ?Item
     {
-        if (!$code = trim($record[self::CODE_COLUMN])) {
+        if (!$code = trim((string) $record[self::CODE_COLUMN])) {
             return null;
         }
 
@@ -692,8 +694,8 @@ class AppService
 
         $project = $collection->getProject();
         if ($locCode = $record['#loc'] ?? false) {
-            if (str_contains($locCode, ':')) {
-                [$locCode, $orderIdx] = explode(':', $locCode);
+            if (str_contains((string) $locCode, ':')) {
+                [$locCode, $orderIdx] = explode(':', (string) $locCode);
             } else {
                 $orderIdx = null; // or make it the database order?
             }
@@ -703,7 +705,7 @@ class AppService
             }
         } else {
             $collCode = $collection->getCode();
-            assert($coll = $collLookup[$collCode]??null, "Missing $collCode in collLookup: " . join("\n", array_keys($collLookup)));
+            assert($coll = $collLookup[$collCode]??null, "Missing $collCode in collLookup: " . implode("\n", array_keys($collLookup)));
             if ( ($coll['#loc']??false) && !$location = $locLookup[$coll['#loc']] ?? null) {
 //                throw new \Exception('if #loc is not defined, you must create a default unsorted location');
             }
@@ -725,7 +727,7 @@ class AppService
 //        if (!$asset->getUrl()) {
         try {
             $url = $filesystem->publicUrl($target);
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             // local doesn't have a generator, hack in the prefix that must match the flysystem local config
             $url = $this->localUriPrefix . $asset->getFilename();
         }
@@ -841,7 +843,7 @@ class AppService
                     mkdir($assetPath, recursive: true);
                 }
 
-                $fileName = $record['image*']??pathinfo($existing, PATHINFO_BASENAME);
+                $fileName = $record['image*']??pathinfo((string) $existing, PATHINFO_BASENAME);
                 $downloadedFilename =  $assetPath . '/' . $fileName;
 
                 if (!file_exists($downloadedFilename)) {
@@ -855,7 +857,7 @@ class AppService
 //                continue;
             }
             if ($fileName = $record[$type . '*'] ?? false) {
-                $ext = pathinfo($fileName, PATHINFO_EXTENSION);
+                $ext = pathinfo((string) $fileName, PATHINFO_EXTENSION);
                 // hack for los altos
                 if ($ext === 'wmf') {
                     // extracted in SpreadsheetService::loadExcelImages
@@ -870,7 +872,7 @@ class AppService
                     if (!file_exists($assetPath)) {
                         mkdir($assetPath, recursive: true);
                     }
-                    $md5 = md5($fileName);
+                    $md5 = md5((string) $fileName);
                     $fullImagePath = sprintf("%s/%s.%s", $assetPath, $md5, $ext
 
                     );

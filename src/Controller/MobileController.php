@@ -14,7 +14,7 @@ class MobileController extends AbstractController
 {
 
     public function __construct(
-        private Environment $twig
+        private readonly Environment $twig
     )
     {
     }

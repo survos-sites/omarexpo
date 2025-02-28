@@ -287,7 +287,7 @@ class Item implements RouteParametersInterface, \Stringable
 
     public function getFirstLine(): string
     {
-        return explode("\n", $this->getTranscript())[0];
+        return explode("\n", (string) $this->getTranscript())[0];
 
     }
 
@@ -298,7 +298,7 @@ class Item implements RouteParametersInterface, \Stringable
                 continue;
             }
             if ($value) {
-                $value = trim($value);
+                $value = trim((string) $value);
             }
             if (!mb_detect_encoding($attribute)) {
                 dd($attribute, 'bad encoding!' );
@@ -483,7 +483,7 @@ class Item implements RouteParametersInterface, \Stringable
         return array_merge($addlParams, $this->getCollection()->getPublicRp(['stopId' => $this->getStopId()]));
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return sprintf("%s:%s/%s", $this->getProject()->getCode(),
             $this->getCollection()->getShortCode(), $this->getCode());
