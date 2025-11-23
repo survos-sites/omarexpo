@@ -1,4 +1,4 @@
-{% extends 'project_base.html.twig' %}
+{% extends 'project/base.html.twig' %}
 
 {% block title %}Inventory Project: {{ project.name }}{% endblock %}
 {# hmm, maybe...
@@ -6,13 +6,12 @@
 #}
 {% block stylesheets %}
     {{ parent() }}
+
+
     {% for item in project.items|slice(0, app.request.get('max', 9999)) %}
-        {% for asset in item.assets %}
-            {% if asset.image %}
-            <link rel="preload" href="{{ preload(asset.url) }}">
-            {% endif %}
+{#        @todo: preload thumb and maybe audio, use sais?#}
+{#            <link rel="preload" href="{{ preload(asset.url) }}">#}
         {% endfor %}
-    {% endfor %}
 {% endblock %}
 {# {% import "@SurvosBase/macros/cards.html.twig" as cards %} #}
 

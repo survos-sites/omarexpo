@@ -94,14 +94,14 @@
                         </a>
                     </h3>
                     {% if true or isAdmin %}
+{#                        project_edit: 'cil:pencil', removed in omar #}
+{#                        project_planner: 'la:shapes',#}
                         {% set open_in_new_routes = ['project_admin_labels','project_redirect', 'project_admin_labels'] %}
                         {% for route, icon in {
                             project_import: 'uil:file-import',
                             project_show: 'bx:show',
-                            project_edit: 'cil:pencil',
                             project_dashboard: 'akar-icons:dashboard',
                             project_redirect: 'bi:qr-code',
-                            project_planner: 'la:shapes',
                             project_admin_labels: 'la:shapes',
                             project_google_sheet_redirect: 'arcticons:google-sheets',
                         } %}

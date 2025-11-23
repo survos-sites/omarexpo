@@ -5,6 +5,8 @@ namespace App\Entity;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\ItemRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -22,6 +24,7 @@ use VertigoLabs\DoctrineFullTextPostgres\ORM\Mapping\TsVector;
  *
  */
 #[ApiResource(
+    operations: [new Get(), new GetCollection()],
     normalizationContext: ['groups' => ['item.read','rp']],
     denormalizationContext: ['groups' => ['item.write','shape']],
 )]
@@ -191,9 +194,6 @@ class Item implements RouteParametersInterface, \Stringable
     #[ORM\Column(type: 'string', length: 16)]
     private $shortCode;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $assetRelativePath;
-
     #[ORM\Column(nullable: true)]
     private ?int $views = null;
 
@@ -240,7 +240,7 @@ class Item implements RouteParametersInterface, \Stringable
     private ?string $youtubeId = null;
 
 
-    public function __construct(string $code)
+    public function __construct(?string $code=null)
     {
         $this->setProject($this);
     }
@@ -486,7 +486,7 @@ class Item implements RouteParametersInterface, \Stringable
     public function __toString(): string
     {
         return sprintf("%s:%s/%s", $this->getProject()->getCode(),
-            $this->getCollection()->getShortCode(), $this->getCode());
+            $this->getShortCode(), $this->getCode());
         return $this->getCode();
         try {
             $str = sprintf("#%s %s-%s", $this->getStopId(),

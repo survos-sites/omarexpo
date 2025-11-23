@@ -25,6 +25,10 @@
                 "enabled": true,
                 "fetch": "eager"
             },
+            "file-handling": {
+                "enabled": true,
+                "fetch": "eager"
+            },
             "fullscreen": {
                 "enabled": true,
                 "fetch": "eager"
@@ -45,6 +49,10 @@
                 "enabled": true,
                 "fetch": "eager"
             },
+            "picture-in-picture": {
+                "enabled": true,
+                "fetch": "eager"
+            },
             "presentation": {
                 "enabled": true,
                 "fetch": "eager"
@@ -54,6 +62,10 @@
                 "fetch": "eager"
             },
             "share": {
+                "enabled": true,
+                "fetch": "eager"
+            },
+            "capture": {
                 "enabled": true,
                 "fetch": "eager"
             },
@@ -70,6 +82,10 @@
                 "fetch": "eager"
             },
             "vibration": {
+                "enabled": true,
+                "fetch": "eager"
+            },
+            "wake-lock": {
                 "enabled": true,
                 "fetch": "eager"
             }

@@ -34,3 +34,5 @@
 ###> phpstan/phpstan ###
 phpstan.neon
 ###< phpstan/phpstan ###
+config.bat
+node_modules

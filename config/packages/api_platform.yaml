@@ -1,7 +1,7 @@
 api_platform:
-    title: Hello API Platform
+    title: Omar Expo API
     version: 1.0.0
     defaults:
-        stateless: true
+        stateless: false
         cache_headers:
             vary: ['Content-Type', 'Authorization', 'Origin']

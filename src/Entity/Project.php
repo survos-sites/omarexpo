@@ -6,6 +6,9 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
 use App\Repository\ProjectRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -28,7 +31,9 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[Gedmo\Loggable]
-#[ApiResource(normalizationContext: ['groups' => [
+#[ApiResource(
+    operations: [new Get(), new GetCollection(), new Post(security: "is_granted('ROLE_ADMIN')")],
+    normalizationContext: ['groups' => [
     'Default', 'project.read', 'rp', 'browse', 'translation']
 ], denormalizationContext: ['groups' => ['Default', 'project', 'browse']])]
 #[ApiFilter(SearchFilter::class, properties: [
